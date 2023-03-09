@@ -1,0 +1,84 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.9'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+repositories {
+	mavenCentral()
+}
+
+bootJar.enabled = false
+
+dependencies {
+	compileOnly 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'idea'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	group 'com.a506'
+	version '1.0-SNAPSHOT'
+
+	sourceCompatibility = '1.8'
+	targetCompatibility = '1.8'
+	compileJava.options.encoding = 'UTF-8'
+
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+	}
+
+	// 하위 모듈에서 공통으로 사용하는 세팅 추가
+	dependencies {
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		compileOnly 'org.projectlombok:lombok'
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		runtimeOnly 'com.h2database:h2'
+		annotationProcessor 'org.projectlombok:lombok'
+	}
+
+	tasks.named('test') {
+		useJUnitPlatform()
+	}
+}
+
+project(':mata-core'){
+	bootJar { enabled = true }
+	jar { enabled = false }
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+	}
+}
+
+project(':mata-kafka-server'){
+	bootJar { enabled = true }
+	jar { enabled = false }
+
+	dependencies {
+		compile project(':mata-core') // 컴파일 시 mata-kafka-server project 로딩
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+	}
+}
+
+project(':mata-api-server'){
+	bootJar { enabled = true }
+	jar { enabled = false }
+
+	dependencies {
+		compile project(':mata-core') // 컴파일 시 mata-api-server project 로딩
+//		implementation 'org.springframework.boot:spring-boot-starter-web'
+	}
+}
+
