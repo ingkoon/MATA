@@ -24,6 +24,7 @@
                         { source: 'node1', target: 'node3', value: 2, color: 'orange' },
                         { source: 'node0', target: 'node4', value: 3, color: 'red' },
                         { source: 'node4', target: 'node5', value: 3, color: 'brown' },
+                        { source: 'node1', target: 'node5', value: 3, color: 'orange' },
 
                     ],
                 },
