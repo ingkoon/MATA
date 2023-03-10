@@ -1,0 +1,9 @@
+
+server:
+  port: 8080
+
+spring:
+  data:
+    cassandra:
+      contact-points: 172.16.238.2:9042
+      keyspace-name: mykeyspace
