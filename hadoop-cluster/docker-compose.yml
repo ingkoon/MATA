@@ -1,0 +1,194 @@
+version: "3.7"
+services:
+  master01:
+    image: cluster:node
+    container_name: master01
+    hostname: master01
+    volumes:
+      - type: bind
+        source: ./lib/apache-airflow-2.5.0/dags
+        target: /usr/local/lib/apache-airflow-2.5.0/dags
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.2
+    ports:
+      - "9870:9870" # Namenode Web UI
+      - "8088:8088" # ResourceManager WEB UI
+      - "8042:8042" # NodeManager WEWB UI
+      - "8793:8793" # Airflow Celery Worker log server
+      - "9092:9092" # Zookeeper broker
+      - "19888:19888" # Job History server
+      - "10000:10000" # HiveServer2
+      - "10002:10002" # HiveServer2 Web UI
+      - "18080:18080" # Spark Job History server
+      - "4040:4040" # Spark Executer Web UI
+      - "8090:8090" # YARN Web Proxy
+      - "9099:9099" # Kafka Web UI (unused: over JAVA 17)함
+    extra_hosts:
+      - "master02:172.16.238.3"
+      - "slave01:172.16.238.4"
+      - "slave02:172.16.238.5"
+      - "slave03:172.16.238.6"
+      - "metastore:172.16.238.7"
+    stdin_open: true
+    tty: true
+
+  master02:
+    image: cluster:node
+    container_name: master02
+    hostname: master02
+    volumes:
+      - type: bind
+        source: ./lib/apache-airflow-2.5.0/dags
+        target: /usr/local/lib/apache-airflow-2.5.0/dags
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.3
+    ports:
+      - "9871:9870"
+      - "8089:8088"
+      - "8794:8793"
+      - "8043:8042"
+      - "9093:9092"
+      - "19889:19888"
+      - "18081:18081"
+      - "4041:4040"
+      - "8091:8090"
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "slave01:172.16.238.4"
+      - "slave02:172.16.238.5"
+      - "slave03:172.16.238.6"
+      - "metastore:172.16.238.7"
+    stdin_open: true
+    tty: true
+
+  slave01:
+    image: cluster:node
+    container_name: slave01
+    hostname: slave01
+    volumes:
+      - type: bind
+        source: ./lib/apache-airflow-2.5.0/dags
+        target: /usr/local/lib/apache-airflow-2.5.0/dags
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.4
+    ports:
+      - "5082:5080" # Airflow Web UI
+      - "5557:5555" # Flower Web UI
+      - "8044:8042"
+      - "8795:8793"
+      - "9094:9092"
+      - "15674:15672" # RabbitMQ Web UI
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "master02:172.16.238.3"
+      - "slave02:172.16.238.5"
+      - "slave03:172.16.238.6"
+      - "metastore:172.16.238.7"
+    stdin_open: true
+    tty: true
+
+  slave02:
+    image: cluster:node
+    container_name: slave02
+    hostname: slave02
+    volumes:
+      - type: bind
+        source: ./lib/apache-airflow-2.5.0/dags
+        target: /usr/local/lib/apache-airflow-2.5.0/dags
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.5
+    ports:
+      - "8045:8042"
+      - "8796:8793"
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "master02:172.16.238.3"
+      - "slave01:172.16.238.4"
+      - "slave03:172.16.238.6"
+      - "metastore:172.16.238.7"
+    stdin_open: true
+    tty: true
+
+  slave03:
+    image: cluster:node
+    container_name: slave03
+    hostname: slave03
+    volumes:
+      - type: bind
+        source: ./lib/apache-airflow-2.5.0/dags
+        target: /usr/local/lib/apache-airflow-2.5.0/dags
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.6
+    ports:
+      - "8046:8042"
+      - "8797:8793"
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "master02:172.16.238.3"
+      - "slave01:172.16.238.4"
+      - "slave02:172.16.238.5"
+      - "metastore:172.16.238.7"
+    stdin_open: true
+    tty: true
+
+  metastore:
+    image: mysql:8.0-debian
+    container_name: metastore
+    hostname: metastore
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.7
+    ports:
+      - "3306:3306"
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "master02:172.16.238.3"
+      - "slave01:172.16.238.4"
+      - "slave02:172.16.238.5"
+      - "slave03:172.16.238.6"
+    stdin_open: true
+    tty: true
+
+  client:
+    image: cluster:client
+    container_name: client
+    hostname: client
+    volumes:
+      - type: bind
+        source: ./client/notebook
+        target: /home/notebook
+      - type: bind
+        source: /dev/shm
+        target: /dev/shm
+    networks:
+      cluster-net:
+        ipv4_address: 172.16.238.8
+    ports:
+      - "9090:9090"
+      - "6080:80"
+      - "5900:5900"
+    extra_hosts:
+      - "master01:172.16.238.2"
+      - "master02:172.16.238.3"
+      - "slave01:172.16.238.4"
+      - "slave02:172.16.238.5"
+      - "slave03:172.16.238.6"
+    stdin_open: true
+    tty: true
+
+networks:
+  cluster-net:
+    ipam:
+      driver: default
+      config:
+        - subnet: "172.16.238.0/24"
+
