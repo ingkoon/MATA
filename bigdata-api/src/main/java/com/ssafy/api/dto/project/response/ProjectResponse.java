@@ -20,7 +20,7 @@ public class ProjectResponse {
     private ProjectCategory category;
     private String token;
 
-    public ProjectResponse fromEntity(Project project) {
+    public static ProjectResponse fromEntity(Project project) {
         return ProjectResponse.builder()
                 .url(project.getUrl())
                 .name(project.getName())

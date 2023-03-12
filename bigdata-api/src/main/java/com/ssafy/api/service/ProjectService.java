@@ -34,10 +34,8 @@ public class ProjectService {
 
     public List<ProjectResponse> getList(String email) {
         Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchMemberException::new);
-        List<ProjectResponse> response = new ArrayList<>();
         return member.getProjectList().stream()
-
-                .map(project -> new ProjectResponse().fromEntity(project))
+                .map(ProjectResponse::fromEntity)
                 .collect(Collectors.toList());
     }
 }
