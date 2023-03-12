@@ -28,6 +28,7 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final StringRedisTemplate stringRedisTemplate;
 
+    @Transactional
     public void signUp(MemberSignUpRequest memberSignUpRequest){
         Member member = memberSignUpRequest.toEntity();
         memberRepository.save(member);
