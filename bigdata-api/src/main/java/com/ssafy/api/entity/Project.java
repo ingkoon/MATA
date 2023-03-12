@@ -2,6 +2,7 @@ package com.ssafy.api.entity;
 
 import com.ssafy.api.entity.enums.ProjectCategory;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -48,5 +49,14 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
+
+    @Builder
+    public Project(String url, String name, ProjectCategory category, Member member) {
+        this.url = url;
+        this.name = name;
+        this.category = category;
+        this.member = member;
+    }
+
 
 }
