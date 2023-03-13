@@ -34,4 +34,7 @@ public class MemberController {
                 .status(HttpStatus.OK)
                 .body(response);
     }
+
+    // 로그아웃
+
 }
