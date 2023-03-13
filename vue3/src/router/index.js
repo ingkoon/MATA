@@ -538,6 +538,11 @@ const routes = [
         name: 'miscellaneous',
         component: () => import(/* webpackChunkName: "tables-miscellaneous" */ '../views/tables/miscellaneous.vue'),
     },
+    {
+        path:"/users/add-app",
+        name:"add-app",
+        component:()=>import('../views/users/add_app.vue'),
+    },
 ];
 
 const router = new createRouter({

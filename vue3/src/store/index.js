@@ -88,12 +88,17 @@ export default new createStore({
             localStorage.setItem('layout_style', value);
             state.layout_style = value;
         },
+        SIGN_UP(){},
     },
     getters: {
         layout(state) {
             return state.layout;
         },
     },
-    actions: {},
+    actions: {
+        signUp(context,payload){
+            console.log('try axios')
+        },
+    },
     modules: {},
 });
