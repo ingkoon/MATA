@@ -1,7 +1,6 @@
-package com.ssafy.api.repository.User;
+package com.ssafy.api.repository.member;
 
 import com.ssafy.api.entity.Member;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
