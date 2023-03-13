@@ -17,6 +17,12 @@ spring:
     hibernate:
       ddl-auto: create
   data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ssaf8a505
     cassandra:
       contact-points: 172.16.238.2:9042
       keyspace-name: mykeyspace
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
