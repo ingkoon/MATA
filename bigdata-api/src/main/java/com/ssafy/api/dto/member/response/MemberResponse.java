@@ -13,5 +13,5 @@ public class MemberResponse {
     private String accessToken;
     private String refreshToken;
     private Long refreshTokenExpirationTime;
-    private String id;
+//    private String id;
 }
