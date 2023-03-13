@@ -19,9 +19,9 @@ import java.time.LocalDateTime;
 @Entity
 public class Project {
 
-    @Id
+    @Id @Column(name = "projectId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int projectId;
+    private Long id;
 
     @Size(max = 255)
     @NotNull
@@ -46,7 +46,7 @@ public class Project {
     private boolean isQuit;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    @JoinColumn(name = "member_id")
+    private Member member;
 
 }

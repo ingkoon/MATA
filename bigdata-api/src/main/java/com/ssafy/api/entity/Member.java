@@ -1,6 +1,7 @@
 package com.ssafy.api.entity;
 
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
@@ -18,11 +19,11 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-public class User {
+public class Member {
 
-    @Id
+    @Id @Column(name = "memberId")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int userId;
+    private Long id;
 
     @Size(max = 20)
     @NotNull
@@ -42,6 +43,13 @@ public class User {
     @ColumnDefault("false")
     private boolean isQuit;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "member")
     private List<Project> projectList =new ArrayList<>();
+
+    @Builder
+    public Member(String password, String email, String name) {
+        this.password = password;
+        this.email = email;
+        this.name = name;
+    }
 }
