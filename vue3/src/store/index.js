@@ -128,7 +128,33 @@ export default new createStore({
               console.log(err.response)
               })
           },
-        //   logIn(){};
+          logIn(context,payload){
+            const password=payload.password
+            const email=payload.email
+            console.log(email,password)
+            axios({
+                method:'post',
+                url:'http://127.0.0.1:8080/api/v1/member/login/',
+                headers:{
+                  "Content-Type": "application/json",
+                },
+                data:{
+                  email : email,
+                  password: password,
+                  // password2: password2,
+                  
+                },
+              })
+                .then(res=>{
+                console.log(email,password)
+                console.log(res)
+                
+                })
+                .catch(err=>{
+                console.log(err.response)
+                })
+
+          },
       
     },
     modules: {},
