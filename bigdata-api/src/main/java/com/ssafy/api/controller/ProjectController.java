@@ -20,9 +20,9 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/")
-    public ResponseEntity<?> projectList() {
+    public ResponseEntity<?> projectList(@AuthenticationPrincipal UserDetails userDetails) {
         try {
-            String email = SecurityUtils.getCurrentMemberEmail();
+            String email = userDetails.getUsername();
             return new ResponseEntity<>(projectService.getList(email), HttpStatus.OK);
         }  catch(Exception e) {
             e.printStackTrace();
