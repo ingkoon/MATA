@@ -20,11 +20,10 @@ public class ProjectController {
     private final ProjectService projectService;
 
     @GetMapping("/")
-    public ResponseEntity<?> projectList(@AuthenticationPrincipal UserDetails userDetails) {
+    public ResponseEntity<?> projectList() {
         try {
-            System.out.println(userDetails.getUsername());
-//            return new ResponseEntity<>(projectService.getList(), HttpStatus.OK);
-            return new ResponseEntity<>(userDetails.getUsername(), HttpStatus.OK);
+            String email = SecurityUtils.getCurrentMemberEmail();
+            return new ResponseEntity<>(projectService.getList(email), HttpStatus.OK);
         }  catch(Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -33,7 +32,6 @@ public class ProjectController {
     // 프로젝트 추가
     @PostMapping("/add")
     public ResponseEntity<Void> addProject(@RequestBody ProjectAddRequest request){
-
         String email = SecurityUtils.getCurrentMemberEmail();
         projectService.addProject(email, request);
         return ResponseEntity
@@ -42,6 +40,5 @@ public class ProjectController {
     }
 
     // 프로젝트 삭제
-
 
 }
