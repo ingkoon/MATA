@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import i18n from '../i18n';
+import axios from 'axios'
 
 export default new createStore({
     state: {
@@ -97,8 +98,38 @@ export default new createStore({
     },
     actions: {
         signUp(context,payload){
-            console.log('try axios')
-        },
+            const username=payload.name
+            const password1=payload.password
+            const password2=payload.password2
+            const email=payload.email
+            // const userdata={
+            //   username,password1,password2,email
+            // }
+            axios({
+              method:'post',
+              url:'http://127.0.0.1:8080/api/v1/member/signup/',
+              headers:{
+                "Content-Type": "application/json",
+              },
+              data:{
+                name: username,
+                email : email,
+                password: password1,
+                // password2: password2,
+                
+              },
+            })
+              .then(res=>{
+              console.log(res)
+              context.commit('SAVE_TOKEN', res.data.key)
+              context.dispatch('logIn', { username: username, password: password2 })
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          },
+        //   logIn(){};
+      
     },
     modules: {},
 });
