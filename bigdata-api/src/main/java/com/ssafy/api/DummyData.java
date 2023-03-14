@@ -7,9 +7,11 @@ import com.ssafy.api.repository.member.MemberRepository;
 import com.ssafy.api.repository.project.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
 
 @Component
 @RequiredArgsConstructor
@@ -17,6 +19,7 @@ public class DummyData implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
@@ -45,7 +48,7 @@ public class DummyData implements CommandLineRunner {
             memberRepository.save(Member.builder()
                     .name("싸피맨"+i)
                     .email("ssafy"+i+"@ssafy.com")
-                    .password("1234")
+                    .password(passwordEncoder.encode("1234"))
                     .build());
         }
     }

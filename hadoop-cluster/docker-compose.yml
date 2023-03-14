@@ -165,7 +165,7 @@ services:
     volumes:
       - type: bind
         source: ./client/notebook
-        target: /home/notebook
+        target: /root/notebook
       - type: bind
         source: /dev/shm
         target: /dev/shm
