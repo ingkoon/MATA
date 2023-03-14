@@ -9,6 +9,7 @@ logging:
 springdoc:
   use-fqn: true
 
+---
 spring:
   config:
     activate:
@@ -16,6 +17,29 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: root
+  jpa:
+    show-sql: false
+    database: mysql
+    hibernate:
+      ddl-auto: create
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ssafy8a506
+    cassandra:
+      contact-points: 172.16.238.2:9042
+      keyspace-name: mykeyspace
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://metastore:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
   jpa:
