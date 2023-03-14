@@ -22,3 +22,8 @@ RUN \
     mv apache-maven-3.9.0 /usr/local/lib/apache-maven-3.9.0
 ENV MAVEN_HOME=/usr/local/lib/apache-maven-3.9.0
 ENV PATH=$PATH:$MAVEN_HOME/bin
+
+# Redis Installation
+RUN \
+    apt install redis-server -y
+COPY redis/redis.conf /etc/redis/redis.conf
