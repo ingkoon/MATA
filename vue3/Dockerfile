@@ -16,10 +16,14 @@ RUN \
 COPY nginx/sites-available/myapp.conf /etc/nginx/sites-available/myapp.conf
 
 # NodeJS Installation
+ENV NODE_VERSION=19.7.0
 RUN \
     apt install -y curl && \
     apt install -y build-essential && \
     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash && \
     export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")" && \
     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" && \
-    nvm install node
+    nvm install node && \
+    ln -sf $NVM_DIR/versions/node/v$NODE_VERSION/bin/node /usr/bin/nodejs && \
+    ln -sf $NVM_DIR/versions/node/v$NODE_VERSION/bin/node /usr/bin/node && \
+    ln -sf $NVM_DIR/versions/node/v$NODE_VERSION/bin/npm /usr/bin/npm

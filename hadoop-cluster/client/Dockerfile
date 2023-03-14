@@ -5,6 +5,7 @@ MAINTAINER Malachai <prussian1933@naver.com>
 # Utilities
 RUN \
     cd /home && \
+    wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add - && \
     apt-get update && \
     apt-get install net-tools vim wget curl -y && \
     apt-get install ssh -y && \

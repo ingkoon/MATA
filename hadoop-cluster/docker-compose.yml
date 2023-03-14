@@ -173,7 +173,7 @@ services:
       cluster-net:
         ipv4_address: 172.16.238.8
     ports:
-      - "9090:9090"
+      - "19900:9090"
       - "6080:80"
       - "5900:5900"
     extra_hosts:
@@ -191,4 +191,3 @@ networks:
       driver: default
       config:
         - subnet: "172.16.238.0/24"
-
