@@ -1,14 +1,16 @@
 package com.ssafy.api.controller;
 
+import com.ssafy.api.config.sercurity.SecurityUtils;
+import com.ssafy.api.dto.project.request.ProjectAddRequest;
+import com.ssafy.api.dto.project.response.ProjectResponse;
+import com.ssafy.api.service.CustomUserDetailsService;
 import com.ssafy.api.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/project")
@@ -28,8 +30,16 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
     // 프로젝트 추가
+    @PostMapping("/add")
+    public ResponseEntity<Void> addProject(@RequestBody ProjectAddRequest request){
+
+        String email = SecurityUtils.getCurrentMemberEmail();
+        projectService.addProject(email, request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 
     // 프로젝트 삭제
 
