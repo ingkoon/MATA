@@ -23,6 +23,7 @@ sudo docker exec -w /home/vue3 vue_app npm i
 sudo docker exec -w /home/vue3 vue_app npm run build
 sudo docker exec vue_app service nginx start
 ```
+
 ---
 
 # cork-vue3
