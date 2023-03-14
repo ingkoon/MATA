@@ -16,7 +16,7 @@ RUN \
 COPY nginx/sites-available/myapp.conf /etc/nginx/sites-available/myapp.conf
 
 # NodeJS Installation
-ENV NODE_VERSION=v19.7.0
+ENV NODE_VERSION=19.7.0
 RUN \
     apt install -y curl && \
     apt install -y build-essential && \
