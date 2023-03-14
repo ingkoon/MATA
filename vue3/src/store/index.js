@@ -168,7 +168,7 @@ export default new createStore({
           },
 
           getProjectList(context,token){
-          
+            // console.log(token)
             axios({
               method:'get',
               url:'http://127.0.0.1:8080/api/v1/project/',
