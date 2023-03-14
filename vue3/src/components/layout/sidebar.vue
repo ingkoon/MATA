@@ -106,11 +106,16 @@
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
+    import VueJwtDecode from 'vue-jwt-decode'
     const store = useStore();
 
     const menu_collapse = ref('dashboard');
 
     onMounted(() => {
+        console.log(1)
+        console.log(store.state.token)
+        const uid=VueJwtDecode.decode(store.state.token)
+        console.log(uid)
         const selector = document.querySelector('#sidebar a[href="' + window.location.pathname + '"]');
         if (selector) {
             const ul = selector.closest('ul.collapse');
@@ -126,6 +131,8 @@
                 selector.click();
             }
         }
+        
+
     });
 
     const toggleMobileMenu = () => {

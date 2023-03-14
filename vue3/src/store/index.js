@@ -1,6 +1,7 @@
 import { createStore } from 'vuex';
 import i18n from '../i18n';
 import axios from 'axios'
+import router from '@/router'
 
 export default new createStore({
     state: {
@@ -29,6 +30,7 @@ export default new createStore({
             { code: 'sv', name: 'Swedish' },
             { code: 'tr', name: 'Turkish' },
         ],
+        token: null,
     },
     mutations: {
         setLayout(state, payload) {
@@ -90,10 +92,16 @@ export default new createStore({
             state.layout_style = value;
         },
         SIGN_UP(){},
+        setToken(state,token){
+            state.token=token
+        },
     },
     getters: {
         layout(state) {
             return state.layout;
+        },
+        isLogin(state){
+            return state.token ==null? false : true
         },
     },
     actions: {
@@ -147,13 +155,36 @@ export default new createStore({
               })
                 .then(res=>{
                 console.log(email,password)
-                console.log(res)
+             
                 
+                context.commit('setToken',res.data.accessToken)
+                localStorage.setItem('accessToken',res.data.accessToken)
+                router.push('/')
                 })
                 .catch(err=>{
-                console.log(err.response)
+                console.log(err)
                 })
 
+          },
+
+          getProjectList(context,token){
+          
+            axios({
+              method:'get',
+              url:'http://127.0.0.1:8080/api/v1/project/',
+              headers:{
+                "Content-Type": "application/json",
+                "Authorization": token,
+              },
+            
+            })
+              .then(res=>{
+              console.log(res)
+
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
           },
       
     },

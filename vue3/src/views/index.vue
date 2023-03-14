@@ -1015,11 +1015,13 @@
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
-
+    import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     useMeta({ title: 'Sales Admin' });
-
+    
     const store = useStore();
+    const userjson=VueJwtDecode.decode(store.state.token)
+    store.dispatch('getProjectList',store.state.token)
 
     //Revenue
     const revenue_series = ref([
