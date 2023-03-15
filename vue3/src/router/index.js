@@ -11,11 +11,7 @@ import store from '../store';
 const routes = [
     //dashboard
     { path: '/', name: 'Home', component: Home },
-
-    {
-        path: '/index2',
-        name: 'index2',
-        component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'),
+    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'),
     },
 
     //components
@@ -51,7 +47,6 @@ const routes = [
     },
 
     //auth
-    
     {
         path: '/auth/login',
         name: 'login',
@@ -64,12 +59,6 @@ const routes = [
         component: () => import(/* webpackChunkName: "auth-register" */ '../views/auth/register.vue'),
         meta: { layout: 'auth' },
     },
-   
-
-    //elements
-   
-    //tables
-  
 
     //users
     {
@@ -82,29 +71,17 @@ const routes = [
         name: 'account-setting',
         component: () => import(/* webpackChunkName: "users-account-setting" */ '../views/users/account_setting.vue'),
     },
-
-    //drag&drop
+    {
+        path:"/users/add-app",
+        name:"add-app",
+        component:()=>import('../views/users/add_app.vue'),
+    },
     
     //charts
     {
         path: '/charts/apex-chart',
         name: 'apex-chart',
         component: () => import(/* webpackChunkName: "charts-apex-chart" */ '../views/charts/apex_chart.vue'),
-    },
-
-    //widgets
-   
-    //forms
-
-    //apps
-    
-
-    //tables
-   
-    {
-        path:"/users/add-app",
-        name:"add-app",
-        component:()=>import('../views/users/add_app.vue'),
     },
 ];
 
