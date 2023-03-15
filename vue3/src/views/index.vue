@@ -1021,7 +1021,7 @@
     
     const store = useStore();
     const userjson=VueJwtDecode.decode(store.state.token)
-    store.dispatch('getProjectList',store.state.token)
+    // store.dispatch('getProjectList',store.state.token)
 
     //Revenue
     const revenue_series = ref([
