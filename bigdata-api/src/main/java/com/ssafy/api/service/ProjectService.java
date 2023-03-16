@@ -26,8 +26,10 @@ public class ProjectService {
     private final MemberRepository memberRepository;
     private final ProjectRepository projectRepository;
 
+    @Transactional
     public void addProject(String email, ProjectAddRequest request) {
         Member member = memberRepository.findByEmail(email).orElseThrow(NoSuchMemberException::new);
+        log.info(member.toString());
         Project project = request.toEntity(member);
         projectRepository.save(project);
     }

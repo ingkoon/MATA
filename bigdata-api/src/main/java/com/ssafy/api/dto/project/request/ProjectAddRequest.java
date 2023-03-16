@@ -5,8 +5,10 @@ import com.ssafy.api.entity.Project;
 import com.ssafy.api.entity.enums.ProjectCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 @AllArgsConstructor
 public class ProjectAddRequest {
 

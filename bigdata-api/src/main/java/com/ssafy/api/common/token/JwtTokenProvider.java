@@ -52,7 +52,7 @@ public class JwtTokenProvider {
         // Access Token 생성
         Date accessTokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
-                .setSubject(member.getId().toString())
+                .setSubject(member.getEmail().toString())
                 .claim(EMAIL_KEY, authentication.getName())
                 .claim(AUTHORITIES_KEY, authorities)
                 .setExpiration(accessTokenExpiresIn)
