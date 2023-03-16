@@ -23,7 +23,7 @@ spring:
     show-sql: false
     database: mysql
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
   data:
     redis:
       host: localhost
@@ -32,6 +32,8 @@ spring:
     cassandra:
       contact-points: 172.16.238.2:9042
       keyspace-name: mykeyspace
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
 ---
 spring:
   config:

@@ -31,6 +31,13 @@ public class Member implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+//    @Builder
+//    public Member(String password, String email, String name) {
+//        this.password = password;
+//        this.email = email;
+//        this.name = name;
+//    }
+
     @Size(max = 255)
     @NotNull
     private String password;

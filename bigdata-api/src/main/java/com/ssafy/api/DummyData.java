@@ -1,15 +1,19 @@
 package com.ssafy.api;
 
+import com.ssafy.api.dto.member.request.MemberSignUpRequest;
 import com.ssafy.api.entity.Member;
 import com.ssafy.api.entity.Project;
+import com.ssafy.api.entity.enums.MemberPrivilege;
 import com.ssafy.api.entity.enums.ProjectCategory;
 import com.ssafy.api.repository.member.MemberRepository;
 import com.ssafy.api.repository.project.ProjectRepository;
+import com.ssafy.api.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.List;
 
 
@@ -18,6 +22,9 @@ import java.util.List;
 public class DummyData implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
+
+    private final MemberService memberService;
+
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -35,7 +42,7 @@ public class DummyData implements CommandLineRunner {
                 projectRepository.save(Project.builder()
                         .category(ProjectCategory.BLOG)
                         .url("ssafy.com/" + memberList.get(i).getName())
-                        .name(memberList.get(i).getName() + "의 "+ j +"번째 프로젝트")
+                        .name(memberList.get(i).getName() + "s "+ j +" project")
                         .member(memberList.get(i))
                         .build());
             }
@@ -44,14 +51,14 @@ public class DummyData implements CommandLineRunner {
 
     private void addMember() {
         System.out.println("addMember");
+
         for (int i = 0; i < 5; i++) {
-            memberRepository.save(Member.builder()
-                    .name("싸피맨"+i)
+            Member member = Member.builder().name("ssafyman"+i)
                     .email("ssafy"+i+"@ssafy.com")
                     .password(passwordEncoder.encode("1234"))
-                    .build());
+                    .privilege(Collections.singleton(MemberPrivilege.GENERAL.name()))
+                    .build();
+            memberRepository.save(member);
         }
     }
-
-
 }

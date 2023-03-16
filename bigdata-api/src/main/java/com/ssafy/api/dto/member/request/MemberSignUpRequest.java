@@ -1,6 +1,7 @@
 package com.ssafy.api.dto.member.request;
 
 import com.ssafy.api.entity.Member;
+import com.ssafy.api.entity.enums.MemberPrivilege;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
+import java.util.Collections;
 
 @Getter
 @NoArgsConstructor
@@ -27,7 +29,8 @@ public class MemberSignUpRequest {
                 .builder()
                 .email(email)
                 .password(password)
-                .name(name).build();
+                .name(name)
+                .privilege(Collections.singleton(MemberPrivilege.GENERAL.name())).build();
         return member;
     }
 }
