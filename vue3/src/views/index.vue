@@ -1011,7 +1011,7 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref } from 'vue';
+    import { computed, ref, onMounted  } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
@@ -1020,7 +1020,12 @@
     useMeta({ title: 'Sales Admin' });
     
     const store = useStore();
-    const userjson=VueJwtDecode.decode(store.state.token)
+    // onMounted(()=>{   
+    //     console.log("index mounted")
+    //     const userjson=VueJwtDecode.decode(store.state.token)
+    //     console.log('userjson:'+userjson)
+    // })
+    // const userjson=VueJwtDecode.decode(store.state.token)
     // store.dispatch('getProjectList',store.state.token)
 
     //Revenue

@@ -112,10 +112,10 @@
     const menu_collapse = ref('dashboard');
 
     onMounted(() => {
-        console.log(1)
-        console.log(store.state.token)
-        const uid=VueJwtDecode.decode(store.state.token)
-        console.log(uid)
+        console.log("sidebar mount start")
+        // console.log(store.state.token)
+        // const uid=VueJwtDecode.decode(store.state.token)
+        // console.log("uid"+uid)
         const selector = document.querySelector('#sidebar a[href="' + window.location.pathname + '"]');
         if (selector) {
             const ul = selector.closest('ul.collapse');
@@ -131,7 +131,7 @@
                 selector.click();
             }
         }
-        
+        console.log('sidebar mount done')
 
     });
 
