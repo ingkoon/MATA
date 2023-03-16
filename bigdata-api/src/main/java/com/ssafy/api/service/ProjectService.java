@@ -1,7 +1,9 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.dto.member.exception.NoSuchMemberException;
+import com.ssafy.api.dto.project.exception.NoSuchProjectException;
 import com.ssafy.api.dto.project.request.ProjectAddRequest;
+import com.ssafy.api.dto.project.request.ProjectDeleteRequest;
 import com.ssafy.api.dto.project.response.ProjectResponse;
 import com.ssafy.api.entity.Member;
 import com.ssafy.api.entity.Project;
@@ -39,5 +41,12 @@ public class ProjectService {
         return member.getProjectList().stream()
                 .map(ProjectResponse::fromEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public void delete(ProjectDeleteRequest request){
+        Long projectId = request.getProjectId();
+        Project project = projectRepository.findById(projectId).orElseThrow(NoSuchProjectException::new);
+        projectRepository.delete(project);
     }
 }

@@ -57,6 +57,4 @@ public class Project {
         this.category = category;
         this.member = member;
     }
-
-
 }

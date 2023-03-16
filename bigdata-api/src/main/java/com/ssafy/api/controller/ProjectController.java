@@ -2,6 +2,7 @@ package com.ssafy.api.controller;
 
 import com.ssafy.api.config.sercurity.SecurityUtils;
 import com.ssafy.api.dto.project.request.ProjectAddRequest;
+import com.ssafy.api.dto.project.request.ProjectDeleteRequest;
 import com.ssafy.api.dto.project.response.ProjectResponse;
 import com.ssafy.api.service.CustomUserDetailsService;
 import com.ssafy.api.service.ProjectService;
@@ -40,6 +41,14 @@ public class ProjectController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteProject(@RequestBody ProjectDeleteRequest request){
+        projectService.delete(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Delete Success");
     }
 
     // 프로젝트 삭제
