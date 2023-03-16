@@ -1,4 +1,3 @@
-
 export default class TagManager {
 
   constructor(
@@ -33,7 +32,6 @@ export default class TagManager {
       this.flushLog();
     }
 
-
     this.flushLog = function() {
       fetch(this.bootstrap, {
         method: 'POST',
@@ -46,12 +44,13 @@ export default class TagManager {
     }.bind(this)
 
     this.stackLog = function(e, eventType='') {
+      console.log("document.location.href : " + document.location.href)
       let body = {
         serviceToken: this.serviceToken,
         sessionId: this.sessionId,
         event: eventType,
         targetId: (e && e.target && e.target.id) ? e.target.id : 'none',
-        position: {pageX: e.pageX, pageY: e.pageY},
+        position: {pageX: e && e.pageX ? e.pageX : null, pageY: e && e.pageY ? e.pageY : null},
         location: document.location.href,
         timestamp: Date.now()
       }
@@ -67,6 +66,8 @@ export default class TagManager {
   }
 
 
+  // className :
+
   attach() {
     let elements = document.querySelectorAll('.'+this.className);
     elements.forEach((elem) => {
@@ -74,6 +75,8 @@ export default class TagManager {
         elem.addEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
+    this.stackLog(null, "pageIn");
+    this.flushLog();
   }
 
   detach() {
@@ -83,6 +86,8 @@ export default class TagManager {
         elem.removeEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
+    this.stackLog(null, "pageOut");
+    this.flushLog();
   }
 
 }
