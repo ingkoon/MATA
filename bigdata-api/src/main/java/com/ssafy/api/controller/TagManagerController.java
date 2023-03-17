@@ -4,7 +4,6 @@ import com.ssafy.api.dto.WebLog;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.util.*;
