@@ -20,12 +20,12 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class KafkaProducerService {
 
-    @Value(value="${spring.kafka.template.default-topic}")
-    private String TOPIC_NAME;
+    @Value(value = "${spring.kafka.topic.tag-manager}")
+    private String TOPIC_TAG_MANAGER;
     private final KafkaTemplate<String, String> template;
 
     public void sendToKafka(final WebLog data) throws JsonProcessingException {
-        final ProducerRecord<String, String> record = data.toProducerRecord("tagmanager", 1);
+        final ProducerRecord<String, String> record = data.toProducerRecord(TOPIC_TAG_MANAGER, 0);
         ListenableFuture<SendResult<String, String>> future = template.send(record);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override
