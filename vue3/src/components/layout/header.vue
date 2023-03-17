@@ -34,10 +34,12 @@
                         aa
                     </a>
                 </div> -->
-                <ul class="flex-row text-center mx-auto">
-                    <li>
-                        <router-link to="/auth/login">로그인</router-link>
+                <ul class="flex text-center mx-auto">
+                    <li >
+                        <router-link to="/auth/login" v-if=" !store.state.token">로그인</router-link>
+                        <a v-else>로그아웃</a>
                     </li>
+
 
                     <li>
                     <div class="navbar-item flex-row ">
