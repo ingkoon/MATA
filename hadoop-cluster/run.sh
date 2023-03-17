@@ -12,9 +12,12 @@ sudo bash sbin/deploy-ssh-authorized-keys.sh && \
 sudo docker exec -u root metastore mysql -u root -proot -e "
   CREATE DATABASE hive;
   CREATE DATABASE airflow;
+  CREATE DATABASE mata;
   CREATE USER hive IDENTIFIED BY 'hive';
   CREATE USER airflow IDENTIFIED BY 'airflow';
+  CREATE USER spring IDENTIFIED BY 'spring';
   GRANT ALL PRIVILEGES ON hive.* TO 'hive'@'%';
+  GRANT ALL PRIVILEGES ON mata.* TO 'spring'@'%';
   GRANT ALL PRIVILEGES ON airflow.* TO 'airflow'@'%';"
 \
 sudo docker exec slave01 rabbitmq-plugins enable rabbitmq_management && \
