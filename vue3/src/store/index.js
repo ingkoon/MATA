@@ -1,5 +1,7 @@
 import { createStore } from 'vuex';
 import i18n from '../i18n';
+import axios from 'axios'
+import router from '@/router'
 
 export default new createStore({
     state: {
@@ -28,6 +30,7 @@ export default new createStore({
             { code: 'sv', name: 'Swedish' },
             { code: 'tr', name: 'Turkish' },
         ],
+        token: null,
     },
     mutations: {
         setLayout(state, payload) {
@@ -88,12 +91,102 @@ export default new createStore({
             localStorage.setItem('layout_style', value);
             state.layout_style = value;
         },
+        SIGN_UP(){},
+        setToken(state,token){
+            state.token=token
+        },
     },
     getters: {
         layout(state) {
             return state.layout;
         },
+        isLogin(state){
+            return state.token ==null? false : true
+        },
     },
-    actions: {},
+    actions: {
+        signUp(context,payload){
+            const username=payload.name
+            const password1=payload.password
+            const password2=payload.password2
+            const email=payload.email
+            // const userdata={
+            //   username,password1,password2,email
+            // }
+            axios({
+              method:'post',
+              url:'http://127.0.0.1:8080/api/v1/member/signup/',
+              headers:{
+                "Content-Type": "application/json",
+              },
+              data:{
+                name: username,
+                email : email,
+                password: password1,
+                // password2: password2,
+                
+              },
+            })
+              .then(res=>{
+              console.log(res)
+              context.commit('SAVE_TOKEN', res.data.key)
+              context.dispatch('logIn', { username: username, password: password2 })
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          },
+          logIn(context,payload){
+            const password=payload.password
+            const email=payload.email
+            console.log(email,password)
+            axios({
+                method:'post',
+                url:'http://127.0.0.1:8080/api/v1/member/login/',
+                headers:{
+                  "Content-Type": "application/json",
+                },
+                data:{
+                  email : email,
+                  password: password,
+                  // password2: password2,
+                  
+                },
+              })
+                .then(res=>{
+                console.log(email,password)
+             
+                
+                context.commit('setToken',res.data.accessToken)
+                localStorage.setItem('accessToken',res.data.accessToken)
+                router.push('/')
+                })
+                .catch(err=>{
+                console.log(err)
+                })
+
+          },
+
+          getProjectList(context,token){
+            // console.log(token)
+            axios({
+              method:'get',
+              url:'http://127.0.0.1:8080/api/v1/project/',
+              headers:{
+                "Content-Type": "application/json",
+                "Authorization": token,
+              },
+            
+            })
+              .then(res=>{
+              console.log(res)
+
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          },
+      
+    },
     modules: {},
 });

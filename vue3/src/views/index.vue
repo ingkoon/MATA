@@ -1011,15 +1011,22 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref } from 'vue';
+    import { computed, ref, onMounted  } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
-
+    import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     useMeta({ title: 'Sales Admin' });
-
+    
     const store = useStore();
+    // onMounted(()=>{   
+    //     console.log("index mounted")
+    //     const userjson=VueJwtDecode.decode(store.state.token)
+    //     console.log('userjson:'+userjson)
+    // })
+    // const userjson=VueJwtDecode.decode(store.state.token)
+    // store.dispatch('getProjectList',store.state.token)
 
     //Revenue
     const revenue_series = ref([

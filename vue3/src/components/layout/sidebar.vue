@@ -74,6 +74,29 @@
                         </div>
                     </router-link>
                 </li>
+                <li class="menu">
+                    <router-link to="/users/add-app" class="dropdown-toggle" @click="toggleMobileMenu">
+                        <div class="">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="feather feather-target"
+                            >
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <circle cx="12" cy="12" r="6"></circle>
+                                <circle cx="12" cy="12" r="2"></circle>
+                            </svg>
+                            <span>{{ $t('서비스 추가') }}</span>
+                        </div>
+                    </router-link>
+                </li>
             </perfect-scrollbar>
         </nav>
     </div>
@@ -83,11 +106,16 @@
 <script setup>
     import { onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
+    import VueJwtDecode from 'vue-jwt-decode'
     const store = useStore();
 
     const menu_collapse = ref('dashboard');
 
     onMounted(() => {
+        console.log("sidebar mount start")
+        // console.log(store.state.token)
+        // const uid=VueJwtDecode.decode(store.state.token)
+        // console.log("uid"+uid)
         const selector = document.querySelector('#sidebar a[href="' + window.location.pathname + '"]');
         if (selector) {
             const ul = selector.closest('ul.collapse');
@@ -103,6 +131,8 @@
                 selector.click();
             }
         }
+        console.log('sidebar mount done')
+
     });
 
     const toggleMobileMenu = () => {

@@ -16,7 +16,10 @@
     const store = useStore();
 
     const layout = computed(() => {
+        console.log("app compute start")
+        console.log('app compute done')
         return store.getters.layout;
+        
     });
 </script>
 <script>

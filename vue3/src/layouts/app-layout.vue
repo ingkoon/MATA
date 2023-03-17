@@ -34,6 +34,7 @@
 </template>
 
 <script setup>
+    
     import Header from '@/components/layout/header.vue';
     import Sidebar from '@/components/layout/sidebar.vue';
     import Footer from '@/components/layout/footer.vue';
