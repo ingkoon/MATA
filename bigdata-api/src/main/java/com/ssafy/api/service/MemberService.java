@@ -1,6 +1,7 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.common.token.JwtTokenProvider;
+import com.ssafy.api.config.sercurity.SecurityUtils;
 import com.ssafy.api.dto.member.exception.DuplicateMemberException;
 import com.ssafy.api.dto.member.exception.NoSuchMemberException;
 import com.ssafy.api.dto.member.request.MemberLoginRequest;
@@ -10,6 +11,7 @@ import com.ssafy.api.entity.Member;
 import com.ssafy.api.repository.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.security.SecurityUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -61,11 +63,21 @@ public class MemberService {
 
         // 4. RefreshToken Redis 저장 (expirationTime 설정을 통해 자동 삭제 처리)
         stringRedisTemplate.opsForValue()
-                .set("RT:" + member.getId(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
+                .set("RT:" + member.getEmail(), tokenInfo.getRefreshToken(), tokenInfo.getRefreshTokenExpirationTime(), TimeUnit.MILLISECONDS);
         return tokenInfo;
     }
 
     public void isExistEmail(String email){
         if(memberRepository.existsByEmail(email)) throw new DuplicateMemberException();
+    }
+
+    public void logout(String accessToken)
+    {
+        Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+        log.info(authentication.getName());
+        if(stringRedisTemplate.opsForValue().get("RT:"+authentication.getName()) !=null){
+            stringRedisTemplate.delete("RT:"+authentication.getName());
+        }
+        else log.info("refresh 없음");
     }
 }
