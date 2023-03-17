@@ -75,7 +75,7 @@ export default class TagManager {
         elem.addEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
-    this.stackLog(null, "pageIn");
+    this.stackLog(null, "pageenter");
     this.flushLog();
   }
 
@@ -86,7 +86,7 @@ export default class TagManager {
         elem.removeEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
-    this.stackLog(null, "pageOut");
+    this.stackLog(null, "pageleave");
     this.flushLog();
   }
 
