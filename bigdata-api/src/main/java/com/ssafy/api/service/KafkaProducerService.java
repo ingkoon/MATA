@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,12 @@ import java.util.concurrent.CompletableFuture;
 @RequiredArgsConstructor
 public class KafkaProducerService {
 
-    private final NewTopic topic;
+    @Value(value="${spring.kafka.template.default-topic}")
+    private String TOPIC_NAME;
     private final KafkaTemplate<String, String> template;
 
     public void sendToKafka(final WebLog data) throws JsonProcessingException {
-        final ProducerRecord<String, String> record = data.toProducerRecord(topic.name(), 1);
+        final ProducerRecord<String, String> record = data.toProducerRecord("tagmanager", 1);
         ListenableFuture<SendResult<String, String>> future = template.send(record);
         future.addCallback(new ListenableFutureCallback<SendResult<String, String>>() {
             @Override

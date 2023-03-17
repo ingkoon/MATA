@@ -33,10 +33,8 @@ spring:
       contact-points: 172.16.238.2:9042
       keyspace-name: mykeyspace
   kafka:
-    bootstrap-servers: master01:9092,master02:9092,slave01:9092,slave02:9092,slave03:9092
-
     producer:
-      bootstrap-servers: master01:9092,master02:9092,slave01:9092,slave02:9092,slave03:9092
+      bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     template:
