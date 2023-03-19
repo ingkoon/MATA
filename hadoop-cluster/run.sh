@@ -81,4 +81,6 @@ sudo docker exec -d master01 sh -c 'cassandra -R >> $CASSANDRA_HOME/cassandra-st
 sleep 10 && \
 sudo docker exec -d master02 sh -c 'cassandra -R >> $CASSANDRA_HOME/cassandra-startup.log' && \
 sleep 10 && \
-sudo docker exec -d slave01 sh -c 'cassandra -R >> $CASSANDRA_HOME/cassandra-startup.log'
+sudo docker exec -d slave01 sh -c 'cassandra -R >> $CASSANDRA_HOME/cassandra-startup.log' && \
+\
+sudo docker exec -d master02 kafka-topics.sh --create --topic tagmanager --replication-factor 1 --partitions 1 --bootstrap-server localhost:9092

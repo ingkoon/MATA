@@ -26,7 +26,8 @@ public class TagManagerController {
             System.out.println(wl.getSessionId());
             System.out.println(wl.getEvent());
             System.out.println(wl.getTargetId());
-            System.out.println(wl.getPosition().getPageX() + ", " + wl.getPosition().getPageY());
+            System.out.println(wl.getPositionX());
+            System.out.println(wl.getPositionY());
             System.out.println(wl.getLocation());
             System.out.println(new Timestamp(wl.getTimestamp()));
             try {

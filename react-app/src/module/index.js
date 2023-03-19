@@ -50,7 +50,8 @@ export default class TagManager {
         sessionId: this.sessionId,
         event: eventType,
         targetId: (e && e.target && e.target.id) ? e.target.id : 'none',
-        position: {pageX: e && e.pageX ? e.pageX : null, pageY: e && e.pageY ? e.pageY : null},
+        positionX: e && e.pageX ? e.pageX : null,
+        positionY: e && e.pageY ? e.pageY : null,
         location: document.location.href,
         timestamp: Date.now()
       }

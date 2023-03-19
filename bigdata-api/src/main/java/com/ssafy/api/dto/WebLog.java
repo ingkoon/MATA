@@ -16,15 +16,18 @@ import org.w3c.dom.events.EventTarget;
 public class WebLog {
 
     private String serviceToken;
+    private long clientId;
     private String sessionId;
     private String event;
     private String targetId;
-    private MousePosition position;
+    private int positionX;
+    private int positionY;
     private String location;
     private long timestamp;
 
     public ProducerRecord<String, String> toProducerRecord(String topic, Integer partition) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
+        this.clientId = 1L;
         return new ProducerRecord<>(topic, partition, this.timestamp, this.sessionId+"-"+this.timestamp, mapper.writeValueAsString(this));
     }
 
