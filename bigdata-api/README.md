@@ -19,7 +19,7 @@
 ### cassandra 테이블
 ```
 CREATE TABLE stream (
-    key INT,
+    key TEXT,
     service_token TEXT,
     client_id BIGINT,
     session_id TEXT,
