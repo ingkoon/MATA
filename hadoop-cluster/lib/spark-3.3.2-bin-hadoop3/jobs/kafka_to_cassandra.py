@@ -19,6 +19,7 @@ schema = StructType(
         [
                 StructField("serviceToken", StringType()),
                 StructField("clientId", LongType()),
+                StructField("serviceId", LongType()),
                 StructField("sessionId", StringType()),
                 StructField("event", StringType()),
                 StructField("targetId", StringType()),
@@ -50,6 +51,7 @@ streaming_df.printSchema()
 streamming_query = streaming_df.select("key", "value.*") \
     .withColumnRenamed("serviceToken", "service_token") \
     .withColumnRenamed("clientId", "client_id") \
+    .withColumnRenamed("serviceId", "service_id") \
     .withColumnRenamed("sessionId", "session_id") \
     .withColumnRenamed("event", "event") \
     .withColumnRenamed("targetId", "target_id") \
