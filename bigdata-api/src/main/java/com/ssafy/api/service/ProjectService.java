@@ -7,16 +7,14 @@ import com.ssafy.api.dto.project.request.ProjectDeleteRequest;
 import com.ssafy.api.dto.project.response.ProjectResponse;
 import com.ssafy.api.entity.Member;
 import com.ssafy.api.entity.Project;
-import com.ssafy.api.repository.member.MemberRepository;
-import com.ssafy.api.repository.project.ProjectRepository;
+import com.ssafy.api.repository.mysql.MemberRepository;
+import com.ssafy.api.repository.mysql.ProjectRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j

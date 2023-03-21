@@ -1,12 +1,11 @@
 package com.ssafy.api;
 
-import com.ssafy.api.dto.member.request.MemberSignUpRequest;
 import com.ssafy.api.entity.Member;
 import com.ssafy.api.entity.Project;
 import com.ssafy.api.entity.enums.MemberPrivilege;
 import com.ssafy.api.entity.enums.ProjectCategory;
-import com.ssafy.api.repository.member.MemberRepository;
-import com.ssafy.api.repository.project.ProjectRepository;
+import com.ssafy.api.repository.mysql.MemberRepository;
+import com.ssafy.api.repository.mysql.ProjectRepository;
 import com.ssafy.api.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;

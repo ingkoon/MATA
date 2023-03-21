@@ -1,4 +1,3 @@
-
 server:
   port: 8080
 
@@ -16,9 +15,14 @@ spring:
       on-profile: dev
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    url: jdbc:mysql://metastore:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
+  hive-datasource:
+    driver-class-name: org.apache.hive.jdbc.HiveDriver
+    url: jdbc:hive2://master01:10000/test
+    username: hive
+    password: hive
   jpa:
     show-sql: false
     database: mysql
@@ -42,6 +46,7 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     template:
       default-topic: tagmanager
+
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
 ---

@@ -1,17 +1,15 @@
 package com.ssafy.api.service;
 
 import com.ssafy.api.common.token.JwtTokenProvider;
-import com.ssafy.api.config.sercurity.SecurityUtils;
 import com.ssafy.api.dto.member.exception.DuplicateMemberException;
 import com.ssafy.api.dto.member.exception.NoSuchMemberException;
 import com.ssafy.api.dto.member.request.MemberLoginRequest;
 import com.ssafy.api.dto.member.request.MemberSignUpRequest;
 import com.ssafy.api.dto.member.response.MemberResponse;
 import com.ssafy.api.entity.Member;
-import com.ssafy.api.repository.member.MemberRepository;
+import com.ssafy.api.repository.mysql.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
