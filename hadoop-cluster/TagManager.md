@@ -42,7 +42,7 @@ MySQL은 `metastore` 컨테이너, Kafka는 `master01` ~ `slave03` 컨테이너�
 SpringBoot의 설정파일인 application.yml은 `dev` 프로필로 실행되어야 한다.
 ```
 # 빌드가 되어있을 경우
-java -jar -Dspring.active.profile=dev target/[JAR 아카이브]
+java -jar -Dspring.profiles.active=dev target/[JAR 아카이브]
 # IDE 환경일 경우
 [dev 프로필로 ApiApplication 실행]
 ```
@@ -73,38 +73,39 @@ hadoop-cluster/node/lib/spark-3.3.2-bin-hadoop3/jobs 경로의 `kafka_to_cassand
 Kafka source 로 부터 Cassandra sink 까지 데이터를 전처리 하는 spark job 이다.  
 전처리 되기 전의 스키마는 다음과 같다.
 ```
-"key", BiteArrayType
-"value", BiteArrayType : {
-          "serviceToken", StringType
-          "clientId", LongType
-          "serviceId", LongType
-          "sessionId", StringType
-          "event", StringType
-          "targetId", StringType
-          "positionX", IntegerType
-          "positionY", IntegerType
-          "location", StringType
-          "timestamp", LongType
-          }
-topic, StringType
-offset, LongType
-partition, IntegerType
-timestamp, LongType
-timestampType, IntegerType
+root
+ |-- key: string (nullable = true)
+ |-- value: struct (nullable = true)
+ |    |-- serviceToken: string (nullable = true)
+ |    |-- clientId: long (nullable = true)
+ |    |-- serviceId: long (nullable = true)
+ |    |-- sessionId: string (nullable = true)
+ |    |-- event: string (nullable = true)
+ |    |-- targetId: string (nullable = true)
+ |    |-- positionX: integer (nullable = true)
+ |    |-- positionY: integer (nullable = true)
+ |    |-- location: string (nullable = true)
+ |    |-- timestamp: long (nullable = true)
+ |-- topic: string (nullable = true)
+ |-- partition: integer (nullable = true)
+ |-- offset: long (nullable = true)
+ |-- timestamp: timestamp (nullable = true)
+ |-- timestampType: integer (nullable = true)
 ```
 전처리가 완료된 Dataframe의 스키마는 다음과 같다.
 ```
-key, StringType
-service_token, StringType
-client_id, LongType
-service_id, LongType
-session_id, StringType
-event, StringType
-target_id, StringType
-position_x, IntegerType
-position_y, IntegerType
-location, StringType
-creation_timestamp, LongType
+root
+ |-- key: string (nullable = true)
+ |-- service_token: string (nullable = true)
+ |-- client_id: long (nullable = true)
+ |-- service_id: long (nullable = true)
+ |-- session_id: string (nullable = true)
+ |-- event: string (nullable = true)
+ |-- target_id: string (nullable = true)
+ |-- position_x: integer (nullable = true)
+ |-- position_y: integer (nullable = true)
+ |-- location: string (nullable = true)
+ |-- creation_timestamp: long (nullable = true)
 ```
 Cassandra에 Keyspace와 Table이 정의되기 전까진 작업을 실행할 수 없다.
 
@@ -120,13 +121,13 @@ cqlsh> CREATE TABLE stream (
            service_token TEXT,
            client_id BIGINT,
            service_id BIGINT,
-           session_id BIGINT,
+           session_id TEXT,
            event TEXT,
            target_id TEXT,
            position_x INT,
            position_y INT,
            location TEXT,
            creation_timestamp TIMESTAMP,
-           PRIMARY KEY ((service_id), creation_timestamp, location, target_id, event)
+           PRIMARY KEY ((service_id), creation_timestamp, session_id)
          ) WITH CLUSTERING ORDER BY (creation_timestamp DESC);
 ```
