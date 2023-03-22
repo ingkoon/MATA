@@ -16,6 +16,7 @@ export default class TagManager {
     this.className = className;
     this.events = events;
     this.logStash = [];
+    this.location = 'none';
 
     this.handleClick = function (e) {
       this.stackLog(e, 'click');
@@ -44,7 +45,7 @@ export default class TagManager {
     }.bind(this)
 
     this.stackLog = function(e, eventType='') {
-      console.log("document.location.href : " + document.location.href)
+      console.log("document.location.href : " + this.location)
       let body = {
         serviceToken: this.serviceToken,
         sessionId: this.sessionId,
@@ -52,7 +53,7 @@ export default class TagManager {
         targetId: (e && e.target && e.target.id) ? e.target.id : 'none',
         positionX: e && e.pageX ? e.pageX : null,
         positionY: e && e.pageY ? e.pageY : null,
-        location: document.location.href,
+        location: this.location,
         timestamp: Date.now()
       }
       this.logStash.push(body)
@@ -76,6 +77,7 @@ export default class TagManager {
         elem.addEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
+    this.location = document.location.href;
     this.stackLog(null, "pageenter");
     this.flushLog();
   }

@@ -28,4 +28,12 @@
                         Hive operations as the user making the calls to it.
                 </description>
         </property>
+        <property>
+                <name>hive.server2.transport.mode</name>
+                <value>binary</value>
+        </property>
+        <property>
+                <name>hive.server2.thrift.port</name>
+                <value>10000</value>
+        </property>
 </configuration>
