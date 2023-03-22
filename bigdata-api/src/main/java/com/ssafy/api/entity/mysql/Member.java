@@ -1,4 +1,4 @@
-package com.ssafy.api.entity;
+package com.ssafy.api.entity.mysql;
 
 import lombok.AccessLevel;
 import lombok.Builder;

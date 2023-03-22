@@ -1,6 +1,6 @@
-package com.ssafy.api.entity;
+package com.ssafy.api.entity.mysql;
 
-import com.ssafy.api.entity.enums.ProjectCategory;
+import com.ssafy.api.entity.mysql.enums.ProjectCategory;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

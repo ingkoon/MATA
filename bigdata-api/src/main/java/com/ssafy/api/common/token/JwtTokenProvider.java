@@ -1,7 +1,7 @@
 package com.ssafy.api.common.token;
 
 import com.ssafy.api.dto.member.response.MemberResponse;
-import com.ssafy.api.entity.Member;
+import com.ssafy.api.entity.mysql.Member;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.SignatureAlgorithm;

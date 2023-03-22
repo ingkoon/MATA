@@ -6,7 +6,7 @@ import com.ssafy.api.dto.member.exception.NoSuchMemberException;
 import com.ssafy.api.dto.member.request.MemberLoginRequest;
 import com.ssafy.api.dto.member.request.MemberSignUpRequest;
 import com.ssafy.api.dto.member.response.MemberResponse;
-import com.ssafy.api.entity.Member;
+import com.ssafy.api.entity.mysql.Member;
 import com.ssafy.api.repository.mysql.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

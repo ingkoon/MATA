@@ -1,6 +1,6 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.entity.Member;
+import com.ssafy.api.entity.mysql.Member;
 import com.ssafy.api.repository.mysql.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;

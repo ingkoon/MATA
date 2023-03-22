@@ -1,8 +1,8 @@
 package com.ssafy.api.dto.project.request;
 
-import com.ssafy.api.entity.Member;
-import com.ssafy.api.entity.Project;
-import com.ssafy.api.entity.enums.ProjectCategory;
+import com.ssafy.api.entity.mysql.Member;
+import com.ssafy.api.entity.mysql.Project;
+import com.ssafy.api.entity.mysql.enums.ProjectCategory;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

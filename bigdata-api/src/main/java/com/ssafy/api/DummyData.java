@@ -1,9 +1,9 @@
 package com.ssafy.api;
 
-import com.ssafy.api.entity.Member;
-import com.ssafy.api.entity.Project;
-import com.ssafy.api.entity.enums.MemberPrivilege;
-import com.ssafy.api.entity.enums.ProjectCategory;
+import com.ssafy.api.entity.mysql.Member;
+import com.ssafy.api.entity.mysql.Project;
+import com.ssafy.api.entity.mysql.enums.MemberPrivilege;
+import com.ssafy.api.entity.mysql.enums.ProjectCategory;
 import com.ssafy.api.repository.mysql.MemberRepository;
 import com.ssafy.api.repository.mysql.ProjectRepository;
 import com.ssafy.api.service.MemberService;

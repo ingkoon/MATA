@@ -1,6 +1,6 @@
 package com.ssafy.api.repository.mysql;
 
-import com.ssafy.api.entity.Member;
+import com.ssafy.api.entity.mysql.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

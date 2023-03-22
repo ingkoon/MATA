@@ -1,7 +1,7 @@
 package com.ssafy.api.dto.project.response;
 
-import com.ssafy.api.entity.Project;
-import com.ssafy.api.entity.enums.ProjectCategory;
+import com.ssafy.api.entity.mysql.Project;
+import com.ssafy.api.entity.mysql.enums.ProjectCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
