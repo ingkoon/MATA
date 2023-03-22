@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @Configuration
 @EnableAutoConfiguration
-@EntityScan("com.ssafy.mata-mysql")
-@EnableJpaRepositories("com.ssafy.*")
-@ComponentScan("com.ssafy.*")
+@EntityScan("com.ssafy.entity")
+@EnableJpaRepositories("com.ssafy")
+@ComponentScan("com.ssafy")
 public class ModuleConfig {
 }
