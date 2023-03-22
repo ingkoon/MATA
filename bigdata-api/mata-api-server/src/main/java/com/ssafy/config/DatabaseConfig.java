@@ -21,8 +21,9 @@ import javax.sql.DataSource;
 @EnableJpaRepositories(
         entityManagerFactoryRef = "mysqlEntityManagerFactory",
         transactionManagerRef = "mysqlTransactionManager",
-        basePackages = { "com.ssafy.api.repository" }
+        basePackages = { "com.ssafy.repository" }
 )
+
 public class DatabaseConfig {
     @Primary
     @Bean(name = "mysqlDataSource")
