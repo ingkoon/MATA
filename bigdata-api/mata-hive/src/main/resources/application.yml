@@ -1,0 +1,13 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    driver-class-name: org.apache.hive.jdbc.HiveDriver
+    url: jdbc:hive2://master01:10000/test
+    username: hive
+    password: hive
+hive:
+  url: jdbc:hive2://master01:10000/test
+  username: hive
+  password: hive
