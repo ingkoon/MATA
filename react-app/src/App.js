@@ -8,21 +8,19 @@ import MainView from "./view/MainView";
 import TagManager from "./module";
 import * as events from "events";
 
+const tagManager = new TagManager('http://localhost:8080/api/v1/dump', "tag-manager-service-token", ['click'])
+
 export default function App() {
-
-  const tagManager = new TagManager('http://localhost:8080/api/v1/dump', "tag-manager-service-token", ['click'])
   const location = useLocation()
-  if(document.getElementById("referrer-meta") == null) {
-    // referrer 권한 추가
-    var meta = document.createElement('meta');
-    meta.id = "referrer-meta";
-    meta.name = 'referrer';
-    meta.content = "unsafe-url";
-    document.getElementsByTagName('head')[0].appendChild(meta);
-  }
-
+  // if(document.getElementById("referrer-meta") == null) {
+  //   // referrer 권한 추가
+  //   var meta = document.createElement('meta');
+  //   meta.id = "referrer-meta";
+  //   meta.name = 'referrer';
+  //   meta.content = "unsafe-url";
+  //   document.getElementsByTagName('head')[0].appendChild(meta);
+  // }
   useEffect(() => {
-
     tagManager.attach();
     return () => {
       tagManager.detach();
