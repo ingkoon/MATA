@@ -1,6 +1,5 @@
 package com.ssafy.service;
 
-import com.ssafy.entity.Weblogs;
 import com.ssafy.repository.HiveRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
