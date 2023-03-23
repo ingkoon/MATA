@@ -2,7 +2,6 @@ package com.ssafy.repository;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +15,7 @@ public class HiveRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> selectData() {
-        String sql = "SELECT * FROM weblogs";
+        String sql = "show databases";
         return jdbcTemplate.queryForList(sql);
     }
 }

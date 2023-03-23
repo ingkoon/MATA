@@ -48,6 +48,7 @@ spring:
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
 hive:
+  driver-class-name: org.apache.hive.jdbc.HiveDriver
   url: jdbc:hive2://master01:10000/test
   username: hive
   password: hive
