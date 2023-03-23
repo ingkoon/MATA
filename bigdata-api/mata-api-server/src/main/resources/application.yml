@@ -8,25 +8,31 @@ logging:
 springdoc:
   use-fqn: true
 
+jwt:
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
+
 ---
 
 spring:
   config:
     activate:
       on-profile: dev
+  main:
+    allow-bean-definition-overriding: true
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    jdbc-url: jdbc:mysql://localhost:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: root
     password: root
   jpa:
     show-sql: false
     properties:
       hibernate:
-        format_sql: true
+        format_sql: create
     database: mysql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
   data:
     redis:
       host: localhost
@@ -45,10 +51,8 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     template:
       default-topic: tagmanager
-jwt:
-  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
 hive:
   driver-class-name: org.apache.hive.jdbc.HiveDriver
-  url: jdbc:hive2://master01:10000/test
+  jdbc-url: jdbc:hive2://localhost:10000/test
   username: hive
   password: hive

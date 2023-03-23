@@ -11,7 +11,6 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class HiveRepository {
-
     private final JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> selectData() {

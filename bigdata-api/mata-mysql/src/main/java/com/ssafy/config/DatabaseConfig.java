@@ -39,7 +39,7 @@
 //    ) {
 //        return builder
 //                .dataSource(dataSource)
-//                .packages("com.example.commonmodule")
+//                .packages("com.ssafy")
 //                .persistenceUnit("mysql")
 //                .build();
 //    }

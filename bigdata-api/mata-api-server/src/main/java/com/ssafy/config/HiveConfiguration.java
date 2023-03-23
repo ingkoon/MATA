@@ -1,25 +1,19 @@
 package com.ssafy.config;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
-
-@Slf4j
-@RequiredArgsConstructor
 @Configuration
 public class HiveConfiguration {
-
     @Value("${hive.driver-class-name}")
     private String driverClassName;
-    @Value("${hive.url}")
+    @Value("${hive.jdbc-url}")
     private String hiveUrl;
 
     @Value("${hive.username}")
@@ -29,9 +23,10 @@ public class HiveConfiguration {
     private String hivePassword;
 
     @Bean
+//    @ConfigurationProperties(prefix = "hive")
     public DataSource hiveDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
+        dataSource.setDriverClassName("org.apache.hive.jdbc.HiveDriver");
         dataSource.setUrl(hiveUrl);
         dataSource.setUsername(hiveUsername);
         dataSource.setPassword(hivePassword);
