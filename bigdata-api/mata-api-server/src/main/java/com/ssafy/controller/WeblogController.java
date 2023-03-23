@@ -20,7 +20,6 @@ import java.util.Map;
 @RequestMapping("/api/v1/weblog")
 public class WeblogController {
     private final HiveService hiveService;
-
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getTest(@AuthenticationPrincipal UserDetails userDetails){
         List<Map<String, Object>> webLogs = hiveService.getWebLogs();

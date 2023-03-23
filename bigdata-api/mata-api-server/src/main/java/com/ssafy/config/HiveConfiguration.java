@@ -1,6 +1,5 @@
 package com.ssafy.config;
 
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,7 +22,6 @@ public class HiveConfiguration {
     private String hivePassword;
 
     @Bean
-//    @ConfigurationProperties(prefix = "hive")
     public DataSource hiveDataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.apache.hive.jdbc.HiveDriver");
