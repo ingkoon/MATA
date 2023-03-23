@@ -24,7 +24,10 @@ public class WebLog {
     private int positionX;
     private int positionY;
     private String location;
+    private String prevLocation;
+    private String referrer;
     private long timestamp;
+    private long pageDuration;
 
     public ProducerRecord<String, String> toProducerRecord(String topic, Integer partition) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
