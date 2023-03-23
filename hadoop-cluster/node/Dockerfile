@@ -144,6 +144,7 @@ ENV AIRFLOW_CONN_HIVE_CLI_DEFAULT=jdbc:hive2://hive:hive@localhost:10000/real_es
 RUN \
     apt-get update && \
     pip install pandas && \
+    pip install findspark && \
     pip install apache-airflow-providers-apache-hive
 
 # Kafka Installation
