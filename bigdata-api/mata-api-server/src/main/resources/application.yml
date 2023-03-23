@@ -47,3 +47,7 @@ spring:
       default-topic: tagmanager
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
+hive:
+  url: jdbc:hive2://master01:10000/test
+  username: hive
+  password: hive

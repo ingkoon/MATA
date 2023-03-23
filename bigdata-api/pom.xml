@@ -18,7 +18,8 @@
 	<modules>
 		<module>mata-mysql</module>
 		<module>mata-api-server</module>
-	</modules>
+        <module>mata-hive</module>
+    </modules>
 
 	<properties>
 		<java.version>1.8</java.version>
