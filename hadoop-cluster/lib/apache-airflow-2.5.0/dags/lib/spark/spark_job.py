@@ -122,7 +122,7 @@ def read_cassandra_to_spark():
         .where(col("creation_timestamp") \
                .between(*timestamp_range(base_time, 10000, 'D')))
 
-    hive_df.write.mode("append") \
+    hive_df.write.mode("overwrite") \
         .format("hive") \
         .partitionBy("service_id") \
         .saveAsTable("test.weblogs")
