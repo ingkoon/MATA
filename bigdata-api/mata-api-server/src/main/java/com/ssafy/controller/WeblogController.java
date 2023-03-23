@@ -19,7 +19,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/weblog")
 public class WeblogController {
-
     private final HiveService hiveService;
 
     @GetMapping
