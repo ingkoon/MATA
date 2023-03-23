@@ -17,8 +17,9 @@ export default class TagManager {
     this.events = events;
     this.logStash = [];
     this.location = 'none';
+    this.prevLocation = 'none';
     this.referrer = 'none';
-    this.duration = 0;
+    this.pageDuration = 0;
 
     this.handleClick = function (e) {
       this.stackLog(e, 'click');
@@ -36,7 +37,6 @@ export default class TagManager {
     }
 
     this.flushLog = function() {
-      console.log(this.logStash)
       fetch(this.bootstrap, {
         method: 'POST',
         headers: {
@@ -48,7 +48,6 @@ export default class TagManager {
     }.bind(this)
 
     this.stackLog = function(e, eventType='') {
-      console.log("document.location.href : " + this.location)
       let body = {
         serviceToken: this.serviceToken,
         sessionId: this.sessionId,
@@ -57,9 +56,10 @@ export default class TagManager {
         positionX: e && e.pageX ? e.pageX : null,
         positionY: e && e.pageY ? e.pageY : null,
         location: this.location,
+        prevLocation: this.prevLocation,
         referrer: this.referrer,
         timestamp: Date.now(),
-        duration: this.duration
+        pageDuration: Date.now() - this.enterTimer
       }
       this.logStash.push(body)
     }.bind(this)
@@ -83,6 +83,7 @@ export default class TagManager {
       }
     })
     this.enterTimer = Date.now();
+    this.pageDuration = 0;
     this.location = document.location.href;
     this.stackLog(null, "pageenter");
     this.flushLog();
@@ -95,10 +96,7 @@ export default class TagManager {
         elem.removeEventListener(this.events[i], this.eventDictionary[this.events[i]])
       }
     })
-    this.referrer = this.location;
-    console.log(this.referrer)
-    this.duration = Date.now() - this.enterTimer;
-    console.log(Date.now() - this.enterTimer)
+    this.prevLocation = this.location;
     this.stackLog(null, "pageleave");
     this.flushLog();
   }

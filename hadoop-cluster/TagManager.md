@@ -85,7 +85,10 @@ root
  |    |-- positionX: integer (nullable = true)
  |    |-- positionY: integer (nullable = true)
  |    |-- location: string (nullable = true)
+ |    |-- prevLocation: string (nullable = true)
+ |    |-- referrer: string (nullable = true)
  |    |-- timestamp: long (nullable = true)
+ |    |-- pageDuration: long (nullable = true)
  |-- topic: string (nullable = true)
  |-- partition: integer (nullable = true)
  |-- offset: long (nullable = true)
@@ -105,7 +108,10 @@ root
  |-- position_x: integer (nullable = true)
  |-- position_y: integer (nullable = true)
  |-- location: string (nullable = true)
+ |-- prev_location: string (nullable = true)
+ |-- referrer: string (nullable = true)
  |-- creation_timestamp: long (nullable = true)
+ |-- page_duration: long (nullable = true)
 ```
 Cassandra에 Keyspace와 Table이 정의되기 전까진 작업을 실행할 수 없다.
 
@@ -113,21 +119,24 @@ Cassandra에 Keyspace와 Table이 정의되기 전까진 작업을 실행할 수
 Spark로 전처리 된 데이터를 담기 위해 Keyspace와 Table을 생성한다.
 ```
 > sudo docker attach master01
-> cqlsh master02 9042
+> cqlsh master01 9042
 cqlsh> CREATE KEYSPACE tagmanager WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 cqlsh> USE tagmanager;
 cqlsh> CREATE TABLE stream (
-           key TEXT,
-           service_token TEXT,
-           client_id BIGINT,
-           service_id BIGINT,
-           session_id TEXT,
-           event TEXT,
-           target_id TEXT,
-           position_x INT,
-           position_y INT,
-           location TEXT,
-           creation_timestamp TIMESTAMP,
-           PRIMARY KEY ((service_id), creation_timestamp, session_id)
-         ) WITH CLUSTERING ORDER BY (creation_timestamp DESC);
+    key TEXT,
+    service_token TEXT,
+    client_id BIGINT,
+    service_id BIGINT,
+    session_id TEXT,
+    event TEXT,
+    target_id TEXT,
+    position_x INT,
+    position_y INT,
+    location TEXT,
+    prev_location TEXT,
+    referrer TEXT,
+    creation_timestamp TIMESTAMP,
+    page_duration BIGINT,
+    PRIMARY KEY ((service_id), creation_timestamp, session_id)
+) WITH CLUSTERING ORDER BY (creation_timestamp DESC);
 ```
