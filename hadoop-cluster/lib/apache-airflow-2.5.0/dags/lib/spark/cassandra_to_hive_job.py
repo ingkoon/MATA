@@ -72,9 +72,24 @@ def read_cassandra_to_spark():
                     .option("table", cassandra_table) \
                     .load()
 
-    print(cassandra_df)
+
 
     base_time = "2023-03-22 16:00:00"
+
+    # hive_df = cassandra_df.select("*") \
+    #     .where(col("creation_timestamp") \
+    #            .between(*timestamp_range(base_time, 100, 'D')))
+
+    hive_df = cassandra_df.groupBy("service_id", "event", "location").count() \
+        .withColumnRenamed("count", "session_count") \
+        .withColumn("current_time", current_timestamp()) \
+        .orderBy("service_id", "location")
+
+
+    hive_df.write.mode("append") \
+        .format("hive") \
+        .partitionBy("service_id") \
+        .saveAsTable("test.weblogs")
 
     # # 해당 시간 사이의 모든 데이터 조회
     # batch_df.select("*") \
@@ -117,15 +132,11 @@ def read_cassandra_to_spark():
     #     min("creation_timestamp").alias("service_enter") \
     #     ).withColumn("duration", col("service_leave") - col("service_enter")) \
     #     .show()
+    # hive_df = cassandra_df.select("*") \
+    #     .where(col("creation_timestamp") \
+    #            .between(*timestamp_range(base_time, 10000, 'D')))
 
-    hive_df = cassandra_df.select("*") \
-        .where(col("creation_timestamp") \
-               .between(*timestamp_range(base_time, 10000, 'D')))
 
-    hive_df.write.mode("overwrite") \
-        .format("hive") \
-        .partitionBy("service_id") \
-        .saveAsTable("test.weblogs")
 
 # 간편한 between 연산을 위해 만든 유틸리티 함수
 # base_time: 기준 시간
