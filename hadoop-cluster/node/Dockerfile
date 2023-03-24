@@ -185,5 +185,8 @@ COPY ../lib/apache-cassandra-4.0.8/conf/cassandra-env.sh $CASSANDRA_HOME/conf
 COPY ../lib/apache-cassandra-4.0.8/conf/cassandra.yaml $CASSANDRA_HOME/conf
 COPY ../lib/apache-cassandra-4.0.8/conf/logback.xml $CASSANDRA_HOME/conf
 
+RUN \
+    pip install findspark && \
+    mkdir -p /home/notebook
 
 ENTRYPOINT ["/bin/bash"]
