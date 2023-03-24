@@ -14,7 +14,7 @@ public class HiveRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public List<Map<String, Object>> selectData() {
-        String sql = "show databases";
+        String sql = "select * from services";
         return jdbcTemplate.queryForList(sql);
     }
 }

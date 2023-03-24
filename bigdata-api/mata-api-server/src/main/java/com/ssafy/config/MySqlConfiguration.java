@@ -53,7 +53,7 @@ public class MySqlConfiguration {
     @Bean(name = "mysqlEntityManagerFactory")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(
             EntityManagerFactoryBuilder builder
-            ) {
+    ) {
         Map<String, Object> properties = hibernateProperties.determineHibernateProperties(
                 jpaProperties.getProperties(), new HibernateSettings());
 

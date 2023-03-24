@@ -10,6 +10,8 @@
 	</parent>
 	<groupId>com.ssafy</groupId>
 	<artifactId>api</artifactId>
+
+
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>api</name>
@@ -17,12 +19,16 @@
 
 	<modules>
 		<module>mata-mysql</module>
-		<module>mata-api-server</module>
         <module>mata-hive</module>
+		<module>mata-api-server</module>
     </modules>
 
 	<properties>
 		<java.version>1.8</java.version>
+		<!-- plugins -->
+		<maven.assembly.plugin.version>2.4</maven.assembly.plugin.version>
+		<!-- dependencies -->
+		<dep.version>1.0-SNAPSHOT</dep.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -40,6 +46,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-logging</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -70,8 +82,6 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
-
-
 
 		<dependency>
 			<groupId>com.mysql</groupId>
@@ -128,7 +138,6 @@
 			<version>0.11.5</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/com.googlecode.json-simple/json-simple -->
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
@@ -162,49 +171,86 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
 			</plugin>
-			<!-- API 모듈 빌드 설정 -->
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<!-- MySQL 모듈 빌드 설정 -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
-			</plugin>
-			<!-- Hive 모듈 빌드 설정 -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-<!--				<version>3.8.1</version>-->
-				<configuration>
-					<source>8</source>
-					<target>8</target>
-				</configuration>
+				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
 		</plugins>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>3.1.1</version>
+					<executions>
+						<execution>
+							<id>make-assembly</id>
+							<phase>package</phase>
+							<goals>
+								<goal>single</goal>
+							</goals>
+							<configuration>
+								<finalName>bigdata-api</finalName>
+								<appendAssemblyId>false</appendAssemblyId>
+								<descriptorRefs>
+									<descriptorRef>jar-with-dependencies</descriptorRef>
+								</descriptorRefs>
+							</configuration>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
+<!--	<build>-->
+<!--		<plugins>-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<excludes>-->
+<!--						<exclude>-->
+<!--							<groupId>org.projectlombok</groupId>-->
+<!--							<artifactId>lombok</artifactId>-->
+<!--						</exclude>-->
+<!--					</excludes>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--			&lt;!&ndash; API 모듈 빌드 설정 &ndash;&gt;-->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<executions>-->
+<!--					<execution>-->
+<!--						<goals>-->
+<!--							<goal>repackage</goal>-->
+<!--						</goals>-->
+<!--					</execution>-->
+<!--				</executions>-->
+<!--			</plugin>-->
+<!--			&lt;!&ndash; MySQL 모듈 빌드 설정 &ndash;&gt;-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					<source>8</source>-->
+<!--					<target>8</target>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--			&lt;!&ndash; Hive 모듈 빌드 설정 &ndash;&gt;-->
+<!--			<plugin>-->
+<!--				<groupId>org.apache.maven.plugins</groupId>-->
+<!--				<artifactId>maven-compiler-plugin</artifactId>-->
+<!--&lt;!&ndash;				<version>3.8.1</version>&ndash;&gt;-->
+<!--				<configuration>-->
+<!--					<source>8</source>-->
+<!--					<target>8</target>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--		</plugins>-->
+<!--	</build>-->
 
 </project>

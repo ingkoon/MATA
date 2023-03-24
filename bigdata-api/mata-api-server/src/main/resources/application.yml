@@ -54,6 +54,6 @@ spring:
       default-topic: tagmanager
 hive:
   driver-class-name: org.apache.hive.jdbc.HiveDriver
-  jdbc-url: jdbc:hive2://localhost:10000/test
+  jdbc-url: jdbc:hive2://localhost:10000/mata
   username: hive
   password: hive
