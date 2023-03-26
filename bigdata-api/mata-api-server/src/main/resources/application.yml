@@ -11,6 +11,10 @@ springdoc:
 jwt:
   secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHN
 
+spring:
+  profiles:
+    active: prod
+
 ---
 
 spring:
@@ -26,6 +30,7 @@ spring:
     username: root
     password: root
     initialization-mode: true
+
   jpa:
     show-sql: false
     properties:
@@ -52,6 +57,64 @@ spring:
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
     template:
       default-topic: tagmanager
+  output:
+    ansi:
+      enabled: always
+
+hive:
+  driver-class-name: org.apache.hive.jdbc.HiveDriver
+  jdbc-url: jdbc:hive2://localhost:10000/mata
+  username: hive
+  password: hive
+
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  main:
+    allow-bean-definition-overriding: true
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jdbc-url: jdbc:mysql://localhost:3306/mata?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+    username: root
+    password: root
+    initialization-mode: true
+
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+    database: mysql
+    hibernate:
+      ddl-auto: create
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      password: ssafy8a506
+    cassandra:
+      contact-points: 172.16.238.2:9042
+      keyspace-name: mykeyspace
+  kafka:
+    bootstrap-servers: master01:9092,master02:9092,slave01:9092,slave02:9092,slave03:9092
+    topic:
+      tag-manager: tagmanager
+    producer:
+      bootstrap-servers: master01:9092,master02:9092,slave01:9092,slave02:9092,slave03:9092
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+    template:
+      default-topic: tagmanager
+  output:
+    ansi:
+      enabled: always
+
 hive:
   driver-class-name: org.apache.hive.jdbc.HiveDriver
   jdbc-url: jdbc:hive2://localhost:10000/mata
