@@ -20,7 +20,7 @@ CREATE TABLE stream (
   prev_location TEXT,
   referrer TEXT,
   creation_timestamp TIMESTAMP,
-  age_duration BIGINT,
+  page_duration BIGINT,
   PRIMARY KEY ((service_id), creation_timestamp, session_id)
 ) WITH CLUSTERING ORDER BY (creation_timestamp DESC);"
 sudo docker exec master01 hive -e "

@@ -1,0 +1,52 @@
+<configuration>
+    <property>
+        <name>yarn.scheduler.capacity.maximum-applications</name>
+        <value>10000</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.capacity.maximum-am-resource-percent</name>
+        <value>0.1</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.capacity.resource-calculator</name>
+        <value>org.apache.hadoop.yarn.util.resource.DominantResourceCalculator</value>
+    </property>
+
+    <property>
+        <name>yarn.scheduler.capacity.root.queues</name>
+        <value>stream,batch</value>
+    </property>
+
+    <!-- capacity -->
+    <property>
+        <name>yarn.scheduler.capacity.root.stream.capacity</name>
+        <value>30</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.root.batch.capacity</name>
+        <value>70</value>
+    </property>
+
+    <!-- user-limit-factor -->
+    <property>
+        <name>yarn.scheduler.capacity.root.stream.user-limit-factor</name>
+        <value>6</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.root.batch.user-limit-factor</name>
+        <value>6</value>
+    </property>
+
+        <!-- maximum-capacity -->
+    <property>
+        <name>yarn.scheduler.capacity.root.stream.maximum-capacity</name>
+        <value>-1</value>
+    </property>
+    <property>
+        <name>yarn.scheduler.capacity.root.batch.maximum-capacity</name>
+        <value>-1</value>
+    </property>
+
+</configuration>
