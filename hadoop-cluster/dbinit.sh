@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS mata.page_durations(
   CONSTRAINT fk_page_durations_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE 
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.page_journal(
+CREATE TABLE IF NOT EXISTS mata.page_journals(
   total_journal INT,
   location_from STRING,
   location_to STRING,
