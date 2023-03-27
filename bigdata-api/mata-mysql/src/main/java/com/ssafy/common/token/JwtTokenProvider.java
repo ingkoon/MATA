@@ -2,9 +2,7 @@ package com.ssafy.common.token;
 
 import com.ssafy.dto.member.response.MemberResponse;
 import com.ssafy.entity.Member;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;

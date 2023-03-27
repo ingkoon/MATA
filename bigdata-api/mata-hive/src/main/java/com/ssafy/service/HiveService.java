@@ -1,5 +1,6 @@
 package com.ssafy.service;
 
+import com.ssafy.entity.*;
 import com.ssafy.repository.HiveRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,4 +18,25 @@ public class HiveService {
     public List<Map<String, Object>> getWebLogs(){
         return hiveRepository.selectData();
     }
+
+    public List<Component> getComponents(){
+        return hiveRepository.selectComponent();
+    }
+
+    public List<Click> getClicks(){
+        return hiveRepository.selectClick();
+    }
+    public List<PageDuration> getPageDurations(){
+        return hiveRepository.selectPageDuration();
+    }
+    public List<PageJournal> getPageJournals(){
+        return hiveRepository.selectPageJournal();
+    }
+    public List<PageRefer> getPageRefers(){
+        return hiveRepository.selectpageRefer();
+    }
+    public List<Referrer> getReferrers(){
+        return hiveRepository.selectReferrer();
+    }
+
 }
