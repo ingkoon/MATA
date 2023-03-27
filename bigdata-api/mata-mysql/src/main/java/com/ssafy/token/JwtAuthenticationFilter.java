@@ -1,4 +1,4 @@
-package com.ssafy.common.token;
+package com.ssafy.token;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
