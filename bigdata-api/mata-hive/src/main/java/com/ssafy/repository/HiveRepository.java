@@ -73,7 +73,7 @@ public class HiveRepository {
         return jdbcTemplate.queryForList(sql);
     }
     public List<Component> selectComponent() {
-        String sql = "SELECT * FROM mate.components";
+        String sql = "SELECT * FROM mata.components";
         return jdbcTemplate.query(sql, componentRowMapper);
     }
     public List<Click> selectClick() {
