@@ -32,3 +32,17 @@ CREATE TABLE stream (
     PRIMARY KEY ((client_id), creation_timestamp, location, session_id, event)
 ) WITH CLUSTERING ORDER BY (creation_timestamp DESC);
 ```
+
+# Build Guide
+
+1. Bulild 수행 시 다음과 같은 명령어를 루트 프로젝트 `S08P22A506\bigdata-api`에서 실행시킵니다.
+
+~~~text
+mvn clean install
+~~~
+
+2. 다음 `cd .\mata-api-server\target\` 명령어를 통해 target 디렉토리로 이동 후, 다음 명령어를 실행합니다.
+~~~text
+java -jar .\mata-api-server-0.0.1-SNAPSHOT.jar
+~~~
+
