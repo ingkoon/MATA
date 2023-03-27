@@ -1,141 +1,16 @@
-# import findspark
-# findspark.init("/usr/local/lib/spark-3.3.2-bin-hadoop3")
-#
-# # 필요한 라이브러리 import
-# from pyspark.sql import SparkSession
-# from pyspark.sql.functions import col, count, sum
-#
-# cassandra_keyspace = "tagmanager"
-# cassandra_table = "stream"
-#
-# # SparkSession 생성
-# spark = SparkSession.builder \
-#                     .appName("Cassandra to Hive") \
-#                     .master("yarn") \
-#                     .config("spark.sql.catalogImplementation","hive") \
-#                     .enableHiveSupport() \
-#                     .getOrCreate()
-#
-# # Cassandra 데이터 읽기
-# df = spark.read \
-#          .format("org.apache.spark.sql.cassandra") \
-#          .option("spark.cassandra.connection.host", "master01") \
-#          .option("spark.cassandra.connection.port", 9042) \
-#          .options(table=cassandra_table, keyspace= cassandra_keyspace) \
-#          .load()
-#
-# # 데이터 집계
-# agg_df = df.groupBy("position_x", "location") \
-#            .agg(count("*").alias("count"), sum("bytes").alias("total_bytes"))
-#
-#
-# # Hive 테이블 생성
-# spark.sql("CREATE TABLE IF NOT EXISTS web_logs_agg(position_x STRING, location STRING, position_x_count BIGINT, total_bytes BIGINT) \
-#            USING hive")
-#
-# # Hive에 데이터 저장
-# agg_df.write \
-#       .mode("append") \
-#       .saveAsTable("web_logs_agg")
-
-
 import findspark
+
 findspark.init("/usr/local/lib/spark-3.3.2-bin-hadoop3")
 
+from pyspark import SparkConf
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql import *
+from pyspark.sql.functions import udf, col, from_json, pandas_udf, split
+
 from datetime import datetime
 from datetime import timedelta
-
-
-def read_cassandra_to_spark():
-    # Cassandra connection details
-    cassandra_keyspace = 'tagmanager'
-    cassandra_table = 'stream'
-
-    # Spark session
-    spark = SparkSession.builder \
-        .appName("CassandraToHive") \
-        .master("yarn") \
-        .config("spark.jars.packages",
-                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,com.datastax.spark:spark-cassandra-connector_2.12:3.3.0") \
-        .config("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict") \
-        .enableHiveSupport() \
-        .getOrCreate()
-
-    # Create Cassandra dataframe
-    cassandra_df = spark.read.format("org.apache.spark.sql.cassandra") \
-                    .option("spark.cassandra.connection.host", "master01") \
-                    .option("spark.cassandra.connection.port", 9042) \
-                    .option("keyspace", cassandra_keyspace) \
-                    .option("table", cassandra_table) \
-                    .load()
-
-
-
-    base_time = "2023-03-22 16:00:00"
-
-    # hive_df = cassandra_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 100, 'D')))
-
-    hive_df = cassandra_df.groupBy("service_id", "event", "location").count() \
-        .withColumnRenamed("count", "session_count") \
-        .withColumn("current_time", current_timestamp()) \
-        .orderBy("service_id", "location")
-
-
-    hive_df.write.mode("append") \
-        .format("hive") \
-        .partitionBy("service_id") \
-        .saveAsTable("test.weblogs")
-
-    # # 해당 시간 사이의 모든 데이터 조회
-    # batch_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 1, 'm'))) \
-    #     .show()
-    #
-    # # 해당 시간 사이에 http://localhost:3000/second에서 일어난 click 이벤트 조회
-    # batch_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 1, 'm'))) \
-    #     .where(col("location") \
-    #            .like("http://localhost:3000/second")) \
-    #     .where(col("event") \
-    #            .like("click")) \
-    #     .show()
-    #
-    # # 해당 시간 사이에 http://localhost:3000/second에 접속한 사용자 조회
-    # batch_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, -30, 'm'))) \
-    #     .where(col("location") \
-    #            .like("http://localhost:3000/second")) \
-    #     .select("session_id").distinct() \
-    #     .show()
-    #
-    # # location, event 기준으로 그룹핑 후 개수 세기
-    # batch_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 1, 'D'))) \
-    #     .groupBy("location", "event").count() \
-    #     .show()
-    #
-    # # session_id 기준으로 해당 시간동안의 체류시간 연산
-    # batch_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 1, 'm'))) \
-    #     .groupBy("session_id").agg( \
-    #     max("creation_timestamp").alias("service_leave"), \
-    #     min("creation_timestamp").alias("service_enter") \
-    #     ).withColumn("duration", col("service_leave") - col("service_enter")) \
-    #     .show()
-    # hive_df = cassandra_df.select("*") \
-    #     .where(col("creation_timestamp") \
-    #            .between(*timestamp_range(base_time, 10000, 'D')))
-
+from time import mktime
 
 
 # 간편한 between 연산을 위해 만든 유틸리티 함수
@@ -145,43 +20,210 @@ def read_cassandra_to_spark():
 # ex. timestamp_range("2023-03-21 13:49:00", 10, 'm') => 2023-03-21 13:49:00 부터 10분 이후의 시간까지
 def timestamp_range(base_time, interval, unit):
     dt_obj = datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S')
-    if unit == 's':
+    if unit == "s":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(seconds=interval))
         else:
             return (dt_obj - timedelta(seconds=-interval), dt_obj)
-    if unit == 'm':
+    if unit == "m":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(minutes=interval))
         else:
             return (dt_obj - timedelta(minutes=-interval), dt_obj)
-    if unit == 'H':
+    if unit == "h":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(hours=interval))
         else:
             return (dt_obj - timedelta(hours=-interval), dt_obj)
-    if unit == 'D':
+    if unit == "d":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(days=interval))
         else:
             return (dt_obj - timedelta(days=-interval), dt_obj)
-    if unit == 'M':
+    if unit == "mo":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(months=interval))
         else:
             return (dt_obj - timedelta(months=-interval), dt_obj)
-    if unit == 'Y':
+    if unit == "y":
         if interval >= 0:
             return (dt_obj, dt_obj + timedelta(years=interval))
         else:
             return (dt_obj - timedelta(years=-interval), dt_obj)
 
-    # # Create Hive schema
-    # schema = StructType([
-    #     StructField("id", IntegerType(), True),
-    #     StructField("name", StringType(), True)
-    # ])
-    #
-    # # Create Hive table
-    # hive_table = 'hive_table'
-    # cassandra_df.write.format("hive").option("table", hive_table).option("schema", "default").save()
+
+##### Cassandra -> Hive Batching
+##### 1분부터 12시간까지 Cassandra 데이터를 기준으로 집계
+def batching_cassandra(base_time, amount, unit):
+    if str(amount) + unit not in ["1m", "5m", "10m", "30m", "1h", "6h", "12h"]:
+        print("invalid interval: interval should be 1m, 5m, 10m, 30m, 1h, 6h or 12h.")
+        return 2
+
+    session = SparkSession.builder \
+        .appName("Batching_Cassandra_To_Hive") \
+        .master("yarn") \
+        .config("spark.yarn.queue", "batch") \
+        .config("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict") \
+        .enableHiveSupport() \
+        .getOrCreate()
+
+    base_timestamp = datetime.timestamp(datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S'))
+
+    cassandra_keyspace = "tagmanager"
+    cassandra_table = "stream"
+    batch_df = session.read \
+        .format("org.apache.spark.sql.cassandra") \
+        .option("checkpointLocation", "/") \
+        .option("spark.cassandra.connection.host", "master01") \
+        .option("spark.cassandra.connection.port", 9042) \
+        .option("keyspace", cassandra_keyspace) \
+        .option("table", cassandra_table) \
+        .option("spark.cassandra.connection.remoteConnectionsPerExecutor", 10) \
+        .option("spark.cassandra.output.concurrent.writes", 1000) \
+        .option("spark.cassandra.concurrent.reads", 512) \
+        .option("spark.cassandra.output.batch.grouping.buffer.size", 1000) \
+        .option("spark.cassandra.connection.keep_alive_ms", 600000000) \
+        .load()
+
+    #########
+    # components 테이블 집계
+    component_df = batch_df.select("*") \
+        .where(col("creation_timestamp") \
+               .between(*timestamp_range(base_time, amount, unit))) \
+        .where(col("event").like("click")) \
+        .groupBy("service_id", "target_id", "location").agg( \
+        count("key").alias("total_click"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_click", "target_id", "location", "update_timestamp", "service_id")
+    component_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.components_{}{}".format(str(amount), unit))
+
+    #########
+    # clicks 테이블 집계
+    click_df = batch_df.select("*") \
+        .where(col("creation_timestamp") \
+               .between(*timestamp_range(base_time, amount, unit))) \
+        .where(col("event").like("click")) \
+        .groupBy("service_id", "position_x", "position_y", "location").agg( \
+        count("key").alias("total_click"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_click", "position_x", "position_y", "location", "update_timestamp", "service_id")
+    click_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.clicks_{}{}".format(str(amount), unit))
+
+    #########
+    # page_durations 테이블 집계
+    page_durations_df = batch_df.select("*") \
+        .where(col("creation_timestamp") \
+               .between(timestamp_range(base_time, amount, unit))) \
+        .groupBy("service_id", "location", "service_id").agg( \
+        count("").alias("total_session"), \
+        sum("page_duration").alias("total_duration"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_duration", "total_session", "location", "update_timestamp", "service_id")
+    page_durations_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_durations_{}{}".format(str(amount), unit))
+
+    #########
+    # page_journals 테이블 집계
+    page_journals_df = batch_df.select("*") \
+        .where(col("creation_timestamp") \
+               .between(timestamp_range(base_time, amount, unit))) \
+        .groupBy("service_id", "prev_location", "location").agg( \
+        count("").alias("total_journal"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_journal", col("prev_location").alias("location_from"), col("location").alias("location_to"),
+                "update_timestamp", "service_id")
+    page_journals_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_journals_{}{}".format(str(amount), unit))
+
+    session.stop()
+
+
+##### Hive -> Hive Batching
+##### 1일부터 1년까지 12시간 집계 데이터를 기준으로 집계
+def batching_hive(base_date, amount, unit):
+    if str(amount) + unit not in ["1d", "1w", "1mo", "6mo", "1y"]:
+        print("invalid interval: interval should be 1d, 1w, 1mo, 6mo or 1y.")
+        return 2
+
+    session = SparkSession.builder \
+        .appName("Batching_Hive_To_Hive") \
+        .master("yarn") \
+        .config("spark.yarn.queue", "batch") \
+        .config("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict") \
+        .enableHiveSupport() \
+        .getOrCreate()
+
+    base_timestamp = datetime.timestamp(datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S'))
+
+    #########
+    # components 테이블 집계
+    component_df = session.read \
+        .format("hive") \
+        .table("mata.components_12h") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -amount, unit))) \
+        .groupBy("service_id", "target_id", "location").agg(
+        sum("total_click").alias("total_click") \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_click", "target_id", "location", "update_timestamp", "service_id")
+    component_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.components_{}{}".format(amount, unit))
+
+    #########
+    # clicks 테이블 집계
+    click_df = session.read \
+        .format("hive") \
+        .table("mata.clicks_12h") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -amount, unit))) \
+        .groupBy("service_id", "position_x", "position_y", "location").agg( \
+        sum("total_click").alias("total_click"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_click", "position_x", "position_y", "location", "update_timestamp", "service_id")
+    click_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.clicks_{}{}".format(amount, unit))
+
+    #########
+    # page_durations 테이블 집계
+    page_durations_df = session.read \
+        .format("hive") \
+        .table("mata.page_durations_12h") \
+        .select("*") \
+        .where(col("creation_timestamp") \
+               .between(timestamp_range(base_time, -amount, unit))) \
+        .groupBy("service_id", "location").agg( \
+        sum("total_session").alias("total_session"), \
+        sum("total_duration").alias("total_duration"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_duration", "total_session", "location", "update_timestamp", "service_id")
+    page_durations_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_durations_{}{}".format(amount, unit))
+
+    #########
+    # page_journals 테이블 집계
+    page_journals_df = session.read \
+        .format("hive") \
+        .table("mata.page_journals_12h") \
+        .select("*") \
+        .where(col("creation_timestamp") \
+               .between(timestamp_range(base_time, -amount, unit))) \
+        .groupBy("service_id", "location_from", "location_to", ).agg( \
+        sum("total_journal").alias("total_journal"), \
+        ).withColumn("update_timestamp", base_timestamp) \
+        .select("total_journal", "location_from" "location_to", "update_timestamp", "service_id")
+    page_journals_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_journals_{}{}".format(amount, unit))
+
+    session.stop()

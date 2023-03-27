@@ -14,8 +14,8 @@ def kafka_to_cassandra_pipeline():
     session = SparkSession.builder \
         .appName("KafkaToCassandra") \
         .master("yarn") \
-        .config("spark.jars.packages",
-                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,com.datastax.spark:spark-cassandra-connector_2.12:3.3.0") \
+        .config("spark.yarn.queue", "stream") \
+        .config("spark.jars.packages", "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,com.datastax.spark:spark-cassandra-connector_2.12:3.3.0") \
         .getOrCreate()
 
     kafka_bootstrap_servers = 'master01:9092,master02:9092,slave01:9092,slave02:9092,slave03:9092'

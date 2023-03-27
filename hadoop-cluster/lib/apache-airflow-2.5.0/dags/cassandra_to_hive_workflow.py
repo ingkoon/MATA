@@ -2,7 +2,7 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
-from lib.spark.cassandra_to_hive_job import read_cassandra_to_spark
+from lib.spark.cassandra_to_hive_job import batching_cassandra
 
 default_args = {
     'owner': 'airflow',
@@ -19,7 +19,10 @@ dag = DAG(
 
 cassandra_to_spark = PythonOperator(
     task_id='cassandra_to_hive',
-    python_callable=read_cassandra_to_spark,
+    python_callable=batching_cassandra,
+    params = {"base_time" : "2023-03-27 8:45:00",
+              "amount" : "10",
+              "unit" : "D"},
     dag=dag
 )
 
