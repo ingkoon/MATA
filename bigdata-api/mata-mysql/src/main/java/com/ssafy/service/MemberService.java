@@ -1,6 +1,6 @@
 package com.ssafy.service;
 
-import com.ssafy.common.token.JwtTokenProvider;
+import com.ssafy.token.JwtTokenProvider;
 import com.ssafy.dto.member.request.MemberLoginRequest;
 import com.ssafy.dto.member.request.MemberSignUpRequest;
 import com.ssafy.dto.member.response.MemberResponse;
