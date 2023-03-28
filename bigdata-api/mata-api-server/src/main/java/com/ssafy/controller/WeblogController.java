@@ -10,8 +10,11 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -21,34 +24,50 @@ import java.util.Map;
 @RequestMapping("/api/v1/weblog")
 public class WeblogController {
     private final HiveService hiveService;
+    private final List<String> validation = Arrays.asList("1m", "5m", "10m", "30m", "1h", "6h", "12h", "1d", "1w", "1mo", "6mo", "1y");
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getTest(@AuthenticationPrincipal UserDetails userDetails){
         List<Map<String, Object>> webLogs = hiveService.getWebLogs();
         return ResponseEntity.status(HttpStatus.OK).body(webLogs);
     }
     @GetMapping("/components")
-    public ResponseEntity<List<Component>> getComponents(@AuthenticationPrincipal UserDetails userDetails){
-        List<Component> components = hiveService.getComponents();
+    public ResponseEntity<?> getComponents(@RequestParam long baseTime,
+                                           @RequestParam String interval,
+                                           @AuthenticationPrincipal UserDetails userDetails){
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<Component> components = hiveService.getComponents(baseTime, interval);
         return ResponseEntity.status(HttpStatus.OK).body(components);
     }
     @GetMapping("/clicks")
-    public ResponseEntity<List<Click>> getClicks(@AuthenticationPrincipal UserDetails userDetails){
-        List<Click> clicks = hiveService.getClicks();
+    public ResponseEntity<List<Click>> getClicks(@RequestParam long baseTime,
+                                                 @RequestParam String interval,
+                                                 @AuthenticationPrincipal UserDetails userDetails){
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<Click> clicks = hiveService.getClicks(baseTime, interval);
         return ResponseEntity.status(HttpStatus.OK).body(clicks);
     }
     @GetMapping("/durations")
-    public ResponseEntity<List<PageDuration>> getPageDurations(@AuthenticationPrincipal UserDetails userDetails){
-        List<PageDuration> pageDurations = hiveService.getPageDurations();
+    public ResponseEntity<List<PageDuration>> getPageDurations(@RequestParam long baseTime,
+                                                               @RequestParam String interval,
+                                                               @AuthenticationPrincipal UserDetails userDetails){
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<PageDuration> pageDurations = hiveService.getPageDurations(baseTime, interval);
         return ResponseEntity.status(HttpStatus.OK).body(pageDurations);
     }
     @GetMapping("/journals")
-    public ResponseEntity<List<PageJournal>> getPageJournals(@AuthenticationPrincipal UserDetails userDetails){
-        List<PageJournal> pageJournals = hiveService.getPageJournals();
+    public ResponseEntity<List<PageJournal>> getPageJournals(@RequestParam long baseTime,
+                                                             @RequestParam String interval,
+                                                             @AuthenticationPrincipal UserDetails userDetails){
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<PageJournal> pageJournals = hiveService.getPageJournals(baseTime, interval);
         return ResponseEntity.status(HttpStatus.OK).body(pageJournals);
     }
     @GetMapping("/refers")
-    public ResponseEntity<List<PageRefer>> getPageRefers(@AuthenticationPrincipal UserDetails userDetails){
-        List<PageRefer> pageRefers = hiveService.getPageRefers();
+    public ResponseEntity<List<PageRefer>> getPageRefers(@RequestParam long baseTime,
+                                                         @RequestParam String interval,
+                                                         @AuthenticationPrincipal UserDetails userDetails){
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<PageRefer> pageRefers = hiveService.getPageRefers(baseTime, interval);
         return ResponseEntity.status(HttpStatus.OK).body(pageRefers);
     }
     @GetMapping("/referrers")

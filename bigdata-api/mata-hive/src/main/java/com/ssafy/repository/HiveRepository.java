@@ -72,24 +72,39 @@ public class HiveRepository {
         String sql = "SHOW DATABASES;";
         return jdbcTemplate.queryForList(sql);
     }
-    public List<Component> selectComponent() {
-        String sql = "SELECT * FROM mata.components";
+    public List<Component> selectComponent(long baseTime, String interval) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.components_%s"+
+                    "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                    "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, componentRowMapper);
     }
-    public List<Click> selectClick() {
-        String sql = "SELECT * FROM mata.clicks";
+    public List<Click> selectClick(long baseTime, String interval) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.clicks_%s"+
+                    "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                    "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, clickRowMapper);
     }
-    public List<PageDuration> selectPageDuration() {
-        String sql = "SELECT * FROM mata.page_durations";
+    public List<PageDuration> selectPageDuration(long baseTime, String interval) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.page_durations_%s"+
+                    "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                    "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, pageDurationRowMapper);
     }
-    public List<PageJournal> selectPageJournal() {
-        String sql = "SELECT * FROM mata.page_journals";
+    public List<PageJournal> selectPageJournal(long baseTime, String interval) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.page_journals_%s"+
+                    "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                    "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, pageJournalRowMapper);
     }
-    public List<PageRefer> selectpageRefer() {
-        String sql = "SELECT * FROM mata.page_refers";
+    public List<PageRefer> selectpageRefer(long baseTime, String interval) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.page_refers_%s"+
+                "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, pageReferRowMapper);
     }
     public List<Referrer> selectReferrer() {

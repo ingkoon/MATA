@@ -19,21 +19,21 @@ public class HiveService {
         return hiveRepository.selectData();
     }
 
-    public List<Component> getComponents(){
-        return hiveRepository.selectComponent();
+    public List<Component> getComponents(long baseTime, String interval){
+        return hiveRepository.selectComponent(baseTime, interval);
     }
 
-    public List<Click> getClicks(){
-        return hiveRepository.selectClick();
+    public List<Click> getClicks(long baseTime, String interval){
+        return hiveRepository.selectClick(baseTime, interval);
     }
-    public List<PageDuration> getPageDurations(){
-        return hiveRepository.selectPageDuration();
+    public List<PageDuration> getPageDurations(long baseTime, String interval){
+        return hiveRepository.selectPageDuration(baseTime, interval);
     }
-    public List<PageJournal> getPageJournals(){
-        return hiveRepository.selectPageJournal();
+    public List<PageJournal> getPageJournals(long baseTime, String interval){
+        return hiveRepository.selectPageJournal(baseTime, interval);
     }
-    public List<PageRefer> getPageRefers(){
-        return hiveRepository.selectpageRefer();
+    public List<PageRefer> getPageRefers(long baseTime, String interval){
+        return hiveRepository.selectpageRefer(baseTime, interval);
     }
     public List<Referrer> getReferrers(){
         return hiveRepository.selectReferrer();
