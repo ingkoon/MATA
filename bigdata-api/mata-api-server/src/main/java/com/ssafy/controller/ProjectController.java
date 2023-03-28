@@ -3,6 +3,8 @@ package com.ssafy.controller;
 import com.ssafy.config.sercurity.SecurityUtils;
 import com.ssafy.dto.project.request.ProjectAddRequest;
 import com.ssafy.dto.project.request.ProjectDeleteRequest;
+import com.ssafy.dto.project.request.ProjectRequest;
+import com.ssafy.dto.project.response.TokenResponse;
 import com.ssafy.service.ProjectService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,14 +44,29 @@ public class ProjectController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteProject(@RequestBody ProjectDeleteRequest request){
+    public ResponseEntity<String> deleteProject(@RequestBody ProjectRequest request){
         projectService.delete(request);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Delete Success");
     }
 
-    // 프로젝트 삭제
+    // Project token 발급 API
+    @PostMapping("/token")
+    public ResponseEntity<TokenResponse> publishToken(@RequestBody ProjectRequest request){
+        TokenResponse response = projectService.updateToken(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
 
+    // Project Token 삭제 API
+    @DeleteMapping("/token")
+    public ResponseEntity<Void> removeToken(@RequestBody ProjectRequest request){
+        projectService.deleteToken(request);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
 
