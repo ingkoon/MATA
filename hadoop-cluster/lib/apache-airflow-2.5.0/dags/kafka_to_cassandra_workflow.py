@@ -1,8 +1,8 @@
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
-# from lib.spark.kafka_to_cassandra_job import kafka_to_cassandra_pipeline
-from lib.spark.Streaming_Jobs import streaming_job
+from lib.spark.kafka_to_cassandra_job import kafka_to_cassandra_pipeline
+# from lib.spark.Streaming_Jobs import streaming_job
 
 default_args = {
     'owner': 'airflow',
@@ -19,7 +19,7 @@ dag = DAG(
 
 kafka_to_cassandra = PythonOperator(
     task_id='kafka_to_cassandra',
-    python_callable=streaming_job,
+    python_callable=kafka_to_cassandra_pipeline,
     dag=dag
 )
 
