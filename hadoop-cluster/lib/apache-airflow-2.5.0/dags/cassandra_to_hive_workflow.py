@@ -7,7 +7,7 @@ from lib.spark.Batching_Jobs import batching_hive, batching_cassandra
 
 default_args = {
     'owner': 'airflow',
-    'start_date': None,
+    'start_date': datetime(2023, 3, 28, 5, 0),
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
