@@ -1,16 +1,14 @@
-import findspark
 
+import findspark
 findspark.init("/usr/local/lib/spark-3.3.2-bin-hadoop3")
 
-from pyspark import SparkConf
 from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql import *
-from pyspark.sql.functions import udf, col, from_json, pandas_udf, split
+from pyspark.sql.functions import udf, col, from_json, pandas_udf, split, count
 
 from datetime import datetime
 from datetime import timedelta
-from time import mktime
 
 
 # 간편한 between 연산을 위해 만든 유틸리티 함수
@@ -63,6 +61,8 @@ def batching_cassandra(base_time, amount, unit):
         .appName("Batching_Cassandra_To_Hive") \
         .master("yarn") \
         .config("spark.yarn.queue", "batch") \
+        .config("spark.jars.packages",
+                "org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.2,com.datastax.spark:spark-cassandra-connector_2.12:3.3.0") \
         .config("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict") \
         .enableHiveSupport() \
         .getOrCreate()
@@ -87,7 +87,7 @@ def batching_cassandra(base_time, amount, unit):
 
     #########
     # components 테이블 집계
-    component_df = batch_df.select("*") \
+    component_df = batch_df.select("total_click", "target_id", "location", "update_timestamp", "service_id") \
         .where(col("creation_timestamp") \
                .between(*timestamp_range(base_time, amount, unit))) \
         .where(col("event").like("click")) \
