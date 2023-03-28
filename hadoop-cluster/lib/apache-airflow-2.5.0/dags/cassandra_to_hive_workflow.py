@@ -5,11 +5,9 @@ from datetime import datetime, timedelta
 # from lib.spark.cassandra_to_hive_job import batching_cassandra
 from lib.spark.Batching_Jobs import batching_hive, batching_cassandra
 
-now = datetime.utcnow()
-
 default_args = {
     'owner': 'airflow',
-    'start_date' : None,
+    'start_date': None,
     'retries': 1,
     'retry_delay': timedelta(minutes=5),
 }
@@ -62,6 +60,8 @@ dag12h = DAG(
     description='Cassandra to Hive',
     schedule_interval=timedelta(hours=12)
 )
+
+now = datetime.utcnow()
 
 cassandra_to_spark_1m = PythonOperator(
     task_id='cassandra_to_spark_1m',
