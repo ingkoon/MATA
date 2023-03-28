@@ -9,8 +9,9 @@ now = datetime.utcnow()
 
 default_args = {
     'owner': 'airflow',
-    'start_date' : now,
-    'retry_delay': timedelta(minutes=1),
+    'start_date' : None,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5),
 }
 
 dag1m = DAG(
