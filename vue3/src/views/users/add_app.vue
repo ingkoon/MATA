@@ -7,7 +7,7 @@
                         <div class="form-content">
                             <h1 class="">서비스 등록</h1>
                             
-                            <form class="text-start">
+                            <form class="text-start" @submit.prevent="add_app">
                                 <div class="form">
                                     <div id="name-field" class="field-wrapper input">
                                         <label for="name">NAME</label>
@@ -26,7 +26,7 @@
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
-                                        <input type="text" class="form-control" placeholder="Name" />
+                                        <input type="text" class="form-control" placeholder="Name" v-model="name"/>
                                     </div>
 
                                     <div id="url-field" class="field-wrapper input">
@@ -46,7 +46,7 @@
                                             <circle cx="12" cy="12" r="4"></circle>
                                             <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>
                                         </svg>
-                                        <input type="url" class="form-control" placeholder="Url" />
+                                        <input type="url" class="form-control" placeholder="Url" v-model="url" />
                                     </div>
 
                                     <div id="category-field" class="field-wrapper input mb-2">
@@ -85,11 +85,11 @@
                                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                             <circle cx="12" cy="12" r="3"></circle>
                                         </svg> -->
-                                        <select name="categort" id="category">
+                                        <select name="categort" id="category" v-model="category">
                                             <option disabled value="">Please select one</option>
-                                            <option value="쇼핑">쇼핑</option>
-                                            <option value="게임">게임</option>
-                                            <option value="기타">기타</option>
+                                            <option value="BLOG">블로그</option>
+                                            <option value="PORTAL">포탈</option>
+                                            <option value="COMMERCE">커머스</option>
                                             
                                         </select>
                                     </div>
@@ -159,20 +159,46 @@
     </div>
 </template>
 
-<script setup>
-    import { ref } from 'vue';
-    import '@/assets/sass/authentication/auth-boxed.scss';
+<script>
+export default {
+  name: 'Add-app',
+  methods:{
+    add_app(){
+      const category=this.category
+      const url=this.url
+      const name=this.name
+      const payload={
+        category:category,
+        url:url,
+        name:name,
+      }
+      console.log("뷰에서",payload)
+      this.$store.dispatch('add_App',payload)
+    },
+  },
+  data(){
+    return{
+      category:null,
+      url:null,
+      name:null,
+    }
+  }
 
-    import { useMeta } from '@/composables/use-meta';
-    useMeta({ title: 'Register Boxed' });
+}
 
-    const pwd_type = ref('password');
+    // import { ref } from 'vue';
+    // import '@/assets/sass/authentication/auth-boxed.scss';
 
-    const set_pwd_type = () => {
-        if (pwd_type.value === 'password') {
-            pwd_type.value = 'text';
-        } else {
-            pwd_type.value = 'password';
-        }
-    };
+    // import { useMeta } from '@/composables/use-meta';
+    // useMeta({ title: 'Register Boxed' });
+
+    // const pwd_type = ref('password');
+
+    // const set_pwd_type = () => {
+    //     if (pwd_type.value === 'password') {
+    //         pwd_type.value = 'text';
+    //     } else {
+    //         pwd_type.value = 'password';
+    //     }
+    // };
 </script>
