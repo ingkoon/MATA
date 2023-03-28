@@ -1,4 +1,4 @@
-package com.ssafy.common.token;
+package com.ssafy.token;
 
 import com.ssafy.dto.member.response.MemberResponse;
 import com.ssafy.entity.Member;
