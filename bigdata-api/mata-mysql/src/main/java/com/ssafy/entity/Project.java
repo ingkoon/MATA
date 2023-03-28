@@ -13,6 +13,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @DynamicInsert
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -56,5 +57,14 @@ public class Project {
         this.name = name;
         this.category = category;
         this.member = member;
+    }
+
+    public void updateToken(){
+        UUID uuid = UUID.randomUUID();
+        this.token = uuid.toString();
+    }
+
+    public void deleteToken(){
+        this.token = null;
     }
 }

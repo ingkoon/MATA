@@ -4,7 +4,9 @@ import com.ssafy.dto.member.exception.NoSuchMemberException;
 import com.ssafy.dto.project.exception.NoSuchProjectException;
 import com.ssafy.dto.project.request.ProjectAddRequest;
 import com.ssafy.dto.project.request.ProjectDeleteRequest;
+import com.ssafy.dto.project.request.ProjectRequest;
 import com.ssafy.dto.project.response.ProjectResponse;
+import com.ssafy.dto.project.response.TokenResponse;
 import com.ssafy.entity.Member;
 import com.ssafy.entity.Project;
 import com.ssafy.repository.member.MemberRepository;
@@ -42,9 +44,28 @@ public class ProjectService {
     }
 
     @Transactional
-    public void delete(ProjectDeleteRequest request){
-        Long projectId = request.getProjectId();
-        Project project = projectRepository.findById(projectId).orElseThrow(NoSuchProjectException::new);
+    public void delete(ProjectRequest request){
+        Project project = getProject(request);
         projectRepository.delete(project);
+    }
+
+
+    @Transactional
+    public TokenResponse updateToken(ProjectRequest request){
+        Project project = getProject(request);
+        project.updateToken();
+        log.info(project.getToken());
+        return new TokenResponse().fromEntity(project);
+    }
+
+    @Transactional
+    public void deleteToken(ProjectRequest request){
+        Project project = getProject(request);
+        project.deleteToken();
+    }
+
+    private Project getProject(ProjectRequest request){
+        Long projectId = request.getProjectId();
+        return projectRepository.findById(projectId).orElseThrow(NoSuchProjectException::new);
     }
 }
