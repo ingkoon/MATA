@@ -19,3 +19,27 @@ sudo docker exec -u 0 jenkins_container /etc/init.d/ssh start
 sudo docker exec -u 0 jenkins_container ssh-keygen -t rsa -P '' -f /root/.ssh/id_rsa
 sudo bash sbin/deploy-ssh-authorized-keys.sh
 ```
+
+## spring_app build script
+```
+cd bigdata-api
+docker build -t java/maven:custom .
+docker stop spring_app
+docker rm spring_app
+docker run -it -d --network hadoop-cluster_cluster-net --name spring_app java/maven:custom /bin/bash
+docker cp . spring_app:/home/bigdata-api
+docker exec -w /home/bigdata-api spring_app sh -c "mvn clean compile install package"
+docker exec -w /home/bigdata-api -d spring_app sh -c "java -jar -Dspring.profiles.active=dev mata-api-server/target/mata-api-server-0.0.1-SNAPSHOT.jar"
+```
+
+## spring_app build script
+```
+cd vue3
+docker build -t node/nginx:custom .
+docker stop vue_app
+docker rm vue_app
+docker run -it -d --network hadoop-cluster_cluster-net --name vue_app node/nginx:custom /bin/bash
+docker cp . vue_app:/home/vue3
+docker exec -w /home/vue3 vue_app sh -c "npm install"
+docker exec -w /home/vue3 vue_app sh -c "npm build"
+```
