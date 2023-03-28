@@ -61,7 +61,7 @@ dag12h = DAG(
     schedule_interval=timedelta(hours=12)
 )
 
-now = str(datetime.utcnow())
+now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
 cassandra_to_spark_1m = PythonOperator(
     task_id='cassandra_to_spark_1m',
