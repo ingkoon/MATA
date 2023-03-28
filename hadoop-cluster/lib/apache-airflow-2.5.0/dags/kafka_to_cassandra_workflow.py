@@ -6,8 +6,7 @@ from lib.spark.Streaming_Jobs import streaming_job
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 3, 27, 0, 00),
-    'end_date' : datetime(2023, 3, 27, 1, 30),
+    'start_date': datetime(2023, 3, 28, 0, 0),
     'retry_delay': timedelta(minutes=1),
 }
 
