@@ -13,7 +13,7 @@ jwt:
 
 spring:
   profiles:
-    active: prod
+    active: stage
 
 ---
 
@@ -73,7 +73,7 @@ hive:
 spring:
   config:
     activate:
-      on-profile: prod
+      on-profile: stage
   main:
     allow-bean-definition-overriding: true
 
