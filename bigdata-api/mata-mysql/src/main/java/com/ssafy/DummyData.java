@@ -6,12 +6,12 @@ import com.ssafy.entity.enums.MemberPrivilege;
 import com.ssafy.entity.enums.ProjectCategory;
 import com.ssafy.repository.member.MemberRepository;
 import com.ssafy.repository.project.ProjectRepository;
+import com.ssafy.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
 
@@ -21,6 +21,7 @@ import java.util.List;
 public class DummyData implements CommandLineRunner {
 
     private final MemberRepository memberRepository;
+
     private final ProjectRepository projectRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -30,7 +31,6 @@ public class DummyData implements CommandLineRunner {
         addProject();
     }
 
-    @Transactional
     private void addProject() {
         System.out.println("addProject");
         List<Member> memberList = memberRepository.findAll();
@@ -46,7 +46,6 @@ public class DummyData implements CommandLineRunner {
         }
     }
 
-    @Transactional
     private void addMember() {
         System.out.println("addMember");
 

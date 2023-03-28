@@ -83,8 +83,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1m(
   CONSTRAINT fk_page_refers_1m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -144,8 +143,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_5m(
   CONSTRAINT fk_page_refers_5m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -205,8 +203,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_10m(
   CONSTRAINT fk_page_refers_10m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -266,8 +263,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_30m(
   CONSTRAINT fk_page_refers_30m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -327,8 +323,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1H(
   CONSTRAINT fk_page_refers_1H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -388,8 +383,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_6H(
   CONSTRAINT fk_page_refers_6H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -449,8 +443,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_12H(
   CONSTRAINT fk_page_refers_12H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -510,8 +503,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1d(
   CONSTRAINT fk_page_refers_1d_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -571,8 +563,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1w(
   CONSTRAINT fk_page_refers_1w_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -632,8 +623,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1mo(
   CONSTRAINT fk_page_refers_1mo_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -693,8 +683,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_6mo(
   CONSTRAINT fk_page_refers_6mo_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
@@ -754,8 +743,7 @@ CREATE TABLE IF NOT EXISTS mata.page_refers_1y(
   CONSTRAINT fk_page_refers_1y_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-"
-sudo docker exec master01 hive -e "
+
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
 CREATE TABLE IF NOT EXISTS services(
