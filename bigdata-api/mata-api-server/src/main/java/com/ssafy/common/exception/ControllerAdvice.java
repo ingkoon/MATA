@@ -6,6 +6,7 @@ import com.ssafy.common.validation.RedisKeyExecption;
 import com.ssafy.dto.member.exception.DuplicateMemberException;
 import com.ssafy.dto.member.exception.NoSuchMemberException;
 import com.ssafy.dto.project.exception.NoSuchProjectException;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,6 +23,7 @@ public class ControllerAdvice {
             RedisKeyExecption.class})
     public ResponseEntity<ErrorResponse> handleNoSuchException(final  RuntimeException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
+        log.warn("NoSuchExecption - ", e.getClass()," : ", e.getMessage());
         return ResponseEntity
                 .status(HttpStatus.NO_CONTENT)
                 .body(errorResponse);

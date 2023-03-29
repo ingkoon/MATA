@@ -30,6 +30,7 @@ docker run -it -d --network hadoop-cluster_cluster-net --name spring_app java/ma
 docker cp . spring_app:/home/bigdata-api
 docker exec -w /home/bigdata-api spring_app sh -c "mvn -Dspring.profiles.active=stage clean compile install package"
 docker exec -w /home/bigdata-api -d spring_app sh -c "java -jar -Dspring.profiles.active=stage mata-api-server/target/mata-api-server-0.0.1-SNAPSHOT.jar >> /home/bigdata-api/webserver.log"
+docker exec spring_app /etc/init.d/redis-server start
 ```
 
 ## vue_app build script
