@@ -34,9 +34,29 @@
                                                     <p>
                                                         React에서는 다음과 같은 코드를 추가할 수 있습니다.
                                                     </p>
-                                                    <p class='bg-light p-4'>
-                                                        
+                                                    <p>
+                                                        일반적으로 <span style="font-weight:bold">index.js</span>로 통용되는 ReactDOM의 최상단 컴포넌트는 BrowserRouter를 사용해야 합니다.
                                                     </p>
+                                                    <div class='bg-light-dark opacity-25 p-4'>
+                                                        <p class='text-black'>코</p>
+                                                        <p class='text-black'>드</p>
+                                                        <p class='text-black'>어</p>
+                                                        <p class='text-black'>케</p>
+                                                        <p class='text-black'>넣</p>
+                                                        <p class='text-black'>음</p>
+                                                    </div>
+                                                    <br/>
+                                                    <p>
+                                                        일반적으로 React 최상단 컴포넌트인 <span style="font-weight:bold">App.js</span>에 다음과 같은 코드를 추가합니다.
+                                                    </p>
+                                                    <div class='bg-light-dark opacity-25 p-4'>
+                                                        <p class='text-black'>코</p>
+                                                        <p class='text-black'>드</p>
+                                                        <p class='text-black'>어</p>
+                                                        <p class='text-black'>케</p>
+                                                        <p class='text-black'>넣</p>
+                                                        <p class='text-black'>음</p>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -81,12 +101,15 @@
                 console.log("뷰에서",payload)
                 this.$store.dispatch('add_App',payload)
             },
+            handleNewLine(str) {
+                return String(str).replace(/(?:\r\n|\r|\n)/g,"</br>");
+            },
         },
         data(){
             return{
                 category:null,
                 url:null,
-                name:null,
+                name:null, 
             }
         }
 
