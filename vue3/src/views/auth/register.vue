@@ -128,9 +128,10 @@
     import { onMounted,computed } from 'vue';
     import { ref, reactive } from "vue";
     import { useMeta } from '@/composables/use-meta';
+    import { defineEmits, defineProps } from "vue";
     useMeta({ title: 'Register Cover' });
     onMounted(()=>{console.log('hi')});
-    import { defineEmits, defineProps } from "vue";
+    
 
 
 </script>
