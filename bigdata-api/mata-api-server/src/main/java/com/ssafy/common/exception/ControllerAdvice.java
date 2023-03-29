@@ -2,6 +2,7 @@ package com.ssafy.common.exception;
 
 
 import com.ssafy.common.exception.dto.ErrorResponse;
+import com.ssafy.common.validation.RedisKeyExecption;
 import com.ssafy.dto.member.exception.DuplicateMemberException;
 import com.ssafy.dto.member.exception.NoSuchMemberException;
 import com.ssafy.dto.project.exception.NoSuchProjectException;
@@ -17,7 +18,8 @@ public class ControllerAdvice {
     private static final Logger log = LoggerFactory.getLogger(ControllerAdvice.class);
 
     @ExceptionHandler({NoSuchMemberException.class,
-            NoSuchProjectException.class})
+            NoSuchProjectException.class,
+            RedisKeyExecption.class})
     public ResponseEntity<ErrorResponse> handleNoSuchException(final  RuntimeException e){
         ErrorResponse errorResponse = new ErrorResponse(e.getMessage());
         return ResponseEntity
@@ -32,4 +34,7 @@ public class ControllerAdvice {
                 .status(HttpStatus.CONFLICT)
                 .body(errorResponse);
     }
+
+
+
 }
