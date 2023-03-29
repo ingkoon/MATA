@@ -21,6 +21,7 @@ public class TagManagerController {
 
         Arrays.stream(body).forEach(wl -> {
             kafkaProducerService.checkValidation(wl.getServiceToken()); // 토큰 검증 로직
+            wl.setServiceId(kafkaProducerService.getProjectId(wl.getServiceToken())); // 토큰으로 세션 아이디 가져오기
             System.out.println(wl.getServiceToken());
             System.out.println(wl.getSessionId());
             System.out.println(wl.getEvent());
