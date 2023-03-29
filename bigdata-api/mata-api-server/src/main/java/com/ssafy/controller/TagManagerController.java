@@ -3,6 +3,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.dto.WebLog;
 import com.ssafy.service.KafkaProducerService;
 import lombok.RequiredArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,9 @@ public class TagManagerController {
     private final KafkaProducerService kafkaProducerService;
     @PostMapping("/dump")
     public ResponseEntity<?> getLogDump(@RequestBody WebLog[] body) {
+
         Arrays.stream(body).forEach(wl -> {
+            kafkaProducerService.checkValidation(wl.getServiceToken()); // 토큰 검증 로직
             System.out.println(wl.getServiceToken());
             System.out.println(wl.getSessionId());
             System.out.println(wl.getEvent());
@@ -34,5 +37,4 @@ public class TagManagerController {
         });
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
-
 }
