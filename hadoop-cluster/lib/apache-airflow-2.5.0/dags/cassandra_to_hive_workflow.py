@@ -3,7 +3,7 @@ from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
 from datetime import datetime, timedelta
 # from lib.spark.cassandra_to_hive_job import batching_cassandra
-from lib.spark.Batching_Jobs import batching_hive, batching_cassandra
+from lib.spark.Batching_Jobs import batching_hive, batching_cassandra_spark, batching_cassandra_pandas
 
 default_args = {
     'owner': 'airflow',
@@ -65,7 +65,7 @@ now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
 cassandra_to_spark_1m = PythonOperator(
     task_id='cassandra_to_spark_1m',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_pandas,
     op_kwargs = {"base_time" : now,
                  "amount" : 1,
                  "unit" : "m"},
@@ -74,7 +74,7 @@ cassandra_to_spark_1m = PythonOperator(
 
 cassandra_to_spark_5m = PythonOperator(
     task_id='cassandra_to_spark_5m',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 5,
                  "unit" : "m"},
@@ -83,7 +83,7 @@ cassandra_to_spark_5m = PythonOperator(
 
 cassandra_to_spark_10m = PythonOperator(
     task_id='cassandra_to_spark_10m',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 10,
                  "unit" : "m"},
@@ -92,7 +92,7 @@ cassandra_to_spark_10m = PythonOperator(
 
 cassandra_to_spark_30m = PythonOperator(
     task_id='cassandra_to_spark_30m',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 30,
                  "unit" : "m"},
@@ -101,7 +101,7 @@ cassandra_to_spark_30m = PythonOperator(
 
 cassandra_to_spark_1h = PythonOperator(
     task_id='cassandra_to_spark_1h',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 1,
                  "unit" : "h"},
@@ -110,7 +110,7 @@ cassandra_to_spark_1h = PythonOperator(
 
 cassandra_to_spark_6h = PythonOperator(
     task_id='cassandra_to_spark_6h',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 6,
                  "unit" : "h"},
@@ -119,7 +119,7 @@ cassandra_to_spark_6h = PythonOperator(
 
 cassandra_to_spark_12h = PythonOperator(
     task_id='cassandra_to_spark_12h',
-    python_callable=batching_cassandra,
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 12,
                  "unit" : "h"},
