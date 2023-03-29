@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProjectResponse {
+    private Long id;
     private String url;
     private String name;
     private LocalDateTime createAt;
@@ -22,6 +23,7 @@ public class ProjectResponse {
 
     public static ProjectResponse fromEntity(Project project) {
         return ProjectResponse.builder()
+                .id(project.getId())
                 .url(project.getUrl())
                 .name(project.getName())
                 .createAt(project.getCreateAt())

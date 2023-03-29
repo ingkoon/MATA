@@ -39,7 +39,7 @@
                 </li>
 
                 <li class="menu" v-for="(item,index) in payload" :key="index">
-                    <router-link to="/" class="dropdown-toggle" @click="toggleMobileMenu">
+                    <router-link v-bind:to="`/service/${item.id}`" class="dropdown-toggle" @click="toggleMobileMenu">
                         <div class="">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"

@@ -151,6 +151,8 @@ def batching_cassandra(base_time, amount, unit):
     #########
     # page_refers 테이블 집계
     refer_df = batch_df \
+        .where(col("creation_timestamp") \
+               .between(*timestamp_range(base_time, -amount, unit))) \
         .withColumn("referrer", split(batch_df.referrer, "/").getItem(2)) \
         .groupBy("referrer", "service_id") \
         .agg(countDistinct("session_id").alias("total_session"),
