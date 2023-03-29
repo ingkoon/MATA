@@ -100,7 +100,6 @@ def batching_cassandra(base_time, amount, unit):
             count("key").alias("total_click"), \
         ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
         .select("total_click", "target_id", "location", "update_timestamp", "service_id")
-    component_df.show()
     component_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.components_{}{}".format(str(amount), unit))
@@ -115,7 +114,6 @@ def batching_cassandra(base_time, amount, unit):
             count("key").alias("total_click"), \
         ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
         .select("total_click", "position_x", "position_y","location", "update_timestamp", "service_id")
-    click_df.show()
     click_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.clicks_{}{}".format(str(amount), unit))
@@ -132,7 +130,6 @@ def batching_cassandra(base_time, amount, unit):
             sum("page_duration").alias("total_duration") \
         ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
         .select("total_duration","total_session","location", "update_timestamp","service_id")
-    page_durations_df.show()
     page_durations_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.page_durations_{}{}".format(str(amount), unit))
@@ -147,10 +144,23 @@ def batching_cassandra(base_time, amount, unit):
             count("key").alias("total_journal"),\
          ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
     .select("total_journal", col("prev_location").alias("location_from"), col("location").alias("location_to"), "update_timestamp","service_id")
-    page_journals_df.show()
     page_journals_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.page_journals_{}{}".format(str(amount), unit))
+
+    #########
+    # page_refers 테이블 집계
+    refer_df = batch_df \
+        .groupBy("referrer", "service_id") \
+        .agg(countDistinct("session_id").alias("total_session"),
+             sum(when(col("event") == "pageenter", 1).otherwise(0)).alias("total_pageenter")
+             ) \
+        .withColumn("update_timestamp", current_timestamp()) \
+        .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
+    refer_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_refers_{}{}".format(str(amount), unit))
+
     
     session.stop()
 
