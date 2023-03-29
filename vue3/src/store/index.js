@@ -167,24 +167,9 @@ export default new createStore({
 
           },
 
-          getProjectList(context,token){
-            // console.log(token)
-            axios({
-              method:'get',
-              url:'http://127.0.0.1:8080/api/v1/project/',
-              headers:{
-                "Content-Type": "application/json",
-                "Authorization": token,
-              },
-            
-            })
-              .then(res=>{
-              console.log(res)
-
-              })
-              .catch(err=>{
-              console.log(err.response)
-              })
+          get_service_list(context,payload){
+            console.log(payload)
+            context.commit('saveList',payload)
           },
           add_App(context,payload){
             const name=payload.name

@@ -97,6 +97,8 @@
                         </div>
                     </router-link>
                 </li>
+                <v-for>
+                <>
             </perfect-scrollbar>
         </nav>
     </div>
@@ -107,12 +109,36 @@
     import { onMounted, ref } from 'vue';
     import { useStore } from 'vuex';
     import VueJwtDecode from 'vue-jwt-decode'
+    import axios from 'axios';
     const store = useStore();
 
     const menu_collapse = ref('dashboard');
+    function getProjectList(){
+            // console.log(token)
+            const token=localStorage.getItem('accessToken')
+            axios({
+              method:'get',
+              
+              url:'http://localhost:8080/api/v1/project/',
+              headers:{
+                
+                "Authorization": `Bearer ${token}`,
+              },
+            
+            })
+              .then(res=>{
+              console.log(res)
+              const payload=(res.data)
+              this.$store.dispatch('get_service_list',payload)
 
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          }
     onMounted(() => {
         console.log("sidebar mount start")
+        getProjectList()
         // console.log(store.state.token)
         // const uid=VueJwtDecode.decode(store.state.token)
         // console.log("uid"+uid)
