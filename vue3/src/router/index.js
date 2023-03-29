@@ -11,13 +11,9 @@ import store from '../store';
 
 const routes = [
     //dashboard
-    !store.state.token ? {
-        path: '/', name: 'Home', component: Home, meta: { layout: 'app' }
-    } : {
-        path: '/', name: 'Home', component: Welcome, meta: { layout: 'hero' }
-    },
-    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'),
-    },
+    { path: '/', name: 'Welcome', component: Welcome, meta: { layout: 'hero' } },
+    { path: '/service/:id', name: 'Home', component: Home, meta: { layout: 'app' } },
+    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
 
     //components
     
