@@ -13,6 +13,10 @@
                 </li>
             </ul>
         </teleport>
+        <div>
+            토큰
+        </div>
+        <button>재발급</button>
         
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
