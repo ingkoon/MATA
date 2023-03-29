@@ -5,7 +5,7 @@
                 <div class="form-form-wrap">
                     <div class="form-container">
                         <div class="form-content">
-                            <h1 class="">서비스 등록</h1>
+                            <h1 class="m-4">서비스 등록</h1>
                             
                             <form class="text-start" @submit.prevent="add_app">
                                 <div class="form">

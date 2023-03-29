@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
 import Home from '../views/index.vue';
+import Welcome from '@/views/pages/welcome.vue';
 import store from '../store';
 
 // Vue.use(VueRouter);
@@ -10,7 +11,11 @@ import store from '../store';
 
 const routes = [
     //dashboard
-    { path: '/', name: 'Home', component: Home },
+    !store.state.token ? {
+        path: '/', name: 'Home', component: Home, meta: { layout: 'app' }
+    } : {
+        path: '/', name: 'Home', component: Welcome, meta: { layout: 'hero' }
+    },
     { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'),
     },
 
@@ -72,6 +77,11 @@ const routes = [
         component: () => import(/* webpackChunkName: "users-account-setting" */ '../views/users/account_setting.vue'),
     },
     {
+        path:"/users/getting-started",
+        name:"getting-started",
+        component:()=>import('../views/users/getting_started.vue'),
+    },
+    {
         path:"/users/add-app",
         name:"add-app",
         component:()=>import('../views/users/add_app.vue'),
@@ -102,6 +112,8 @@ const router = new createRouter({
 router.beforeEach((to, from, next) => {
     if (to.meta && to.meta.layout && to.meta.layout == 'auth') {
         store.commit('setLayout', 'auth');
+    } else if (to.meta.layout == 'hero') {
+        store.commit('setLayout', 'hero');
     } else {
         store.commit('setLayout', 'app');
     }

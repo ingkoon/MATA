@@ -34,14 +34,13 @@
                         aa
                     </a>
                 </div> -->
-                <ul class="flex text-center mx-auto">
-                    <li >
+                <ul class="navbar-item flex-row text-center ms-auto">
+                    <li class="nav-item theme-text">
                         <router-link to="/auth/login" v-if=" !store.state.token">로그인</router-link>
                         <a v-else>로그아웃</a>
                     </li>
 
-
-                    <li>
+                    <li class="nav-item theme-text">
                     <div class="navbar-item flex-row ">
                         <div class="dark-mode d-flex align-items-center">
                             <a v-if="$store.state.dark_mode == 'light'" href="javascript:;" class="d-flex align-items-center" @click="toggleMode('dark')">

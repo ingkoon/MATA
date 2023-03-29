@@ -26,11 +26,13 @@
     // layouts
     import appLayout from './layouts/app-layout.vue';
     import authLayout from './layouts/auth-layout.vue';
+    import heroLayout from '@/layouts/hero-layout.vue';
 
     export default {
         components: {
             app: appLayout,
             auth: authLayout,
+            hero: heroLayout,
         },
     };
 </script>
