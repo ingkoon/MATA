@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--  BEGIN NAVBAR  -->
-        <div class="header-container fixed-top">
+        <div class="header-container fixed-top space-between">
             <header class="header navbar navbar-expand-sm">
                 <ul class="navbar-item theme-brand flex-row text-center">
                     <li class="nav-item theme-logo">
@@ -34,7 +34,7 @@
                         aa
                     </a>
                 </div> -->
-                <ul class="flex text-center mx-auto">
+                <ul class=" navbar-item flex-row justify-content-end text-center ">
                     <li >
                         <router-link to="/auth/login" v-if=" !store.state.token">로그인</router-link>
                         <a v-else>로그아웃</a>
