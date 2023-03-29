@@ -13,10 +13,11 @@
                 </li>
             </ul>
         </teleport>
+        <div> {{ $route.params.id }}</div>
         <div>
-            토큰
+            토큰 : 
         </div>
-        <button>재발급</button>
+        <button @click="get_token">재발급</button>
         
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -595,8 +596,8 @@
                                 <span><img src="@/assets/images/profile-32.jpeg" alt="admin-profile" class="img-fluid" /> Alan Green</span>
                             </div>
                             <div class="add">
-                                <span
-                                    ><svg
+                                <span>
+                                    <svg
                                         xmlns="http://www.w3.org/2000/svg"
                                         width="24"
                                         height="24"
@@ -609,8 +610,9 @@
                                         class="feather feather-plus"
                                     >
                                         <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line></svg
-                                ></span>
+                                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                                        </svg>
+                            </span>
                             </div>
                         </div>
                         <div class="wallet-balance">
@@ -635,8 +637,9 @@
                                     stroke-linejoin="round"
                                     class="feather feather-chevron-up text-success float-end"
                                 >
-                                    <polyline points="18 15 12 9 6 15"></polyline></svg
-                            ></span>
+                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                    </svg>
+                        </span>
                             <p>$97.99</p>
                         </div>
                         <div class="w-a-info funds-spent">
@@ -654,8 +657,9 @@
                                     stroke-linejoin="round"
                                     class="feather feather-chevron-down text-danger float-end"
                                 >
-                                    <polyline points="6 9 12 15 18 9"></polyline></svg
-                            ></span>
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                    </svg>
+                                </span>
                             <p>$53.00</p>
                         </div>
                     </div>
@@ -1021,6 +1025,7 @@
     import sankeyChart from './charts/sankey_chart.vue';
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
+    import axios from 'axios';
     useMeta({ title: 'Sales Admin' });
     
     const store = useStore();
@@ -1033,6 +1038,34 @@
     // store.dispatch('getProjectList',store.state.token)
 
     //Revenue
+    const get_token=()=>{
+            // console.log(token)
+            
+            axios({
+              method:'post',
+              
+              url:'http://localhost:8080/api/v1/token/',
+              headers:{
+                
+                "Content-Type": 'application/json',
+              },
+              data:{
+                "serviceId":id
+              },
+            
+            })
+              .then(res=>{
+              console.log(`axios done ${res}`,res)
+              payload.value=res.data
+              console.log('asd')
+              
+             
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          }
+        
     const revenue_series = ref([
         { name: 'Income', data: [16800, 16800, 15500, 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000] },
         { name: 'Expenses', data: [16500, 17500, 16200, 17300, 16000, 19500, 16000, 17000, 16000, 19000, 18000, 19000] },
