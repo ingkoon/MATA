@@ -6,7 +6,7 @@
 
             <perfect-scrollbar class="list-unstyled menu-categories" tag="ul" :options="{ wheelSpeed: 0.5, swipeEasing: !0, minScrollbarLength: 40, maxScrollbarLength: 300, suppressScrollX: true }">
                 <li class="menu" v-for="(item,index) in payload" :key="index">
-                    <router-link to="/" class="dropdown-toggle" @click="toggleMobileMenu">
+                    <router-link v-bind:to="`/service/${item.id}`" class="dropdown-toggle" @click="toggleMobileMenu">
                         <div class="">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
