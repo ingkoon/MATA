@@ -86,7 +86,8 @@
               payload.value=res.data
               console.log('asd')
               this.$store.dispatch('get_service_list',payload)
-              return payload
+              
+              console.log(store.state.service)
               })
               .catch(err=>{
               console.log(err.response)

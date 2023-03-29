@@ -31,6 +31,7 @@ export default new createStore({
             { code: 'tr', name: 'Turkish' },
         ],
         token: null,
+        service:null
     },
     mutations: {
         setLayout(state, payload) {
@@ -94,6 +95,10 @@ export default new createStore({
         SIGN_UP(){},
         setToken(state,token){
             state.token=token
+        },
+        save_List(payload){
+            console.log('mutation 시작',payload)
+            state.service=payload
         },
     },
     getters: {
@@ -168,9 +173,10 @@ export default new createStore({
           },
 
           get_service_list(context,payload){
-            console.log(payload)
-            context.commit('saveList',payload)
+            console.log('action 시작')
+            context.commit('save_List',payload)
           },
+
           add_App(context,payload){
             const name=payload.name
             const url=payload.url

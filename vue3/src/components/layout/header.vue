@@ -1,7 +1,7 @@
 <template>
     <div>
         <!--  BEGIN NAVBAR  -->
-        <div class="header-container fixed-top space-between">
+        <div class="header-container fixed-top">
             <header class="header navbar navbar-expand-sm">
                 <ul class="navbar-item theme-brand flex-row text-center">
                     <li class="nav-item theme-logo">
