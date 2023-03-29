@@ -49,6 +49,10 @@ RUN \
     cd /home && \
     apt install python3-dev -y
 
+RUN \
+    pip install pandas && \
+    pip install cassandra-driver
+
 # Hadoop installation
 RUN \
     mkdir -p /usr/local/lib && \

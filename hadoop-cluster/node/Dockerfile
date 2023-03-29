@@ -146,7 +146,8 @@ RUN \
     apt-get update && \
     pip install pandas && \
     pip install findspark && \
-    pip install apache-airflow-providers-apache-hive
+    pip install apache-airflow-providers-apache-hive && \
+    pip install cassandra-driver
 
 # Kafka Installation
 RUN \
