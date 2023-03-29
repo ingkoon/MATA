@@ -115,7 +115,7 @@ export default new createStore({
             // }
             axios({
               method:'post',
-              url:'http://127.0.0.1:8080/api/v1/member/signup/',
+              url:'http://localhost:8080/api/v1/member/signup',
               headers:{
                 "Content-Type": "application/json",
               },
@@ -142,7 +142,7 @@ export default new createStore({
             console.log(email,password)
             axios({
                 method:'post',
-                url:'http://127.0.0.1:8080/api/v1/member/login/',
+                url:'http://localhost:8080/api/v1/member/login',
                 headers:{
                   "Content-Type": "application/json",
                 },
@@ -167,24 +167,39 @@ export default new createStore({
 
           },
 
-          getProjectList(context,token){
-            // console.log(token)
+          get_service_list(context,payload){
+            console.log(payload)
+            context.commit('saveList',payload)
+          },
+          add_App(context,payload){
+            const name=payload.name
+            const url=payload.url
+            const category=payload.category
+            const token=localStorage.getItem('accessToken')
+            console.log(category,token)
             axios({
-              method:'get',
-              url:'http://127.0.0.1:8080/api/v1/project/',
-              headers:{
-                "Content-Type": "application/json",
-                "Authorization": token,
-              },
-            
-            })
-              .then(res=>{
-              console.log(res)
+                method:'post',
+                url:'http://localhost:8080/api/v1/project/add',
+                headers:{
+                  "Authorization": `Bearer ${token}`,
+                },
+                data:{
+                  name : name,
+                  url: url,
+                  category: category,
+                  // password2: password2,
+                  
+                },
+              })
+                .then(res=>{
+                console.log(category,token)
+                console.log(res)
+                router.push('/')
+                })
+                .catch(err=>{
+                console.log(err)
+                })
 
-              })
-              .catch(err=>{
-              console.log(err.response)
-              })
           },
       
     },
