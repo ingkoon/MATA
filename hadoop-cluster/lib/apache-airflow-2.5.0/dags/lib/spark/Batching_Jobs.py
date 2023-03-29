@@ -151,12 +151,14 @@ def batching_cassandra(base_time, amount, unit):
     #########
     # page_refers 테이블 집계
     refer_df = batch_df \
+        .withColumn("referrer", split(batch_df.referrer, "/").getItem(2)) \
         .groupBy("referrer", "service_id") \
         .agg(countDistinct("session_id").alias("total_session"),
              sum(when(col("event") == "pageenter", 1).otherwise(0)).alias("total_pageenter")
              ) \
         .withColumn("update_timestamp", current_timestamp()) \
         .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
+
     refer_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.page_refers_{}{}".format(str(amount), unit))
@@ -169,8 +171,16 @@ def batching_cassandra(base_time, amount, unit):
 ##### 1일부터 1년까지 12시간 집계 데이터를 기준으로 집계
 def batching_hive(base_time, amount, unit):
     if str(amount)+unit not in ["1d", "1w", "1mo", "6mo", "1y"]:
-        print("invalid interval: interval should be 1d, 1w, 1mo, 6mo or 1y.")
+        print("invalid interval: interval should be 1d, 1w, 1mo, 6mo or     1y.")
         return 2
+
+    session = SparkSession.builder \
+        .appName("Batching_Hive_To_Hive") \
+        .master("yarn") \
+        .config("spark.yarn.queue", "batch") \
+        .config("spark.hadoop.hive.exec.dynamic.partition.mode", "nonstrict") \
+        .enableHiveSupport() \
+        .getOrCreate()
     
     base_timestamp = datetime.timestamp(datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S'))
 
