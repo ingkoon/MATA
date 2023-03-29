@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS mata.referrers(
 ) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1m(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -128,14 +128,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_5m(
   CONSTRAINT fk_page_journals_5m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_5m(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -188,14 +183,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_10m(
   CONSTRAINT fk_page_journals_10m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_10m(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -248,14 +238,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_30m(
   CONSTRAINT fk_page_journals_30m_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_30m(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -308,14 +293,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_1H(
   CONSTRAINT fk_page_journals_1H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1H(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -368,14 +348,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_6H(
   CONSTRAINT fk_page_journals_6H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_6H(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -428,14 +403,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_12H(
   CONSTRAINT fk_page_journals_12H_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_12H(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -488,14 +458,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_1d(
   CONSTRAINT fk_page_journals_1d_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1d(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -548,14 +513,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_1w(
   CONSTRAINT fk_page_journals_1w_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1w(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -608,14 +568,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_1mo(
   CONSTRAINT fk_page_journals_1mo_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1mo(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -668,14 +623,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_6mo(
   CONSTRAINT fk_page_journals_6mo_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_6mo(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -728,14 +678,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_1y(
   CONSTRAINT fk_page_journals_1y_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_1y(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
@@ -788,14 +733,9 @@ CREATE TABLE IF NOT EXISTS mata.page_journals_all(
   CONSTRAINT fk_page_journals_all_service_id FOREIGN KEY(service_id) REFERENCES mata.services(service_id) DISABLE NOVALIDATE
 ) CLUSTERED BY (service_id) SORTED BY (update_timestamp DESC) INTO 10 BUCKETS
 STORED AS ORC;
-CREATE TABLE IF NOT EXISTS mata.referrers(
-  referrer_id BIGINT,
-  referrer_name STRING,
-  PRIMARY KEY(referrer_id) DISABLE NOVALIDATE
-) STORED AS ORC;
 CREATE TABLE IF NOT EXISTS mata.page_refers_all(
   total_session INT,
-  total_pageenter STRING,
+  total_pageenter BIGINT,
   update_timestamp TIMESTAMP,
   referrer_id BIGINT,
   service_id BIGINT,
