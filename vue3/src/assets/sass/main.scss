@@ -1025,6 +1025,13 @@ select.form-control.form-custom {
     }
 }
 
+.btn-light-default {
+    border-radius: 5px;
+    border-color: #e0e6ed;
+    color: #1a1c2d;
+    background-color: #fff;
+}
+
 .btn-success:focus,
 .btn-info:focus,
 .btn-danger:focus,

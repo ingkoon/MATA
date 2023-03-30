@@ -13,11 +13,19 @@
                 </li>
             </ul>
         </teleport>
-        <div> {{ $route.params.id }}</div>
-        <div>
-            토큰 : 
+        <div class='row layout-top-spacing'>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class='widget p-3'>
+                    <h5>사용자 토큰</h5>
+                    <div> {{ $route.params.id }}</div>
+                    <div>
+                        토큰 : {{  }}
+                    </div>
+                    <button @click="get_token">재발급</button>
+                </div>
+            </div>
         </div>
-        <button @click="get_token">재발급</button>
+
         
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -1019,7 +1027,7 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted,onUpdated  } from 'vue';
+    import { computed, ref, onMounted  } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
@@ -1027,45 +1035,34 @@
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
     useMeta({ title: 'Sales Admin' });
-    import router from '@/router';
-    import { useRoute } from 'vue-router';
-    const route =useRoute()
-    const store = useStore();
-
-    let routeId=null
-    const data = {
-        "projectId":route.params.id
-    }
-    onUpdated(()=>{   
-        console.log("index mounted")
-        routeId = route.params.id
-        console.log(routeId)
-    }) 
     
+    const store = useStore();
+    // onMounted(()=>{   
+    //     console.log("index mounted")
+    //     const userjson=VueJwtDecode.decode(store.state.token)
+    //     console.log('userjson:'+userjson)
+    // })
     // const userjson=VueJwtDecode.decode(store.state.token)
     // store.dispatch('getProjectList',store.state.token)
 
     //Revenue
-    function get_token(){
+    const get_token=()=>{
             // console.log(token)
-            
             axios({
               method:'post',
-              
               url: process.env.VUE_APP_API_HOST+'/api/v1/token/',
               headers:{
                 
                 "Content-Type": 'application/json',
               },
-              data:data
-            
+              data:{
+                "serviceId":id
+              },
             })
               .then(res=>{
               console.log(`axios done ${res}`,res)
               payload.value=res.data
               console.log('asd')
-              
-             
               })
               .catch(err=>{
               console.log(err.response)
