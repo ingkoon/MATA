@@ -17,6 +17,10 @@ module.exports = {
             alias: {
                 '@themeConfig': path.resolve(__dirname, 'theme.config.js'),                
             }
-        }
+        },
+        externals: {
+      'vue': 'Vue',
+      'plotly.js': 'Plotly'
+    }
     }
 };

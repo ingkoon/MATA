@@ -16,7 +16,12 @@ const routes = [
     { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
 
     //components
-    
+    {
+        path: '/test',
+        name: 'plot',
+        component: () => import(/* webpackChunkName: "pages-error404" */ '../plot.vue'),
+        meta: { layout: 'auth' },
+    },
     {
         path: '/pages/error404',
         name: 'error404',
