@@ -46,7 +46,7 @@ a {
     text-decoration: none;
 }
 
-p {
+p pre {
     margin-top: 0;
     margin-bottom: 0.625rem;
     color: #515365;
@@ -55,7 +55,7 @@ p {
 hr {
     margin-top: 20px;
     margin-bottom: 20px;
-    border-top: 1px solid #f1f2f3;
+    border: 1px solid #f1f2f3;
 }
 
 strong {
@@ -79,6 +79,10 @@ select.form-control[multiple],
 select.form-control[size],
 textarea.form-control {
     height: auto;
+}
+
+.content-section {
+    background-color: #f7f7f7;
 }
 
 .custom-file-input:focus ~ .custom-file-label {

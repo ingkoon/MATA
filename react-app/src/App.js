@@ -6,7 +6,6 @@ import FirstVIew from "./view/FirstVIew";
 import SecondVIew from "./view/SecondView";
 import MainView from "./view/MainView";
 import TagManager from "./module";
-import * as events from "events";
 
 const tagManager = new TagManager('http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/dump', "tag-manager-service-token", ['click'])
 

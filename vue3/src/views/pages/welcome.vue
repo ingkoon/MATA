@@ -22,12 +22,15 @@
                     <div class=''>
                         <div class="widget layout-spacing my-3">
                             <div class="widget-heading">
-                                <p>
-                                    카드의 헤더 입니다
-                                </p>
+                                <h2>
+                                    시간절약!
+                                </h2>
                             </div>
                             <div class="widget-content ">
-                                <div class="widget-content m-2 bg-light">
+                                <p>
+                                    콘텐츠
+                                </p>
+                                <div class="content-section m-2">
                                     <p>
                                         콘텐츠
                                     </p>
@@ -36,12 +39,12 @@
                         </div>
                         <div class="widget layout-spacing my-3">
                             <div class="widget-heading">
-                                <p>
-                                    카드의 헤더 입니다
-                                </p>
+                                <h2>
+                                    손도 깔끔
+                                </h2>
                             </div>
                             <div class="widget-content ">
-                                <div class="widget-content m-2 bg-light">
+                                <div class="content-section m-2">
                                     <p>
                                         콘텐츠
                                     </p>
@@ -50,12 +53,26 @@
                         </div>
                         <div class="widget layout-spacing my-3">
                             <div class="widget-heading">
-                                <p>
-                                    카드의 헤더 입니다
-                                </p>
+                                <h2>
+                                    마참내!
+                                </h2>
                             </div>
                             <div class="widget-content ">
-                                <div class="widget-content m-2 bg-light">
+                                <div class="content-section m-2">
+                                    <p>
+                                        콘텐츠
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget layout-spacing my-3">
+                            <div class="widget-heading">
+                                <h2>
+                                    즐겁다
+                                </h2>
+                            </div>
+                            <div class="widget-content ">
+                                <div class="content-section m-2">
                                     <p>
                                         콘텐츠
                                     </p>
@@ -71,7 +88,15 @@
 
 <script setup>
     import '@/assets/sass/pages/error/style-maintanence.scss';
-
     import { useMeta } from '@/composables/use-meta';
+    import { onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import { useRouter } from 'vue-router';
+    
     useMeta({ title: 'Maintenence', layout: 'auth' });
+    const store = useStore();
+    const router = useRouter();
+    
+    if (store.state.token) router.push('/user');
+        
 </script>

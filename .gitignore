@@ -4,3 +4,5 @@ target/
 venv/
 __pycache__/
 notebook/
+.env
+.env.*
