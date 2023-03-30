@@ -120,7 +120,7 @@ export default new createStore({
             // }
             axios({
               method:'post',
-              url:'http://localhost:8080/api/v1/member/signup',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/member/signup',
               headers:{
                 "Content-Type": "application/json",
               },
@@ -147,7 +147,7 @@ export default new createStore({
             console.log(email,password)
             axios({
                 method:'post',
-                url:'http://localhost:8080/api/v1/member/login',
+                url: process.env.VUE_APP_API_HOST+'/api/v1/member/login',
                 headers:{
                   "Content-Type": "application/json",
                 },
@@ -171,6 +171,11 @@ export default new createStore({
                 })
 
           },
+          logOut() {
+            console.log("logged out");
+            localStorage.removeItem('accessToken');
+            document.location.href = '/';
+          },
 
           get_service_list(context,payload){
             console.log('action 시작')
@@ -185,7 +190,7 @@ export default new createStore({
             console.log(category,token)
             axios({
                 method:'post',
-                url:'http://localhost:8080/api/v1/project/add',
+                url: process.env.VUE_APP_API_HOST+'/api/v1/project/add',
                 headers:{
                   "Authorization": `Bearer ${token}`,
                 },

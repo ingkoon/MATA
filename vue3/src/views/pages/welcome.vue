@@ -88,7 +88,15 @@
 
 <script setup>
     import '@/assets/sass/pages/error/style-maintanence.scss';
-
     import { useMeta } from '@/composables/use-meta';
+    import { onMounted } from 'vue';
+    import { useStore } from 'vuex';
+    import { useRouter } from 'vue-router';
+    
     useMeta({ title: 'Maintenence', layout: 'auth' });
+    const store = useStore();
+    const router = useRouter();
+    
+    if (store.state.token) router.push('/user');
+        
 </script>

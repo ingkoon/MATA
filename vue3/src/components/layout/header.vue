@@ -36,8 +36,8 @@
                 </div> -->
                 <ul class="navbar-item flex-row text-center ms-auto">
                     <li class='nav-item'>
-                        <router-link to="/auth/login" v-if=" !store.state.token">로그인</router-link>
-                        <a v-else>로그아웃</a>
+                        <router-link to="/auth/login" v-if="!accessToken">로그인</router-link>
+                        <a href='#' v-else @click='$store.dispatch("logOut")'>로그아웃</a>
                     </li>
 
                     <li class="nav-item theme-text">
@@ -148,6 +148,7 @@
 
     const selectedLang = ref(null);
     const countryList = ref(store.state.countryList);
+    const accessToken = localStorage.getItem('accessToken');
 
     const i18n = useI18n();
 
@@ -166,4 +167,5 @@
 
         i18n.locale.value = item.code;
     };
+    
 </script>
