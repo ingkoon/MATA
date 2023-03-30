@@ -31,7 +31,8 @@ export default new createStore({
             { code: 'tr', name: 'Turkish' },
         ],
         token: null,
-        service:null
+        service:null,
+        durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
         setLayout(state, payload) {
@@ -100,6 +101,9 @@ export default new createStore({
             console.log('mutation 시작',payload)
             state.service=payload
         },
+        setDurations(state, durations) {
+            state.durations = durations
+        }
     },
     getters: {
         layout(state) {
@@ -120,7 +124,7 @@ export default new createStore({
             // }
             axios({
               method:'post',
-              url:'http://localhost:8080/api/v1/member/signup',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/member/signup',
               headers:{
                 "Content-Type": "application/json",
               },
@@ -147,7 +151,7 @@ export default new createStore({
             console.log(email,password)
             axios({
                 method:'post',
-                url:'http://localhost:8080/api/v1/member/login',
+                url: process.env.VUE_APP_API_HOST+'/api/v1/member/login',
                 headers:{
                   "Content-Type": "application/json",
                 },
@@ -171,6 +175,11 @@ export default new createStore({
                 })
 
           },
+          logOut() {
+            console.log("logged out");
+            localStorage.removeItem('accessToken');
+            document.location.href = '/';
+          },
 
           get_service_list(context,payload){
             console.log('action 시작')
@@ -185,7 +194,7 @@ export default new createStore({
             console.log(category,token)
             axios({
                 method:'post',
-                url:'http://localhost:8080/api/v1/project/add',
+                url: process.env.VUE_APP_API_HOST+'/api/v1/project/add',
                 headers:{
                   "Authorization": `Bearer ${token}`,
                 },
@@ -205,9 +214,17 @@ export default new createStore({
                 .catch(err=>{
                 console.log(err)
                 })
-
           },
-      
+        async fetchDurations({ commit }, {baseTime, interval}) {
+            const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
+            const params = {baseTime, interval};
+            const { data } = await axios.get(url, params).then(response => {
+                return response.data;
+            }).catch(error => {
+                console.error(error + "에 해당하는 에러가 발생했습니다.");
+            });
+            commit('setDurations', data) // 리스트 타입의 데이터를 상태 변수에 저장하는 뮤테이션 호출
+        },
     },
     modules: {},
 });

@@ -31,9 +31,19 @@ body.dark {
     }
 
     hr {
-        border-top: 1px solid #191e3a;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        border: 1px solid #f1f2f3;
     }
-
+    
+    pre {
+        color: #e0e6ed;
+    }
+    
+    .content-section {
+        background-color: #16223C;
+    }
+    
     .custom-file-input:focus ~ .custom-file-label {
         border: 1px solid #3b3f5c;
     }

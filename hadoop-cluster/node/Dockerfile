@@ -147,7 +147,8 @@ RUN \
     pip install pandas && \
     pip install findspark && \
     pip install apache-airflow-providers-apache-hive && \
-    pip install cassandra-driver
+    pip install cassandra-driver && \
+    pip install pyhive
 
 # Kafka Installation
 RUN \

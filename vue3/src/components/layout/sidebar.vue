@@ -8,7 +8,7 @@
 
 
                 <li class="menu">
-                    <router-link to="/users/getting-started" class="dropdown-toggle" @click="toggleMobileMenu">
+                    <router-link to="/user" class="dropdown-toggle" @click="toggleMobileMenu">
                         <div class="">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -63,7 +63,7 @@
                 </li>
 
                 <li class="menu">
-                    <router-link to="/users/add-app" class="dropdown-toggle" @click="toggleMobileMenu">
+                    <router-link to="/user/add-app" class="dropdown-toggle" @click="toggleMobileMenu">
                         <div class="">
                             <svg xmlns="http://www.w3.org/2000/svg"
                                  width="24"
@@ -105,7 +105,7 @@
             axios({
               method:'get',
               
-              url:'http://localhost:8080/api/v1/project/',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
               headers:{
                 
                 "Authorization": `Bearer ${token}`,
