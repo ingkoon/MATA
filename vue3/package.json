@@ -34,6 +34,7 @@
         "vue": "^3.2.13",
         "vue-animation-counter": "^1.0.30",
         "vue-clipboard3": "^2.0.0",
+        "vue-code-highlight": "^0.7.8",
         "vue-draggable-next": "^2.1.1",
         "vue-easy-lightbox": "^1.4.1",
         "vue-easymde": "^2.0.0",
