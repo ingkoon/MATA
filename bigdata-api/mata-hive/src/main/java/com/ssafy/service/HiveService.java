@@ -19,21 +19,27 @@ public class HiveService {
         return hiveRepository.selectData();
     }
 
-    public List<Component> getComponents(long baseTime, String interval){
-        return hiveRepository.selectComponent(baseTime, interval);
+    public List<Component> getComponents(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectComponent(baseTime, interval, serviceId);
     }
 
-    public List<Click> getClicks(long baseTime, String interval){
-        return hiveRepository.selectClick(baseTime, interval);
+    public List<Click> getClicks(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectClick(baseTime, interval, serviceId);
     }
-    public List<PageDuration> getPageDurations(long baseTime, String interval){
-        return hiveRepository.selectPageDuration(baseTime, interval);
+    public List<PageDuration> getPageDurations(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectPageDuration(baseTime, interval, serviceId);
     }
-    public List<PageJournal> getPageJournals(String baseTime, String interval){
-        return hiveRepository.selectPageJournal(baseTime, interval);
+
+    public List<PageDuration> getPageUsers(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectPageUser(baseTime, interval, serviceId);
     }
-    public List<PageRefer> getPageRefers(long baseTime, String interval){
-        return hiveRepository.selectpageRefer(baseTime, interval);
+
+
+    public List<PageJournal> getPageJournals(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectPageJournal(baseTime, interval, serviceId);
+    }
+    public List<PageRefer> getPageRefers(String baseTime, String interval, long serviceId){
+        return hiveRepository.selectpageRefer(baseTime, interval, serviceId);
     }
     public List<Referrer> getReferrers(){
         return hiveRepository.selectReferrer();
