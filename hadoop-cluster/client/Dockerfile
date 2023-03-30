@@ -51,7 +51,8 @@ RUN \
 
 RUN \
     pip install pandas && \
-    pip install cassandra-driver
+    pip install cassandra-driver && \
+    pip install pyhive
 
 # Hadoop installation
 RUN \
