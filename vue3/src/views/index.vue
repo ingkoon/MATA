@@ -13,11 +13,19 @@
                 </li>
             </ul>
         </teleport>
-        <div> {{ $route.params.id }}</div>
-        <div>
-            토큰 : 
+        <div class='row layout-top-spacing'>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class='widget p-3'>
+                    <h5>사용자 토큰</h5>
+                    <div> {{ $route.params.id }}</div>
+                    <div>
+                        토큰 : {{  }}
+                    </div>
+                    <button @click="get_token">재발급</button>
+                </div>
+            </div>
         </div>
-        <button @click="get_token">재발급</button>
+
         
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
@@ -1040,10 +1048,8 @@
     //Revenue
     const get_token=()=>{
             // console.log(token)
-            
             axios({
               method:'post',
-              
               url: process.env.VUE_APP_API_HOST+'/api/v1/token/',
               headers:{
                 
@@ -1052,14 +1058,11 @@
               data:{
                 "serviceId":id
               },
-            
             })
               .then(res=>{
               console.log(`axios done ${res}`,res)
               payload.value=res.data
               console.log('asd')
-              
-             
               })
               .catch(err=>{
               console.log(err.response)

@@ -26,14 +26,11 @@
                                                         사용자의 코드에 스크립트를 주입할 때 발급받은 토큰을 같이 명시해주어야 합니다.
                                                     </p>
                                                     <p>
-                                                        이 토큰은 사용자의 사적인 정보를 포함하고 있지 않지만, 만약 토큰이 분실되었거나 도난당했을 시 토큰을 재발급 받아야 합니다.
+                                                        토큰은 사용자의 사적인 정보를 포함하고 있지 않지만, 만약 토큰이 분실되었거나 도난당했을 시 토큰을 재발급 받아야 합니다.
                                                     </p>
                                                     <p>
-                                                        고객님에게 발급 된 토큰은 다음과 같습니다. 이를 복사하여 주입할 스크립트에 추가해주시길 바랍니다.
+                                                        고객님에게 발급 된 토큰을 복사하여 주입할 스크립트에 추가해주시길 바랍니다.
                                                     </p>
-                                                    <div class='content-section rounded-2 p-2 d-inline'>
-                                                        {{ "발급받은 토큰" }}
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -141,27 +138,16 @@ export default function App() {
     export default {
         name: 'Getting-started',
         methods:{
-            add_app(){
-                const category=this.category
-                const url=this.url
-                const name=this.name
-                const payload={
-                    category:category,
-                    url:url,
-                    name:name,
-                }
-                console.log("뷰에서",payload)
-                this.$store.dispatch('add_App',payload)
-            },
+
         },
         data(){
             return{
                 category:null,
                 url:null,
-                name:null, 
+                name:null,
+                clientToken: null,
             }
         }
-
     }
 
     // import { ref } from 'vue';

@@ -210,7 +210,6 @@ export default new createStore({
                 .catch(err=>{
                 console.log(err)
                 })
-
           },
       
     },
