@@ -93,10 +93,10 @@ public class HiveRepository {
                     "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, pageDurationRowMapper);
     }
-    public List<PageJournal> selectPageJournal(long baseTime, String interval) {
+    public List<PageJournal> selectPageJournal(String baseTime, String interval) {
         String sql = String.format(//language=sql
-                "SELECT * FROM mata.page_journals_%s"+
-                    "WHERE update_timestamp<CAST(%d AS TIMESTAMP)"+
+                "SELECT * FROM mata.page_journals_%s "+
+                    "WHERE update_timestamp < \'%s\' "+
                     "LIMIT 100", interval, baseTime);
         return jdbcTemplate.query(sql, pageJournalRowMapper);
     }

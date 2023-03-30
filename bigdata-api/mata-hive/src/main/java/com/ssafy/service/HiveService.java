@@ -29,7 +29,7 @@ public class HiveService {
     public List<PageDuration> getPageDurations(long baseTime, String interval){
         return hiveRepository.selectPageDuration(baseTime, interval);
     }
-    public List<PageJournal> getPageJournals(long baseTime, String interval){
+    public List<PageJournal> getPageJournals(String baseTime, String interval){
         return hiveRepository.selectPageJournal(baseTime, interval);
     }
     public List<PageRefer> getPageRefers(long baseTime, String interval){

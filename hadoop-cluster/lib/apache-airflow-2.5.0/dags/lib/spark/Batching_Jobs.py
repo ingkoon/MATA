@@ -96,10 +96,10 @@ def batching_cassandra_pandas(base_time, amount, unit):
 
 
 ##### Cassandra -> Hive Batching (spark 사용)
-##### 1분부터 12시간까지 Cassandra 데이터를 기준으로 집계
+##### 5분부터 12시간까지 Cassandra 데이터를 기준으로 집계
 def batching_cassandra_spark(base_time, amount, unit):
     if str(amount)+unit not in ["5m", "10m", "30m", "1h", "6h", "12h"]:
-        print("invalid interval: interval should be 1m, 5m, 10m, 30m, 1h, 6h or 12h.")
+        print("invalid interval: interval should be 5m, 10m, 30m, 1h, 6h or 12h.")
         return 2
     
     base_timestamp = datetime.timestamp(datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S'))
@@ -214,7 +214,7 @@ def batching_cassandra_spark(base_time, amount, unit):
 ##### 1일부터 1년까지 12시간 집계 데이터를 기준으로 집계
 def batching_hive(base_time, amount, unit):
     if str(amount)+unit not in ["1d", "1w", "1mo", "6mo", "1y"]:
-        print("invalid interval: interval should be 1d, 1w, 1mo, 6mo or     1y.")
+        print("invalid interval: interval should be 1d, 1w, 1mo, 6mo ,1y, 0all.")
         return 2
 
     session = SparkSession.builder \
@@ -293,5 +293,25 @@ def batching_hive(base_time, amount, unit):
     page_journals_df.write.mode("append") \
         .format("hive") \
         .insertInto("mata.page_journals_{}{}".format(amount, unit))
+
+    #########
+    # page_refers 테이블 집계
+    page_refers_df = session.read \
+        .format("hive") \
+        .table("mata.page_refers_12h") \
+        .select("*") \
+        .where(col("creation_timestamp") \
+               .between(*timestamp_range(base_time, -amount, unit))) \
+        .withColumn("referrer", split(batch_df.referrer, "/").getItem(2)) \
+        .groupBy("referrer", "service_id") \
+        .agg(countDistinct("session_id").alias("total_session"),
+             sum(when(col("event") == "pageenter", 1).otherwise(0)).alias("total_pageenter")
+             ) \
+        .withColumn("update_timestamp", current_timestamp()) \
+        .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
+
+    page_refers_df.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_refers_{}{}".format(str(amount), unit))
     
     session.stop()

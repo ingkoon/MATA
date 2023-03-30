@@ -54,7 +54,7 @@ public class WeblogController {
         return ResponseEntity.status(HttpStatus.OK).body(pageDurations);
     }
     @GetMapping("/journals")
-    public ResponseEntity<List<PageJournal>> getPageJournals(@RequestParam long baseTime,
+    public ResponseEntity<List<PageJournal>> getPageJournals(@RequestParam String baseTime,
                                                              @RequestParam String interval,
                                                              @AuthenticationPrincipal UserDetails userDetails){
         if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
