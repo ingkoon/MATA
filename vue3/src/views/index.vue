@@ -1019,7 +1019,7 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted  } from 'vue';
+    import { computed, ref, onMounted,onUpdated  } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
@@ -1027,31 +1027,37 @@
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
     useMeta({ title: 'Sales Admin' });
-    
+    import router from '@/router';
+    import { useRoute } from 'vue-router';
+    const route =useRoute()
     const store = useStore();
-    // onMounted(()=>{   
-    //     console.log("index mounted")
-    //     const userjson=VueJwtDecode.decode(store.state.token)
-    //     console.log('userjson:'+userjson)
-    // })
+
+    let routeId=null
+    const data = {
+        "projectId":route.params.id
+    }
+    onUpdated(()=>{   
+        console.log("index mounted")
+        routeId = route.params.id
+        console.log(routeId)
+    }) 
+    
     // const userjson=VueJwtDecode.decode(store.state.token)
     // store.dispatch('getProjectList',store.state.token)
 
     //Revenue
-    const get_token=()=>{
+    function get_token(){
             // console.log(token)
             
             axios({
               method:'post',
               
-              url:'http://localhost:8080/api/v1/token/',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/token/',
               headers:{
                 
                 "Content-Type": 'application/json',
               },
-              data:{
-                "serviceId":id
-              },
+              data:data
             
             })
               .then(res=>{

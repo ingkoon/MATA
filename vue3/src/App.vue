@@ -27,12 +27,26 @@
     import appLayout from './layouts/app-layout.vue';
     import authLayout from './layouts/auth-layout.vue';
     import heroLayout from '@/layouts/hero-layout.vue';
+    // import { VuePlotly } from 'vue-plotly'
 
     export default {
         components: {
             app: appLayout,
             auth: authLayout,
             hero: heroLayout,
+            
         },
+        data() {
+            return {
+                data:[{
+                    x: [1,2,3,4],
+                    y: [10,15,13,17],
+                    type:"scatter"
+                }],
+                layout:{
+                title: "My graph"
+                }
+            }
+        }
     };
 </script>

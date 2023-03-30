@@ -11,9 +11,53 @@ import store from '../store';
 
 const routes = [
     //dashboard
-    { path: '/', name: 'Welcome', component: Welcome, meta: { layout: 'hero' } },
+    { path: '/', name: 'Welcome', component: Welcome, meta: { layout: 'hero' }},
     { path: '/service/:id', name: 'Home', component: Home, meta: { layout: 'app' } },
-    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+    // { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+
+    
+    //auth
+    {
+        path: '/auth/login',
+        name: 'login',
+        component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/login.vue'),
+        meta: { layout: 'auth' },
+    },
+    {
+        path: '/auth/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "auth-register" */ '../views/auth/register.vue'),
+        meta: { layout: 'auth' },
+    },
+
+    //users
+    // {
+    //     path: '/users/profile',
+    //     name: 'profile',
+    //     component: () => import(/* webpackChunkName: "users-profile" */ '../views/users/profile.vue'),
+    // },
+    // {
+    //     path: '/users/account-setting',
+    //     name: 'account-setting',
+    //     component: () => import(/* webpackChunkName: "users-account-setting" */ '../views/users/account_setting.vue'),
+    // },
+    {
+        path:"/user",
+        name:"getting-started",
+        component:()=>import('../views/users/getting_started.vue'),
+    },
+    {
+        path:"/user/add-app",
+        name:"add-app",
+        component:()=>import('../views/users/add_app.vue'),
+    },
+    
+    //charts
+    // {
+    //     path: '/charts/apex-chart',
+    //     name: 'apex-chart',
+    //     component: () => import(/* webpackChunkName: "charts-apex-chart" */ '../views/charts/apex_chart.vue'),
+    // },
 
     //components
     
@@ -45,49 +89,6 @@ const routes = [
         path: '/pages/blank-page',
         name: 'blank-page',
         component: () => import(/* webpackChunkName: "pages-blank-page" */ '../views/pages/blank_page.vue'),
-    },
-
-    //auth
-    {
-        path: '/auth/login',
-        name: 'login',
-        component: () => import(/* webpackChunkName: "auth-login" */ '../views/auth/login.vue'),
-        meta: { layout: 'auth' },
-    },
-    {
-        path: '/auth/register',
-        name: 'register',
-        component: () => import(/* webpackChunkName: "auth-register" */ '../views/auth/register.vue'),
-        meta: { layout: 'auth' },
-    },
-
-    //users
-    {
-        path: '/users/profile',
-        name: 'profile',
-        component: () => import(/* webpackChunkName: "users-profile" */ '../views/users/profile.vue'),
-    },
-    {
-        path: '/users/account-setting',
-        name: 'account-setting',
-        component: () => import(/* webpackChunkName: "users-account-setting" */ '../views/users/account_setting.vue'),
-    },
-    {
-        path:"/users/getting-started",
-        name:"getting-started",
-        component:()=>import('../views/users/getting_started.vue'),
-    },
-    {
-        path:"/users/add-app",
-        name:"add-app",
-        component:()=>import('../views/users/add_app.vue'),
-    },
-    
-    //charts
-    {
-        path: '/charts/apex-chart',
-        name: 'apex-chart',
-        component: () => import(/* webpackChunkName: "charts-apex-chart" */ '../views/charts/apex_chart.vue'),
     },
 ];
 

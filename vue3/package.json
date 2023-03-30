@@ -34,6 +34,7 @@
         "vue": "^3.2.13",
         "vue-animation-counter": "^1.0.30",
         "vue-clipboard3": "^2.0.0",
+        "vue-code-highlight": "^0.7.8",
         "vue-draggable-next": "^2.1.1",
         "vue-easy-lightbox": "^1.4.1",
         "vue-easymde": "^2.0.0",
@@ -48,6 +49,7 @@
         "vue3-nouislider": "^1.0.0",
         "vue3-number-spinner": "^0.0.9",
         "vue3-perfect-scrollbar": "^1.5.5",
+        "vue3-plotly": "^0.0.5",
         "vue3-quill": "^0.2.6",
         "vue3-scroll-spy": "^1.0.8",
         "vuex": "^4.0.0"
