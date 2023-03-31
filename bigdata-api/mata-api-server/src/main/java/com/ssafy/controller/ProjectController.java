@@ -4,6 +4,7 @@ import com.ssafy.config.sercurity.SecurityUtils;
 import com.ssafy.dto.project.request.ProjectAddRequest;
 import com.ssafy.dto.project.request.ProjectDeleteRequest;
 import com.ssafy.dto.project.request.ProjectRequest;
+import com.ssafy.dto.project.response.ProjectResponse;
 import com.ssafy.dto.project.response.TokenResponse;
 import com.ssafy.service.ProjectService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,17 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{serviceId}")
+    public ResponseEntity<ProjectResponse> getProjectDetail(
+            @PathVariable("serviceId") Long serviceId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        ProjectResponse response = projectService.getProjectDetail(serviceId);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
+
     // 프로젝트 추가
     @PostMapping("/add")
     public ResponseEntity<Void> addProject(@RequestBody ProjectAddRequest request){
