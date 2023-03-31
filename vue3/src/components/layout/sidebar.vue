@@ -92,40 +92,36 @@
 </template>
 
 <script setup>
-    import { onMounted, ref, onBeforeMount } from 'vue';
+    import { onMounted, ref, onBeforeMount, reactive } from 'vue';
     import { useStore } from 'vuex';
     import VueJwtDecode from 'vue-jwt-decode'
     import axios from 'axios';
     const store = useStore();
     const payload=ref([])
     const menu_collapse = ref('dashboard');
+    
+    const state = reactive({
+        accessToken: localStorage.getItem("accessToken")
+    })
     function getProjectList(){
-            // console.log(token)
-            const token=localStorage.getItem('accessToken')
-            axios({
-              method:'get',
-              
-              url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
-              headers:{
-                "Authorization": `Bearer ${token}`,
-              },
-            
-            })
-              .then(res=>{
-              console.log(`axios done ${res}`,res)
-              payload.value=res.data
-              console.log('asd')
-              this.$store.dispatch('get_service_list',payload)
-              
-              console.log(store.state.service)
-              })
-              .catch(err=>{
-              console.log(err.response)
-              })
-          }
-    // onBeforeMount(() => {
-    //     getProjectList()
-    // }),
+        axios({
+            method:'get',
+            url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
+            headers:{
+                "Authorization": `Bearer ${state.accessToken}`,
+            },
+        })
+        .then(res=>{
+            payload.value=res.data
+            this.$store.dispatch('get_service_list',payload)
+        })
+        .catch(err=>{
+            console.log(err.response)
+        })
+    }
+    
+    getProjectList();
+    
     onMounted(() => {
         console.log("sidebar mount start")
         getProjectList()

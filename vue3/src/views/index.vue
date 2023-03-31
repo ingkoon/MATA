@@ -801,29 +801,23 @@
             <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-top-selling-products">
                     <div class="widget-heading">
-                        <h5>Top Selling Product</h5>
+                        <h5>컴포넌트 별</h5>
                     </div>
-
-                    <div class="widget-content table-responsive">
+                    <div class="widget-content table-responsive overflow">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th><div class="th-content">Product</div></th>
-                                    <th><div class="th-content th-heading">Price</div></th>
-                                    <th><div class="th-content th-heading">Discount</div></th>
-                                    <th><div class="th-content">Sold</div></th>
-                                    <th><div class="th-content">Source</div></th>
+                                    <th><div class="th-content">ID</div></th>
+                                    <th><div class="th-content th-heading">페이지</div></th>
+                                    <th><div class="th-content th-heading">총 클릭</div></th>
+                                    <th><div class="th-content th-heading">클릭 비율</div></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-headphones.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Headphone</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
+                                            <p class="prd-name">Headphone</p>
                                         </div>
                                     </td>
                                     <td>
@@ -832,38 +826,14 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing">$60.09</span></div>
                                     </td>
-                                    <td><div class="td-content">170</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-danger"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Direct</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing">$60.09</span></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-shoes.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Shoes</p>
-                                                <p class="prd-category text-warning">Faishon</p>
-                                            </div>
+                                            <p class="prd-name">Shoes</p>
                                         </div>
                                     </td>
                                     <td>
@@ -872,38 +842,14 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing">$47.09</span></div>
                                     </td>
-                                    <td><div class="td-content">130</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-primary"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Google</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing">$47.09</span></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-watch.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Watch</p>
-                                                <p class="prd-category text-danger">Accessories</p>
-                                            </div>
+                                            <p class="prd-name">Watch</p>
                                         </div>
                                     </td>
                                     <td>
@@ -912,38 +858,14 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing">$20.00</span></div>
                                     </td>
-                                    <td><div class="td-content">66</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-warning"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Ads</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing">$20.00</span></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-laptop.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Laptop</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
+                                            <p class="prd-name">Laptop</p>
                                         </div>
                                     </td>
                                     <td>
@@ -952,38 +874,14 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing">$33.00</span></div>
                                     </td>
-                                    <td><div class="td-content">35</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-info"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Email</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing">$33.00</span></div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-camera.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Camera</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
+                                            <p class="prd-name">Camera</p>
                                         </div>
                                     </td>
                                     <td>
@@ -992,28 +890,8 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing">$26.04</span></div>
                                     </td>
-                                    <td><div class="td-content">30</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-secondary"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Referral</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing">$26.04</span></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1027,16 +905,18 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted  } from 'vue';
+    import { computed, ref, onMounted, reactive } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
+    import { useRoute } from 'vue-router';
     useMeta({ title: 'Sales Admin' });
     
     const store = useStore();
+    const route = useRoute();
     // onMounted(()=>{   
     //     console.log("index mounted")
     //     const userjson=VueJwtDecode.decode(store.state.token)
@@ -1044,30 +924,58 @@
     // })
     // const userjson=VueJwtDecode.decode(store.state.token)
     // store.dispatch('getProjectList',store.state.token)
-
+    
+    
+    const state = reactive({
+        serviceId: route.path.split('/')[2],
+        accessToken: localStorage.getItem("accessToken"),
+        clientToken: null,
+        pageDurations: {
+            
+        },
+        configs: {
+            components: {
+                interval: '1d'
+            }
+        },
+        data: {
+            components: []
+        }
+    });
+    
+    onMounted(() => {
+        getComponentStats();
+    })
+    
     //Revenue
-    const get_token=()=>{
-            // console.log(token)
-            axios({
-              method:'post',
-              url: process.env.VUE_APP_API_HOST+'/api/v1/token/',
-              headers:{
-                
+    const get_token = async () => {
+        let resp = await axios({
+            method:'post',
+            url: process.env.VUE_APP_API_HOST+'/api/v1/project/token',
+            headers:{
                 "Content-Type": 'application/json',
-              },
-              data:{
-                "serviceId":id
-              },
-            })
-              .then(res=>{
-              console.log(`axios done ${res}`,res)
-              payload.value=res.data
-              console.log('asd')
-              })
-              .catch(err=>{
-              console.log(err.response)
-              })
-          }
+            },
+            data:{
+                "serviceId": state.serviceId
+            },
+        })
+        let body = resp.data
+        console.log(body);
+        state.clientToken = body;
+    }
+
+    const getComponentStats = async () => {
+        let resp = await axios({
+            method:'get',
+            url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?baseTime=2023-04-01&interval=${ state.configs.components.interval }&serviceId=${state.serviceId}`,
+            headers:{
+                "Authorization": `Bearer ${state.accessToken}`,
+            },
+        })
+        let body = resp.data;
+        state.data.components = body;
+        console.log(body)
+    }
         
     const revenue_series = ref([
         { name: 'Income', data: [16800, 16800, 15500, 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000] },
@@ -1246,14 +1154,13 @@
             },
             labels: ['Apparel', 'Sports', 'Others'],
         };
-
         if (is_dark) {
             option['states'] = {
                 hover: { filter: { type: 'none' } },
                 active: { filter: { type: 'none' } },
             };
         }
-
         return option;
     });
+    
 </script>
