@@ -59,8 +59,7 @@ dag12h = DAG(
     'cassandra_to_hive_12h',
     default_args=default_args,
     description='Cassandra to Hive',
-    schedule_interval=timedelta(minutes=5)
-    # schedule_interval=timedelta(hours=12)
+    schedule_interval=timedelta(hours=12)
 )
 
 dag1d = DAG(
@@ -85,12 +84,12 @@ dag1mo = DAG(
     schedule_interval= "@monthly"
 )
 
-# dag6mo = DAG(
-#     'hive_to_hive_6mo',
-#     default_args=default_args,
-#     description='Hive to Hive',
-#     schedule_interval=relativedelta(months=6)
-# )
+dag6mo = DAG(
+    'hive_to_hive_6mo',
+    default_args=default_args,
+    description='Hive to Hive',
+    schedule_interval=relativedelta(months=6)
+)
 
 dag1y = DAG(
     'hive_to_hive_1y',
@@ -193,14 +192,14 @@ hive_to_spark_1mo = PythonOperator(
     dag=dag1mo
 )
 
-# hive_to_spark_6mo = PythonOperator(
-#     task_id='hive_to_spark_6mo',
-#     python_callable=batching_hive,
-#     op_kwargs = {"base_time" : now,
-#                  "amount" : 6,
-#                  "unit" : "mo"},
-#     dag=dag6mo
-# )
+hive_to_spark_6mo = PythonOperator(
+    task_id='hive_to_spark_6mo',
+    python_callable=batching_hive,
+    op_kwargs = {"base_time" : now,
+                 "amount" : 6,
+                 "unit" : "mo"},
+    dag=dag6mo
+)
 
 hive_to_spark_1y = PythonOperator(
     task_id='hive_to_spark_1y',
