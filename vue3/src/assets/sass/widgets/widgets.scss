@@ -618,6 +618,11 @@
     }
     /*Top Selling Products*/
     &.widget-top-selling-products {
+        
+        .overflow {
+            max-height: 300px;
+        }
+        
         .widget-content {
             .table-responsive {
                 margin-bottom: 0;
