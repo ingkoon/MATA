@@ -914,7 +914,11 @@
     import axios from 'axios';
     import { useRoute } from 'vue-router';
     useMeta({ title: 'Sales Admin' });
+    import { useRoute } from 'vue-router';
     
+    
+    
+    const route =useRoute();
     const store = useStore();
     const route = useRoute();
     // onMounted(()=>{   
