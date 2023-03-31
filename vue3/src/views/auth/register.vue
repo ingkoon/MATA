@@ -114,40 +114,59 @@
     import { defineEmits, defineProps } from "vue";
     useMeta({ title: 'Register Cover' });
     onMounted(()=>{console.log('hi')});
+    import { useStore } from 'vuex';
+    
+    const store=useStore();
+    
+    const name=null
+    const email=null
+    const password=null
+    const password2=null
+    
+    function signUp(){
+        const payload={
+            name:name,
+            email: email,
+            password: password,
+            password2:password2,
+        }
+        console.log(payload)
+        store.dispatch('signUp',payload)
+    }
     
 
 
 </script>
 
-<script>
-export default {
-  name: 'SignupView',
-  methods:{
-    signUp(){
-      const name=this.name
-      const email=this.email
-      const password=this.password
-      const password2=this.password2
-      const payload={
-        name:name,
-        email: email,
-        password: password,
-        password2:password2,
-      }
-      console.log(payload)
-      this.$store.dispatch('signUp',payload)
-    },
-  },
-  data(){
-    return{
-      name:null,
-      email:null,
-      password:null,
-      password2:null,
-    }
-  }
+<!--<script>-->
+<!--export default {-->
+<!--  name: 'SignupView',-->
+<!--  methods:{-->
+<!--    signUp(){-->
+<!--      const name=this.name-->
+<!--      const email=this.email-->
+<!--      const password=this.password-->
+<!--      const password2=this.password2-->
+<!--      const payload={-->
+<!--        name:name,-->
+<!--        email: email,-->
+<!--        password: password,-->
+<!--        password2:password2,-->
+<!--      }-->
+<!--      console.log(payload)-->
+<!--      this.$store.dispatch('signUp',payload)-->
+<!--    },-->
+<!--  },-->
+<!--  data(){-->
+<!--    return{-->
+<!--      name:null,-->
+<!--      email:null,-->
+<!--      password:null,-->
+<!--      password2:null,-->
+<!--    }-->
+<!--  }-->
 
-}
-</script>
+<!--}-->
+<!--</script>-->
 
 
