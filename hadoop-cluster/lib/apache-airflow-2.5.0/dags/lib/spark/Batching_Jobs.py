@@ -6,9 +6,9 @@ from pyspark.sql.functions import *
 from pyspark.sql.types import *
 from pyspark.sql import *
 
-import pandas as pd
-from cassandra.cluster import Cluster
-from cassandra.query import dict_factory
+# import pandas as pd
+# from cassandra.cluster import Cluster
+# from cassandra.query import dict_factory
 
 from datetime import datetime
 from datetime import timedelta
@@ -98,7 +98,7 @@ def timestamp_range(base_time, interval, unit):
 ##### Cassandra -> Hive Batching (spark 사용)
 ##### 5분부터 12시간까지 Cassandra 데이터를 기준으로 집계
 def batching_cassandra_spark(base_time, amount, unit):
-    if str(amount)+unit not in ["5m", "10m", "30m", "1h", "6h", "12h"]:
+    if str(amount)+unit not in ["5m", "10m", "30m", "1h", "6h", "12h", "1d"]:
         print("invalid interval: interval should be 5m, 10m, 30m, 1h, 6h or 12h.")
         return 2
     
@@ -213,7 +213,7 @@ def batching_cassandra_spark(base_time, amount, unit):
 ##### Hive -> Hive Batching
 ##### 1일부터 1년까지 12시간 집계 데이터를 기준으로 집계
 def batching_hive(base_time, amount, unit):
-    if str(amount)+unit not in ["1d", "1w", "1mo", "6mo", "1y"]:
+    if str(amount)+unit not in ["1w", "1mo", "6mo", "1y"]:
         print("invalid interval: interval should be 1d, 1w, 1mo, 6mo ,1y.")
         return 2
 
@@ -315,9 +315,12 @@ def batching_hive(base_time, amount, unit):
 
 
 def batching_hive_all(base_time, unit):
-    if unit == "all":
-        print("invalid interval: interval should be all.")
+    if unit != "all":
+        print("invalid interval: interval should be all")
         return 2
+
+    fixTime = 25
+    unit = "d"
 
     session = SparkSession.builder \
         .appName("Batching_Hive_To_Hive") \
@@ -329,88 +332,169 @@ def batching_hive_all(base_time, unit):
 
     base_timestamp = datetime.timestamp(datetime.strptime(base_time, '%Y-%m-%d %H:%M:%S'))
 
-    component_df = session.read \
+    #########
+    # components 테이블 집계
+    components_df_1d = session.read \
         .format("hive") \
-        .table("mata.components_12h") \
+        .table(f"mata.components_1d") \
         .select("*") \
         .where(col("update_timestamp") \
-               .between(*timestamp_range(base_time, -amount, unit))) \
-        .groupBy("service_id", "target_id", "location").agg(
-        sum("total_click").alias("total_click") \
-        ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
         .select("total_click", "target_id", "location", "update_timestamp", "service_id")
-    component_df.show()
-    component_df.write.mode("append") \
+
+    components_df_all = session.read \
         .format("hive") \
-        .insertInto("mata.components_{}{}".format(amount, unit))
+        .table("mata.components_all") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
+        .select("total_click", "target_id", "location", "update_timestamp", "service_id")
+
+    if components_df_all.count() != 0:
+        components_df_new = \
+            components_df_all \
+                .union(components_df_1d.select("*")) \
+                .groupBy("service_id", "target_id", "location").agg( \
+                sum("total_click").alias("total_click"), \
+                ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+                .select("total_click", "target_id", "location", "update_timestamp", "service_id")
+    else:
+        components_df_new = components_df_1d
+
+    components_df_new.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.components_all")
 
     #########
     # clicks 테이블 집계
-    click_df = session.read \
+    click_df_1d = session.read \
         .format("hive") \
-        .table("mata.clicks_12h") \
+        .table(f"mata.clicks_1d") \
         .select("*") \
         .where(col("update_timestamp") \
-               .between(*timestamp_range(base_time, -amount, unit))) \
-        .groupBy("service_id", "position_x", "position_y", "location").agg( \
-        sum("total_click").alias("total_click"), \
-        ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
         .select("total_click", "position_x", "position_y", "location", "update_timestamp", "service_id")
-    click_df.show()
-    click_df.write.mode("append") \
+
+    click_df_all = session.read \
         .format("hive") \
-        .insertInto("mata.clicks_{}{}".format(amount, unit))
+        .table("mata.clicks_all") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
+        .select("total_click", "position_x", "position_y", "location", "update_timestamp", "service_id")
+
+    if click_df_all.count() != 0:
+        click_df_new = \
+            click_df_all \
+                .union(click_df_1d.select("*")) \
+                .groupBy("service_id", "position_x", "position_y", "location").agg( \
+                sum("total_click").alias("total_click"), \
+                ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+                .select("total_click", "position_x", "position_y", "location", "update_timestamp", "service_id")
+    else:
+        click_df_new = click_df_1d
+
+    click_df_new.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.clicks_all")
 
     #########
     # page_durations 테이블 집계
-    page_durations_df = session.read \
+    page_durations_df_1d = session.read \
         .format("hive") \
-        .table("mata.page_durations_12h") \
+        .table(f"mata.page_durations_1d") \
         .select("*") \
         .where(col("update_timestamp") \
-               .between(*timestamp_range(base_time, -amount, unit))) \
-        .groupBy("service_id", "location").agg( \
-        sum("total_session").alias("total_session"), \
-        sum("total_duration").alias("total_duration"), \
-        ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
         .select("total_duration", "total_session", "location", "update_timestamp", "service_id")
-    page_durations_df.show()
-    page_durations_df.write.mode("append") \
+
+    page_durations_df_all = session.read \
         .format("hive") \
-        .insertInto("mata.page_durations_{}{}".format(amount, unit))
+        .table("mata.page_durations_all") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
+        .select("total_duration", "total_session", "location", "update_timestamp", "service_id")
+
+    if page_durations_df_all.count() != 0:
+        page_durations_df_new = \
+            page_durations_df_all \
+                .union(page_durations_df_1d.select("*")) \
+                .groupBy("service_id", "location").agg( \
+                sum("total_session").alias("total_session"), \
+                sum("total_duration").alias("total_duration"), \
+                ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+                .select("total_duration", "total_session", "location", "update_timestamp", "service_id")
+    else:
+        page_durations_df_new = page_durations_df_1d
+
+    page_durations_df_new.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_durations_all")
 
     #########
     # page_journals 테이블 집계
-    page_journals_df = session.read \
+    page_journals_df_1d = session.read \
         .format("hive") \
-        .table("mata.page_journals_12h") \
+        .table(f"mata.page_journals_1d") \
         .select("*") \
         .where(col("update_timestamp") \
-               .between(*timestamp_range(base_time, -amount, unit))) \
-        .groupBy("service_id", "location_from", "location_to", ).agg( \
-        sum("total_journal").alias("total_journal"), \
-        ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
         .select("total_journal", "location_from", "location_to", "update_timestamp", "service_id")
-    page_journals_df.show()
-    page_journals_df.write.mode("append") \
+
+    page_journals_df_all = session.read \
         .format("hive") \
-        .insertInto("mata.page_journals_{}{}".format(amount, unit))
+        .table("mata.page_journals_all") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
+        .select("total_journal", "location_from", "location_to", "update_timestamp", "service_id")
+
+    if page_journals_df_all.count() != 0:
+        page_journals_df_new = \
+            page_journals_df_all \
+                .union(page_journals_df_1d.select("*")) \
+                .groupBy("service_id", "location_from", "location_to").agg( \
+                sum("total_journal").alias("total_journal"), \
+                ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+                .select("total_journal", "location_from", "location_to", "update_timestamp", "service_id")
+    else:
+        page_journals_df_new = page_journals_df_1d
+
+    page_journals_df_new.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_journals_all")
 
     #########
     # page_refers 테이블 집계
-    page_refers_df = session.read \
+    page_refers_df_1d = session.read \
         .format("hive") \
-        .table("mata.page_refers_12h") \
+        .table(f"mata.page_refers_1d") \
         .select("*") \
         .where(col("update_timestamp") \
-               .between(*timestamp_range(base_time, -amount, unit))) \
-        .groupBy("referrer", "service_id") \
-        .agg(sum("total_pageenter").alias("total_pageenter"), sum("total_session").alias("total_session")) \
-        .withColumn("update_timestamp", current_timestamp()) \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
         .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
 
-    page_refers_df.write.mode("append") \
+    page_refers_df_all = session.read \
         .format("hive") \
-        .insertInto("mata.page_refers_{}{}".format(str(amount), unit))
+        .table("mata.page_refers_all") \
+        .select("*") \
+        .where(col("update_timestamp") \
+               .between(*timestamp_range(base_time, -fixTime, unit))) \
+        .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
 
-    session.stop()
+    if page_refers_df_all.count() != 0:
+        page_refers_df_new = \
+            page_refers_df_all \
+                .union(page_refers_df_1d.select("*")) \
+                .groupBy("referrer", "service_id").agg( \
+                sum("total_pageenter").alias("total_pageenter"), \
+                sum("total_session").alias("total_session"), \
+                ).withColumn("update_timestamp", lit(base_timestamp).cast("timestamp")) \
+                .select("total_session", "total_pageenter", "update_timestamp", "referrer", "service_id")
+    else:
+        page_refers_df_new = page_refers_df_1d
+
+    page_refers_df_new.write.mode("append") \
+        .format("hive") \
+        .insertInto("mata.page_refers_all")
