@@ -919,7 +919,6 @@
     
     const route =useRoute();
     const store = useStore();
-    const route = useRoute();
     // onMounted(()=>{   
     //     console.log("index mounted")
     //     const userjson=VueJwtDecode.decode(store.state.token)
