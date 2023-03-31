@@ -229,7 +229,7 @@ def batching_hive(base_time, amount, unit):
 
     component_df = session.read \
         .format("hive") \
-        .table("mata.components_12h") \
+        .table("mata.components_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                 .between(*timestamp_range(base_time, -amount, unit))) \
@@ -246,7 +246,7 @@ def batching_hive(base_time, amount, unit):
     # clicks 테이블 집계
     click_df = session.read \
         .format("hive") \
-        .table("mata.clicks_12h") \
+        .table("mata.clicks_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                 .between(*timestamp_range(base_time, -amount, unit))) \
@@ -263,7 +263,7 @@ def batching_hive(base_time, amount, unit):
     # page_durations 테이블 집계
     page_durations_df = session.read \
         .format("hive") \
-        .table("mata.page_durations_12h") \
+        .table("mata.page_durations_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                 .between(*timestamp_range(base_time, -amount, unit))) \
@@ -281,7 +281,7 @@ def batching_hive(base_time, amount, unit):
     # page_journals 테이블 집계
     page_journals_df = session.read \
         .format("hive") \
-        .table("mata.page_journals_12h") \
+        .table("mata.page_journals_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                 .between(*timestamp_range(base_time, -amount, unit))) \
@@ -298,7 +298,7 @@ def batching_hive(base_time, amount, unit):
     # page_refers 테이블 집계
     page_refers_df = session.read \
         .format("hive") \
-        .table("mata.page_refers_12h") \
+        .table("mata.page_refers_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -amount, unit))) \

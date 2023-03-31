@@ -8,7 +8,7 @@ from lib.spark.Batching_Jobs import batching_hive, batching_cassandra_spark, bat
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 3, 30, 23, 00),
+    'start_date': datetime(2023, 3, 31, 5, 0),
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
@@ -63,10 +63,9 @@ dag12h = DAG(
 )
 
 dag1d = DAG(
-    'hive_to_hive_1d',
+    'cassandra_to_hive_1d',
     default_args=default_args,
-    description='Hive to Hive',
-    # schedule_interval=timedelta(minutes=10)
+    description='Cassandra to Hive',
     schedule_interval= "@daily"
 )
 
@@ -166,8 +165,8 @@ cassandra_to_spark_12h = PythonOperator(
 )
 
 hive_to_spark_1d = PythonOperator(
-    task_id='hive_to_spark_1d',
-    python_callable=batching_hive,
+    task_id='cassandra_to_spark_1d',
+    python_callable=batching_cassandra_spark,
     op_kwargs = {"base_time" : now,
                  "amount" : 1,
                  "unit" : "d"},
