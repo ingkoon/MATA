@@ -215,8 +215,9 @@ export default new createStore({
                 console.log(err)
                 })
           },
-        async fetchDurations({ commit }, {baseTime, interval}) {
-            const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
+        async fetchDurations({ commit }, {baseTime, interval, serviceId}) {
+            // const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
+            const url = `http://localhost:8080/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}&serviceId=${serviceId}`
             const params = {baseTime, interval};
             const { data } = await axios.get(url, params).then(response => {
                 return response.data;
