@@ -214,7 +214,6 @@ export default new createStore({
                 .catch(err=>{
                 console.log(err)
                 })
-
           },
         async fetchDurations({ commit }, {baseTime, interval}) {
             const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
