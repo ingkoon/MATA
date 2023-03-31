@@ -319,8 +319,8 @@ def batching_hive_all(base_time, unit):
         print("invalid interval: interval should be all")
         return 2
 
-    fixTime = 10
-    unit = "m"
+    fixTime = 25
+    unit = "d"
 
     session = SparkSession.builder \
         .appName("Batching_Hive_To_Hive") \
@@ -336,7 +336,7 @@ def batching_hive_all(base_time, unit):
     # components 테이블 집계
     components_df_1d = session.read \
         .format("hive") \
-        .table(f"mata.components_{fixTime}{unit}") \
+        .table(f"mata.components_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -fixTime, unit))) \
@@ -369,7 +369,7 @@ def batching_hive_all(base_time, unit):
     # clicks 테이블 집계
     click_df_1d = session.read \
         .format("hive") \
-        .table(f"mata.clicks_{fixTime}{unit}") \
+        .table(f"mata.clicks_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -fixTime, unit))) \
@@ -402,7 +402,7 @@ def batching_hive_all(base_time, unit):
     # page_durations 테이블 집계
     page_durations_df_1d = session.read \
         .format("hive") \
-        .table(f"mata.page_durations_{fixTime}{unit}") \
+        .table(f"mata.page_durations_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -fixTime, unit))) \
@@ -436,7 +436,7 @@ def batching_hive_all(base_time, unit):
     # page_journals 테이블 집계
     page_journals_df_1d = session.read \
         .format("hive") \
-        .table(f"mata.page_journals_{fixTime}{unit}") \
+        .table(f"mata.page_journals_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -fixTime, unit))) \
@@ -469,7 +469,7 @@ def batching_hive_all(base_time, unit):
     # page_refers 테이블 집계
     page_refers_df_1d = session.read \
         .format("hive") \
-        .table(f"mata.page_refers_{fixTime}{unit}") \
+        .table(f"mata.page_refers_1d") \
         .select("*") \
         .where(col("update_timestamp") \
                .between(*timestamp_range(base_time, -fixTime, unit))) \

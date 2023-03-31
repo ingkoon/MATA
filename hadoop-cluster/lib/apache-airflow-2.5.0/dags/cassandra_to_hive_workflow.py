@@ -8,17 +8,17 @@ from lib.spark.Batching_Jobs import batching_hive, batching_cassandra_spark, bat
 
 default_args = {
     'owner': 'airflow',
-    'start_date': datetime(2023, 3, 31, 2, 0),
+    'start_date': datetime(2023, 3, 30, 23, 00),
     'retries': 1,
     'retry_delay': timedelta(minutes=1),
 }
 
-dag1m = DAG(
-    'cassandra_to_hive_1m',
-    default_args=default_args,
-    description='Cassandra to Hive',
-    schedule_interval=timedelta(minutes=1)
-)
+# dag1m = DAG(
+#     'cassandra_to_hive_1m',
+#     default_args=default_args,
+#     description='Cassandra to Hive',
+#     schedule_interval=timedelta(minutes=1)
+# )
 
 dag5m = DAG(
     'cassandra_to_hive_5m',
@@ -66,8 +66,8 @@ dag1d = DAG(
     'hive_to_hive_1d',
     default_args=default_args,
     description='Hive to Hive',
-    schedule_interval=timedelta(minutes=10)
-    # schedule_interval= "@daily"
+    # schedule_interval=timedelta(minutes=10)
+    schedule_interval= "@daily"
 )
 
 dag1w = DAG(
@@ -102,14 +102,14 @@ dag1y = DAG(
 
 now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
 
-cassandra_to_spark_1m = PythonOperator(
-    task_id='cassandra_to_spark_1m',
-    python_callable=batching_cassandra_spark,
-    op_kwargs = {"base_time" : now,
-                 "amount" : 1,
-                 "unit" : "m"},
-    dag=dag1m
-)
+# cassandra_to_spark_1m = PythonOperator(
+#     task_id='cassandra_to_spark_1m',
+#     python_callable=batching_cassandra_spark,
+#     op_kwargs = {"base_time" : now,
+#                  "amount" : 1,
+#                  "unit" : "m"},
+#     dag=dag1m
+# )
 
 cassandra_to_spark_5m = PythonOperator(
     task_id='cassandra_to_spark_5m',
@@ -169,8 +169,8 @@ hive_to_spark_1d = PythonOperator(
     task_id='hive_to_spark_1d',
     python_callable=batching_hive,
     op_kwargs = {"base_time" : now,
-                 "amount" : 10,
-                 "unit" : "m"},
+                 "amount" : 1,
+                 "unit" : "d"},
     dag=dag1d
 )
 
