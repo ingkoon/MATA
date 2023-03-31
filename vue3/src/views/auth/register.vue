@@ -28,7 +28,7 @@
                                             <circle cx="12" cy="12" r="4"></circle>
                                             <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>
                                         </svg>
-                                        <input type="email" class="form-control" placeholder="이메일" v-model="email"/>
+                                        <input type="email" class="form-control" placeholder="이메일" v-model="state.email"/>
                                     </div>
                                     <div id="username-field" class="field-wrapper input" >
                                         <svg
@@ -46,7 +46,7 @@
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                             <circle cx="12" cy="7" r="4"></circle>
                                         </svg>
-                                        <input type="text" class="form-control" placeholder="이름" v-model="name" />
+                                        <input type="text" class="form-control" placeholder="이름" v-model="state.name" />
                                     </div>
                                     <div id="password-field" class="field-wrapper input mb-2">
                                         <svg
@@ -64,7 +64,7 @@
                                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                         </svg>
-                                        <input type="password" class="form-control" placeholder="비밀번호" v-model="password" />
+                                        <input type="password" class="form-control" placeholder="비밀번호" v-model="state.password" />
                                     </div>
                                     
                                     <div id="password2-field" class="field-wrapper input mb-2">
@@ -83,7 +83,7 @@
                                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                         </svg>
-                                        <input type="password" class="form-control" placeholder="비밀번호 확인" v-model="password2"/>
+                                        <input type="password" class="form-control" placeholder="비밀번호 확인" v-model="state.password2"/>
                                     </div>
 
                                     <div class="d-sm-flex justify-content-between">
@@ -117,18 +117,20 @@
     import { useStore } from 'vuex';
     
     const store=useStore();
+    const state = reactive({
+        name:null,
+        email: null,
+        password: null,
+        password2:null
+    })
     
-    const name=null
-    const email=null
-    const password=null
-    const password2=null
     
     function signUp(){
         const payload={
-            name:name,
-            email: email,
-            password: password,
-            password2:password2,
+            name:state.name,
+            email: state.email,
+            password: state.password,
+            password2:state.password2,
         }
         console.log(payload)
         store.dispatch('signUp',payload)
