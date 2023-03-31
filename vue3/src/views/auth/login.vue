@@ -27,7 +27,7 @@
                                             <circle cx="12" cy="12" r="4"></circle>
                                             <path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path>
                                         </svg>
-                                        <input type="text" class="form-control" placeholder="이메일" v-model="email" />
+                                        <input type="text" class="form-control" placeholder="이메일" v-model="state.email" />
                                     </div>
 
                                     <div id="password-field" class="field-wrapper input mb-2">
@@ -46,7 +46,7 @@
                                             <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
                                             <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
                                         </svg>
-                                        <input type="password" class="form-control" placeholder="패스워드" v-model="password"/>
+                                        <input type="password" class="form-control" placeholder="패스워드" v-model="state.password"/>
                                     </div>
                                     <div class="d-sm-flex justify-content-between">
                                         <div class="field-wrapper toggle-pass d-flex align-items-center">
@@ -92,34 +92,23 @@
     import '@/assets/sass/authentication/auth.scss';
 
     import { useMeta } from '@/composables/use-meta';
-    useMeta({ title: 'Login Cover' });
-</script>
-
-<script>
-export default {
-  name: 'loginView',
-  methods:{
-    logIn(){
-      
-      const email=this.email
-      const password=this.password
-      
-      const payload={
-        email: email,
-        password: password,
-      }
-      console.log(payload)
-      this.$store.dispatch('logIn',payload)
-    },
-  },
-  data(){
-    return{
-      name:null,
-      email:null,
-      password:null,
-      password2:null,
+    import { reactive } from 'vue';
+    import { useStore } from 'vuex';
+    useMeta({ title: 'Login' });
+    const store = useStore();
+    
+    const state = reactive({
+        email: null,
+        password: null,
+    })
+    const logIn = function () {
+        const email = state.email
+        const password = state.password
+        const payload={
+            email: email,
+            password: password,
+        }
+        console.log(payload)
+        store.dispatch('logIn',payload)
     }
-  }
-
-}
 </script>
