@@ -133,36 +133,17 @@ export default function App() {
     </div>
 </template>
 
-<script>
+<script setup>
     import '@/assets/sass/users/getting-started.scss';
-    export default {
-        name: 'Getting-started',
-        methods:{
-
-        },
-        data(){
-            return{
-                category:null,
-                url:null,
-                name:null,
-                clientToken: null,
-            }
-        }
-    }
-
-    // import { ref } from 'vue';
-    // import '@/assets/sass/authentication/auth-boxed.scss';
-
-    // import { useMeta } from '@/composables/use-meta';
-    // useMeta({ title: 'Register Boxed' });
-
-    // const pwd_type = ref('password');
-
-    // const set_pwd_type = () => {
-    //     if (pwd_type.value === 'password') {
-    //         pwd_type.value = 'text';
-    //     } else {
-    //         pwd_type.value = 'password';
-    //     }
-    // };
+    import { useMeta } from '@/composables/use-meta';
+    import { reactive } from 'vue';
+    
+    useMeta({title: 'Getting started'})
+    
+    const state = reactive({
+        category:null,
+        url:null,
+        name:null,
+        clientToken: null,
+    })
 </script>
