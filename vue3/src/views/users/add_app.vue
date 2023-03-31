@@ -68,9 +68,9 @@
     })
 
     const add_app = function (){
-        const category=this.category
-        const url=this.url
-        const name=this.name
+        const category = state.category
+        const url = state.url
+        const name = state.name
         const payload={
             category:category,
             url:url,
