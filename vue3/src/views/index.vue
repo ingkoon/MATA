@@ -19,7 +19,7 @@
                     <h5>사용자 토큰</h5>
                     <div> {{ $route.params.id }}</div>
                     <div>
-                        토큰 : {{  }}
+                        토큰 : {{ state.target.token }}
                     </div>
                     <button @click="get_token">재발급</button>
                 </div>
@@ -1027,7 +1027,7 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted,onUpdated  } from 'vue';
+    import { computed, ref, onMounted, onUpdated, reactive } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
@@ -1046,17 +1046,62 @@
     const data = {
         "projectId":route.params.id
     }
-    onUpdated(()=>{
+    const state = reactive({
+        target:null,
+        services:null
+    })
+
+    onMounted(()=>{
         console.log("index mounted")
         routeId = route.params.id
         console.log(routeId)
+        console.log("index.vue updated, state.service:",state.services)
+        
+        
+        
+        state.services=store.getProjectList()
+        console.log("services in localstorage:", state.services)
+        for (var service of state.services){
+            console.log(service)
+            if(service.id==routeId){
+                state.target=service
+                break
+            }
+            else {
+                continue
+            }
+        }
+        console.log(state.target)
+    })
+
+    onMounted(()=>{
+        console.log("index mounted")
+        routeId = route.params.id
+        console.log(routeId)
+        console.log("index.vue updated, state.service:",state.services)
+
+
+
+        state.services=store.getProjectList()
+        console.log("services in localstorage:", state.services)
+        for (var service of state.services){
+            console.log(service)
+            if(service.id==routeId){
+                state.target=service
+                break
+            }
+            else {
+                continue
+            }
+        }
+        console.log(state.target)
     })
 
     const get_token=()=>{
             // console.log(token)
             axios({
               method:'post',
-              url: process.env.VUE_APP_API_HOST+'/api/v1/token/',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/project/token/',
               headers:{
                 
                 "Content-Type": 'application/json',

@@ -115,9 +115,11 @@
               console.log(`axios done ${res}`,res)
               payload.value=res.data
               console.log('asd')
-              this.$store.dispatch('get_service_list',payload)
-              
+                  
+              // store.dispatch('get_service_list',payload)
+              store.commit('set_service_list',res.data)
               console.log(store.state.service)
+                  localStorage.setItem('services',JSON.stringify(res.data))
               })
               .catch(err=>{
               console.log(err.response)
