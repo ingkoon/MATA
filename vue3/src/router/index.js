@@ -14,6 +14,7 @@ const routes = [
     { path: '/', name: 'Welcome', component: Welcome, meta: { layout: 'hero' }},
     { path: '/service/:id', name: 'Home', component: Home, meta: { layout: 'app' } },
     // { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+    { path: '/index3', name: 'index3', component: () => import(/* webpackChunkName: "index3" */ '../views/index3.vue'), },
 
     
     //auth
