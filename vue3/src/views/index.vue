@@ -798,12 +798,55 @@
                 </div>
             </div>
 
-            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-top-selling-products">
-                    <div class="widget-heading">
-                        <h5>컴포넌트 별</h5>
+            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="row widget widget-components wrapper">
+                    <div class="widget widget-summary col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-0 p-2 h-auto">
+                        <div class="widget-heading">
+                            <h5>컴포넌트</h5>
+                        </div>
+                        <div class="widget-content">
+                            <div class="summary-list">
+                                <div class="w-summary-details">
+                                    <div class="w-summary-info">
+                                        <h6>1등ID</h6>
+                                        <p class="summary-count">$92,600</p>
+                                    </div>
+                                    <div class="w-summary-stats">
+                                        <div class="progress">
+                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90" class="progress-bar bg-gradient-secondary" style="width: 90%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-list">
+                                <div class="w-summary-details">
+                                    <div class="w-summary-info">
+                                        <h6></h6>
+                                        <p class="summary-count">$37,515</p>
+                                    </div>
+                                    <div class="w-summary-stats">
+                                        <div class="progress">
+                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" class="progress-bar bg-gradient-success" style="width: 65%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="summary-list">
+                                <div class="w-summary-details">
+                                    <div class="w-summary-info">
+                                        <h6>3등ID</h6>
+                                        <p class="summary-count">$55,085</p>
+                                    </div>
+                                    <div class="w-summary-stats">
+                                        <div class="progress">
+                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" class="progress-bar bg-gradient-warning" style="width: 80%"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="widget-content table-responsive overflow">
+                    <div class="widget-content table-responsive overflow-auto col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 p-3 d-flex">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -814,84 +857,20 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr v-for='item in state.data.components.list'>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <p class="prd-name">Headphone</p>
+                                            <p class="prd-name">{{ item.targetId }}</p>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="td-content"><span class="pricing">$168.09</span></div>
+                                        <div class="td-content"><span class="pricing"> {{ item.location }} </span></div>
                                     </td>
                                     <td>
-                                        <div class="td-content"><span class="discount-pricing">$60.09</span></div>
+                                        <div class="td-content"><span class="discount-pricing"> {{ item.totalClick }} </span></div>
                                     </td>
                                     <td>
-                                        <div class="td-content"><span class="discount-pricing">$60.09</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <p class="prd-name">Shoes</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$108.09</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$47.09</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$47.09</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <p class="prd-name">Watch</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$88.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$20.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$20.00</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <p class="prd-name">Laptop</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$110.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$33.00</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$33.00</span></div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="td-content d-flex">
-                                            <p class="prd-name">Camera</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="pricing">$126.04</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$26.04</span></div>
-                                    </td>
-                                    <td>
-                                        <div class="td-content"><span class="discount-pricing">$26.04</span></div>
+                                        <div class="td-content"><span class="discount-pricing"> {{ (item.totalClick / state.data.components.totalClickSum * 100).toFixed(1) }}% </span></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -941,7 +920,11 @@
             }
         },
         data: {
-            components: []
+            components: {
+                totalNum: 0,
+                totalClickSum: 0,
+                list: [],
+            }
         }
     });
     
@@ -969,14 +952,32 @@
     const getComponentStats = async () => {
         let resp = await axios({
             method:'get',
-            url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?baseTime=2023-04-01&interval=${ state.configs.components.interval }&serviceId=${state.serviceId}`,
+            url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/components?basetime=${Date.now()}&interval=${ state.configs.components.interval }&serviceid=${state.serviceId}`,
             headers:{
                 "Authorization": `Bearer ${state.accessToken}`,
             },
         })
         let body = resp.data;
-        state.data.components = body;
-        console.log(body)
+        body = [{
+            totalClick : 12,
+            targetId : "btn-login",
+            location : "localhost",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 6,
+            targetId : "btn-join",
+            location : "localhost/first",
+            updateTimestamp : "",
+            serviceId : 2
+        },];
+        body.sort(function(a, b) {
+            return b.totalClick - a.totalClick;
+        })
+        state.data.components.list = body;
+        state.data.components.totalNum = state.data.components.list;
+        state.data.components.totalClickSum = state.data.components.list.reduce((acc, cur) => acc + cur.totalClick, 0)
+        console.log()
     }
         
     const revenue_series = ref([
