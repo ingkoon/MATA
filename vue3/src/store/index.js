@@ -215,10 +215,17 @@ export default new createStore({
                 console.log(err)
                 })
           },
-        async fetchDurations({ commit }, {baseTime, interval}) {
-            const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
-            const params = {baseTime, interval};
+        async fetchDurations({ commit }, {baseTime, interval, serviceId}) {
+            console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
+            console.log(123);
+            const url = encodeURI(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations`);
+            const params = {
+                'basetmie' : baseTime, 
+                'interval' : interval, 
+                'serviceid' : serviceId
+            };
             const { data } = await axios.get(url, params).then(response => {
+                console.log(data)
                 return response.data;
             }).catch(error => {
                 console.error(error + "에 해당하는 에러가 발생했습니다.");

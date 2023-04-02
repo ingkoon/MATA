@@ -22,22 +22,22 @@
                         </svg>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                        <li v-for="(item, index) in period" :key="item.id">
+                        <li v-for="(item, index) in selectedPeriod" :key="item.id">
                             <a href="javascript:;" class="dropdown-item" v-on:click="selectedPeriod = item.period">{{item.label}}</a>
                         </li>
                     </ul>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="(item, index) in timeLine" :key="item.id">
+                        <li v-for="(item, index) in selectedPeriod" :key="item.id">
                             <a href="javascript:;" class="dropdown-item" v-on:click="selectedTimeLine = item.timeLine">{{ item.label }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <div class="widget-content">
-                <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>
-                <apex-chart v-if="revenue_options" height="325" type="area" :options="revenue_options" :series="revenue_series"></apex-chart>
-            </div>
+<!--            <div class="widget-content">-->
+<!--                <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>-->
+<!--                <apex-chart v-if="revenue_options" height="325" type="area" :options="revenue_options" :series="revenue_series"></apex-chart>-->
+<!--            </div>-->
         </div>
     </div>
 </template>
@@ -49,19 +49,13 @@
     import { computed, inject, onMounted, reactive, ref } from 'vue';
     export default {
         components: { ApexChart },
-      
-        data(){ 
-            return{
-                selectedTimeLine: null,
-                selectedPeriod: null,
-                
-            }
-        },
         
         setup() {
-            onMounted(()=>{
-                fetchData(selectedTimeLine, selectedPeriod);
-            });
+            // onMounted(()=>{
+            //     console.log("11")
+            //     fetchData(selectedTimeLine, selectedPeriod, serviceId);
+            // });
+            
             const store = useStore();
             const period= reactive([
                 {label: 'Daily', value: 1},
@@ -81,13 +75,18 @@
             const selectedTimeLine = ref(timeLine[0]);
             const selectedPeriod = ref(period[0]);
 
+            
             const fetchData = (baseTime, interval, serviceId) => {
+                console.log('basetime = ' + parseInt(baseTime, 10) +  ' interval = ' + interval +' serviceid = ' +  serviceId);
+                console.log("test")
                 store.dispatch('fetchDurations', { baseTime, interval, serviceId})
             }
             
             const serviceId = useRoute().params.id; // 'id' 파라미터 값 가져오기
-            fetchData(Date.now(), "5m", serviceId)
-
+            
+            let date = new Date().getTime();
+            
+            fetchData(date, '5m', serviceId);            
             const duration_series = ref([
                 {
                     name: '인원 수',
@@ -193,8 +192,5 @@
                 fetchData
             }
         },
-        methods:{
-            
-        }
     }
 </script>

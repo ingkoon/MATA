@@ -72,7 +72,11 @@
                     </div>
                 </div>
             </div>
-
+            <div>
+                <template>
+                    <Linear_chart/>
+                </template>
+            </div>
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-sales-category">
                     <div class="widget-heading">
@@ -867,6 +871,7 @@
     import axios from 'axios';
     import { useRoute } from 'vue-router';
     useMeta({ title: 'Sales Admin' });
+    import Linear_chart from '@/views/charts/linear_chart.vue';
     
     const route =useRoute();
     const store = useStore();    
