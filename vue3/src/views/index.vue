@@ -805,41 +805,15 @@
                             <h5>컴포넌트</h5>
                         </div>
                         <div class="widget-content">
-                            <div class="summary-list">
+                            <div class="summary-list" v-for='item in state.data.components.list.slice(0, 3)'>
                                 <div class="w-summary-details">
                                     <div class="w-summary-info">
-                                        <h6>1등ID</h6>
-                                        <p class="summary-count">$92,600</p>
+                                        <h6>{{ item.targetId }}</h6>
+                                        <p class="summary-count">{{ (item.totalClick / state.data.components.totalClickSum * 100).toFixed(1) }}%</p>
                                     </div>
                                     <div class="w-summary-stats">
                                         <div class="progress">
-                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="90" class="progress-bar bg-gradient-secondary" style="width: 90%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summary-list">
-                                <div class="w-summary-details">
-                                    <div class="w-summary-info">
-                                        <h6></h6>
-                                        <p class="summary-count">$37,515</p>
-                                    </div>
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="65" class="progress-bar bg-gradient-success" style="width: 65%"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="summary-list">
-                                <div class="w-summary-details">
-                                    <div class="w-summary-info">
-                                        <h6>3등ID</h6>
-                                        <p class="summary-count">$55,085</p>
-                                    </div>
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="80" class="progress-bar bg-gradient-warning" style="width: 80%"></div>
+                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" :aria-valuenow='(item.totalClick / state.data.components.totalClickSum * 100)' class="progress-bar bg-gradient-primary" :style="'width: '+(item.totalClick / state.data.components.totalClickSum * 100).toFixed(1)+'%'"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -894,18 +868,8 @@
     import { useRoute } from 'vue-router';
     useMeta({ title: 'Sales Admin' });
     
-    
-    
     const route =useRoute();
-    const store = useStore();
-    // onMounted(()=>{   
-    //     console.log("index mounted")
-    //     const userjson=VueJwtDecode.decode(store.state.token)
-    //     console.log('userjson:'+userjson)
-    // })
-    // const userjson=VueJwtDecode.decode(store.state.token)
-    // store.dispatch('getProjectList',store.state.token)
-    
+    const store = useStore();    
     
     const state = reactive({
         serviceId: route.path.split('/')[2],
@@ -968,6 +932,18 @@
             totalClick : 6,
             targetId : "btn-join",
             location : "localhost/first",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 5,
+            targetId : "btn-details",
+            location : "localhost/first",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 10,
+            targetId : "btn-submit",
+            location : "localhost/second",
             updateTimestamp : "",
             serviceId : 2
         },];
