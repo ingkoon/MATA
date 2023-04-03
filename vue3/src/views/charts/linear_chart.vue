@@ -95,20 +95,26 @@
             components: {
                 interval: '1d'
             }
-        }
+        },
+        duration_series: [],
+        duration_options: {},
     });
 
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
+    }
+    const updateChart = async ()=>{
+        
     }
     
     onMounted(()=> {
         fetchData(Date.now(), '1d', route.params.id);
         console.log(state.data.period);
     });
+    
     watchEffect(()=>{
         const { selectedTimeLine, selectedPeriod } = state.data;
-        fetchData(selectedTimeLine, selectedPeriod, route.params.id);
+        fetchData(Date.now(), selectedPeriod, route.params.id);
     })
     
     // onUpdated(()=>{
@@ -226,3 +232,4 @@
         };
     })
 </script>
+<!--데이터를 가져오는 부분을 함수로 수정해서 series와-->
