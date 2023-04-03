@@ -35,48 +35,50 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-revenue">
-                    <div class="widget-heading">
-                        <h5>Revenue</h5>
-                        <div class="dropdown btn-group">
-                            <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    width="24"
-                                    height="24"
-                                    viewBox="0 0 24 24"
-                                    fill="none"
-                                    stroke="currentColor"
-                                    stroke-width="2"
-                                    stroke-linecap="round"
-                                    stroke-linejoin="round"
-                                    class="feather feather-more-horizontal"
-                                >
-                                    <circle cx="12" cy="12" r="1"></circle>
-                                    <circle cx="19" cy="12" r="1"></circle>
-                                    <circle cx="5" cy="12" r="1"></circle>
-                                </svg>
-                            </a>
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                                <li><a href="javascript:;" class="dropdown-item">Weekly</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Monthly</a></li>
-                                <li><a href="javascript:;" class="dropdown-item">Yearly</a></li>
-                            </ul>
-                        </div>
-                    </div>
 
-                    <div class="widget-content">
-                        <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>
-                        <apex-chart v-if="revenue_options" height="325" type="area" :options="revenue_options" :series="revenue_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
             <div>
                 <template>
                     <Linear_chart/>
                 </template>
             </div>
+            
+<!--            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">-->
+<!--                <div class="widget widget-revenue">-->
+<!--                    <div class="widget-heading">-->
+<!--                        <h5>Revenue</h5>-->
+<!--                        <div class="dropdown btn-group">-->
+<!--                            <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                                <svg-->
+<!--                                    xmlns="http://www.w3.org/2000/svg"-->
+<!--                                    width="24"-->
+<!--                                    height="24"-->
+<!--                                    viewBox="0 0 24 24"-->
+<!--                                    fill="none"-->
+<!--                                    stroke="currentColor"-->
+<!--                                    stroke-width="2"-->
+<!--                                    stroke-linecap="round"-->
+<!--                                    stroke-linejoin="round"-->
+<!--                                    class="feather feather-more-horizontal"-->
+<!--                                >-->
+<!--                                    <circle cx="12" cy="12" r="1"></circle>-->
+<!--                                    <circle cx="19" cy="12" r="1"></circle>-->
+<!--                                    <circle cx="5" cy="12" r="1"></circle>-->
+<!--                                </svg>-->
+<!--                            </a>-->
+<!--                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">-->
+<!--                                <li><a href="javascript:;" class="dropdown-item">Weekly</a></li>-->
+<!--                                <li><a href="javascript:;" class="dropdown-item">Monthly</a></li>-->
+<!--                                <li><a href="javascript:;" class="dropdown-item">Yearly</a></li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+<!--                    <div class="widget-content">-->
+<!--                        <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>-->
+<!--                        <apex-chart v-if="revenue_options" height="325" type="area" :options="revenue_options" :series="revenue_series"></apex-chart>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-sales-category">
                     <div class="widget-heading">
@@ -87,7 +89,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
                 <div class="widget widget-dailysales">
                     <div class="widget-heading">
