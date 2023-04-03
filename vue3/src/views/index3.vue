@@ -1,6 +1,6 @@
 <template>
   <div  ref="heatmapTarget">
-    <iframe ref="iframeRef" src="http://localhost:3001/" width="100%" height="1080"></iframe>
+    <iframe ref="iframeRef" src="http://localhost:3001/" width="1280" height="720"></iframe>
   </div>
 </template>
 
@@ -25,8 +25,8 @@ export default {
         
         heatmapData.value = tempData.value.map(item=>{
         return {
-          x: item.positionX,
-          y: item.positionY,
+          x: item.positionX * 0.66,
+          y: item.positionY * 0.66,
           value : item.totalClick * 10
         }
         
@@ -55,7 +55,10 @@ export default {
         data
       });
     };
+    
 
+
+    
     onMounted(() => {
       fetchClickData();
 
@@ -69,19 +72,10 @@ export default {
           '.3': 'blue',
           '.5': 'green',
           '.7': 'red'
-        },
-        // data: heatmapData.value,
-
-        
+        },        
       })
-      // const data = heatmapData.value;
-      // console.log(test);
-    
-    // heatmapInstance.setData({
-    //     max:200,
-    //     data
-    //   })
     });
+
     
     return {
       heatmapTarget
