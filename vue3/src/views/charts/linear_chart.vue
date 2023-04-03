@@ -104,6 +104,8 @@
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
     }
     const updateChart = async ()=>{
+        let sessions = store.state.durations.map(duration => duration.totalSession);
+        let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[0]);
         
     }
     
@@ -123,7 +125,6 @@
     //         state.data.selectedPeriod, 
     //         state.data.serviceId);
     // });
-    
     const duration_series = ref([
         { name: '인원 수', data: store.state.durations.map(duration => duration.totalSession)}
     ]);
