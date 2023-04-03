@@ -13,7 +13,9 @@ const routes = [
     //dashboard
     { path: '/', name: 'Welcome', component: Welcome, meta: { layout: 'hero' }},
     { path: '/service/:id', name: 'Home', component: Home, meta: { layout: 'app' } },
-    // { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+    { path: '/barchart', name: 'barchart', component: () => import(/* webpackChunkName: "index2" */ '../views/component_bar_chart.vue'), },
+    { path: '/piechart', name: 'piechart', component: () => import(/* webpackChunkName: "index2" */ '../views/piechart.vue'), },
 
     
     //auth

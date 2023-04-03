@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import i18n from '../i18n';
 import axios from 'axios'
 import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+
 
 export default new createStore({
     state: {
@@ -254,4 +256,5 @@ export default new createStore({
         })
 },
     modules: {},
+    plugins: [createPersistedState()]
 });

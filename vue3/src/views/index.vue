@@ -19,7 +19,7 @@
                     <h5>사용자 토큰</h5>
                     <div> {{ $route.params.id }}</div>
                     <div>
-                        토큰 : {{ state.target.token }}
+                        토큰 : {{ }}
                     </div>
                     <button @click="get_token">재발급</button>
                 </div>
