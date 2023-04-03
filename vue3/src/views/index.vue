@@ -799,11 +799,39 @@
             </div>
 
             <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="row widget widget-components wrapper">
-                    <div class="widget widget-summary col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-0 p-2 h-auto">
+                <div class="row widget widget-components justify-content-center">
+                    <div class="row border-0 col-12">
                         <div class="widget-heading">
                             <h5>컴포넌트</h5>
+                            <div class="dropdown btn-group">
+                                <a href="javascript:;" id="ddlTransactions" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        stroke-width="2"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        class="feather feather-more-horizontal"
+                                    >
+                                        <circle cx="12" cy="12" r="1"></circle>
+                                        <circle cx="19" cy="12" r="1"></circle>
+                                        <circle cx="5" cy="12" r="1"></circle>
+                                    </svg>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlTransactions">
+                                    <li @click='getComponentStats("1d")'><a class="dropdown-item">어제</a></li>
+                                    <li @click='getComponentStats("1w")'><a class="dropdown-item">저번주</a></li>
+                                    <li @click='getComponentStats("1mo")'><a class="dropdown-item">저번달</a></li>
+                                    <li @click='getComponentStats("all")'><a class="dropdown-item">누적</a></li>
+                                </ul>
+                            </div>
                         </div>
+                    </div>
+                    <div class="row widget widget-summary col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-0 p-2 h-auto">
                         <div class="widget-content">
                             <div class="summary-list" v-for='item in state.data.components.list.slice(0, 3)'>
                                 <div class="w-summary-details">
@@ -893,7 +921,7 @@
     });
     
     onMounted(() => {
-        getComponentStats();
+        getComponentStats('1d');
     })
     
     //Revenue
@@ -913,7 +941,8 @@
         state.clientToken = body;
     }
 
-    const getComponentStats = async () => {
+    const getComponentStats = async (interval) => {
+        state.configs.components.interval = interval
         let resp = await axios({
             method:'get',
             url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/components?basetime=${Date.now()}&interval=${ state.configs.components.interval }&serviceid=${state.serviceId}`,
