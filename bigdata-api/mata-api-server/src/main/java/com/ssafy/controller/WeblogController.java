@@ -42,9 +42,10 @@ public class WeblogController {
     public ResponseEntity<List<Click>> getClicks(@RequestParam(name="basetime") long baseTime,
                                                  @RequestParam(name="interval") String interval,
                                                  @RequestParam(name="serviceid") long serviceId,
+                                                 @RequestParam(name="location") String location,
                                                  @AuthenticationPrincipal UserDetails userDetails) {
         if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        List<Click> clicks = hiveService.getClicks(baseTime, interval, serviceId);
+        List<Click> clicks = hiveService.getClicks(baseTime, interval, serviceId, location);
         return ResponseEntity.status(HttpStatus.OK).body(clicks);
     }
     @GetMapping("/durations")
