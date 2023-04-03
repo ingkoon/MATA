@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/weblog")
 public class WeblogController {
     private final HiveService hiveService;
-    private final List<String> validation = Arrays.asList("1m", "5m", "10m", "30m", "1h", "6h", "12h", "1d", "1w", "1mo", "6mo", "1y");
+    private final List<String> validation = Arrays.asList("1m", "5m", "10m", "30m", "1h", "6h", "12h", "1d", "1w", "1mo", "6mo", "1y", "all");
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getTest(@AuthenticationPrincipal UserDetails userDetails){
         List<Map<String, Object>> webLogs = hiveService.getWebLogs();
