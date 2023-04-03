@@ -976,7 +976,7 @@
                                         </div>
                                     </td>
                                 </tr>
-                            </thead>
+                            </tbody>
                             <tbody>
                                 <tr v-for='item in state.data.components.list'>
                                     <td>
