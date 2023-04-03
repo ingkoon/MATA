@@ -22,19 +22,38 @@
                         </svg>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                        <li v-for='item in period'>
-                            <a href="javascript:;" class="dropdown-item" v-on:click="selectedPeriod = item.period">{{item.label}}</a>
-                        </li>
+                        <li v-for='item in state.data.period'>
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedPeriod = item.value">{{item.label}}</a>
+                        </li>   
                     </ul>
+                </div>
+                <div class="dropdown btn-group">
+                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="feather feather-more-horizontal">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="19" cy="12" r="1"></circle>
+                            <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+                    </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="item in timeline">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="selectedTimeLine = item.timeLine">{{ item.label }}</a>
+                        <li v-for="item in state.data.timeLine">
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.value">{{ item.label }}</a>
                         </li>
                     </ul>
                 </div>
             </div>
             <div class="widget-content">
-                <div class="chart-title">Total Profit <span class="text-primary ms-1">$10,840</span></div>
+                <div class="chart-title">서비스 체류 시간 구간 <span class="text-primary ms-1">{{store.state.durations.length}}</span> 개</div>
                 <apex-chart v-if="duration_options" height="325" type="area" :options="duration_options" :series="duration_series"></apex-chart>
             </div>
         </div>
@@ -45,7 +64,7 @@
     import { useRoute } from 'vue-router'
     import { useStore } from 'vuex'
     import ApexChart from 'vue3-apexcharts';
-    import { computed, onMounted, onUpdated, reactive, ref } from 'vue';
+    import { computed, onMounted, reactive, ref, watchEffect } from 'vue';
 
     const route = useRoute();
     const store = useStore();
@@ -85,7 +104,12 @@
     
     onMounted(()=> {
         fetchData(Date.now(), '1d', route.params.id);
+        console.log(state.data.period);
     });
+    watchEffect(()=>{
+        const { selectedTimeLine, selectedPeriod } = state.data;
+        fetchData(selectedTimeLine, selectedPeriod, route.params.id);
+    })
     
     // onUpdated(()=>{
     //     fetchData(
@@ -108,6 +132,7 @@
         console.log(list.map(duration => new Date(duration.updateTimestamp)));
         console.log(list.map(duration => duration.totalSession));
         
+        
         return {
             chart: {
                 fontFamily: 'Nunito, sans-serif',
@@ -119,13 +144,13 @@
             dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
             colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
             markers: {
-                discrete: [
-                    { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
-                    { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
-                ],
+                discrete: 
+                    { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 }
+                    // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
+                
             },
             // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            labels: list.map(duration => duration.updateTimestamp),
+            labels: list.map(duration =>new Date(duration.updateTimestamp).toISOString().split('T')[0]),
             xaxis: {
                 axisBorder: { show: false },
                 axisTicks: { show: false },
@@ -134,6 +159,7 @@
                     // formatter: function(value){
                     //     return new Date(value)
                     // },
+                    
                     offsetX: 0,
                     offsetY: 5,
                     style: {
