@@ -4,6 +4,10 @@ import router from './router';
 import store from './store';
 const app = createApp(App);
 
+import heatmap from 'vue-heatmapjs'
+
+
+
 // bootstrap
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
@@ -55,4 +59,4 @@ import appSetting from './app-setting';
 window.$appSetting = appSetting;
 window.$appSetting.init();
 
-app.use(store).use(router).use(i18n).use(PerfectScrollbar).use(VueNouislider).use(Maska).use(ClientTable).use(vue3JsonExcel).use(VueFormWizard).use(head).use(Plotly).mount('#app');
+app.use(store).use(router).use(i18n).use(PerfectScrollbar).use(VueNouislider).use(Maska).use(ClientTable).use(vue3JsonExcel).use(VueFormWizard).use(head).mount('#app');

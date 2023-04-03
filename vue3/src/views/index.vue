@@ -19,7 +19,7 @@
                     <h5>사용자 토큰</h5>
                     <div> {{ $route.params.id }}</div>
                     <div>
-                        토큰 : {{ }}
+                        토큰 : {{  }}
                     </div>
                     <button @click="get_token">재발급</button>
                 </div>
@@ -976,44 +976,23 @@
                                         </div>
                                     </td>
                                 </tr>
-                                <tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for='item in state.data.components.list'>
                                     <td>
                                         <div class="td-content d-flex">
-                                            <img src="@/assets/images/product-camera.jpg" alt="product" />
-                                            <div class="align-self-center">
-                                                <p class="prd-name">Camera</p>
-                                                <p class="prd-category text-primary">Digital</p>
-                                            </div>
+                                            <p class="prd-name">{{ item.targetId }}</p>
                                         </div>
                                     </td>
                                     <td>
-                                        <div class="td-content"><span class="pricing">$126.04</span></div>
+                                        <div class="td-content"><span class="pricing"> {{ item.location }} </span></div>
                                     </td>
                                     <td>
-                                        <div class="td-content"><span class="discount-pricing">$26.04</span></div>
+                                        <div class="td-content"><span class="discount-pricing"> {{ item.totalClick }} </span></div>
                                     </td>
                                     <td><div class="td-content">30</div></td>
                                     <td>
-                                        <div class="td-content">
-                                            <a href="javascript:void(0);" class="text-secondary"
-                                                ><svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    width="24"
-                                                    height="24"
-                                                    viewBox="0 0 24 24"
-                                                    fill="none"
-                                                    stroke="currentColor"
-                                                    stroke-width="2"
-                                                    stroke-linecap="round"
-                                                    stroke-linejoin="round"
-                                                    class="feather feather-chevrons-right"
-                                                >
-                                                    <polyline points="13 17 18 12 13 7"></polyline>
-                                                    <polyline points="6 17 11 12 6 7"></polyline>
-                                                </svg>
-                                                Referral</a
-                                            >
-                                        </div>
+                                        <div class="td-content"><span class="discount-pricing"> {{ (item.totalClick / state.data.components.totalClickSum * 100).toFixed(1) }}% </span></div>
                                     </td>
                                 </tr>
                             </tbody>
@@ -1040,83 +1019,93 @@
     
     
     const route =useRoute();
-    const store = useStore();
-
-    let routeId=null
-    const data = {
-        "projectId":route.params.id
-    }
+    const store = useStore();    
+    
     const state = reactive({
-        target:null,
-        services:null
-    })
-
-    onMounted(()=>{
-        console.log("index mounted")
-        routeId = route.params.id
-        console.log(routeId)
-        console.log("index.vue updated, state.service:",state.services)
-        
-        
-        
-        state.services=store.getProjectList()
-        console.log("services in localstorage:", state.services)
-        for (var service of state.services){
-            console.log(service)
-            if(service.id==routeId){
-                state.target=service
-                break
+        serviceId: route.path.split('/')[2],
+        accessToken: localStorage.getItem("accessToken"),
+        clientToken: null,
+        pageDurations: {
+            
+        },
+        configs: {
+            components: {
+                interval: '1d'
             }
-            else {
-                continue
+        },
+        data: {
+            components: {
+                totalNum: 0,
+                totalClickSum: 0,
+                list: [],
             }
         }
-        console.log(state.target)
+    });
+    
+    onMounted(() => {
+        getComponentStats('1d');
     })
-
-    onMounted(()=>{
-        console.log("index mounted")
-        routeId = route.params.id
-        console.log(routeId)
-        console.log("index.vue updated, state.service:",state.services)
-
-
-
-        state.services=store.getProjectList()
-        console.log("services in localstorage:", state.services)
-        for (var service of state.services){
-            console.log(service)
-            if(service.id==routeId){
-                state.target=service
-                break
-            }
-            else {
-                continue
-            }
-        }
-        console.log(state.target)
-    })
-
-    const get_token=()=>{
-            // console.log(token)
-            axios({
-              method:'post',
-              url: process.env.VUE_APP_API_HOST+'/api/v1/project/token/',
-              headers:{
-                
+    
+    //Revenue
+    const get_token = async () => {
+        let resp = await axios({
+            method:'post',
+            url: process.env.VUE_APP_API_HOST+'/api/v1/project/token',
+            headers:{
                 "Content-Type": 'application/json',
-              },
-              data:data,
-            })
-              .then(res=>{
-              console.log(`axios done ${res}`,res)
-              payload.value=res.data
-              console.log('asd')
-              })
-              .catch(err=>{
-              console.log(err.response)
-              })
-          }
+            },
+            data:{
+                "serviceId": state.serviceId
+            },
+        })
+        let body = resp.data
+        console.log(body);
+        state.clientToken = body;
+    }
+
+    const getComponentStats = async (interval) => {
+        state.configs.components.interval = interval
+        let resp = await axios({
+            method:'get',
+            url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/components?basetime=${Date.now()}&interval=${ state.configs.components.interval }&serviceid=${state.serviceId}`,
+            headers:{
+                "Authorization": `Bearer ${state.accessToken}`,
+            },
+        })
+        let body = resp.data;
+        body = [{
+            totalClick : 12,
+            targetId : "btn-login",
+            location : "localhost",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 6,
+            targetId : "btn-join",
+            location : "localhost/first",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 5,
+            targetId : "btn-details",
+            location : "localhost/first",
+            updateTimestamp : "",
+            serviceId : 2
+        },{
+            totalClick : 10,
+            targetId : "btn-submit",
+            location : "localhost/second",
+            updateTimestamp : "",
+            serviceId : 2
+        },];
+        body.sort(function(a, b) {
+            return b.totalClick - a.totalClick;
+        })
+        state.data.components.list = body;
+        state.data.components.totalNum = state.data.components.list;
+        state.data.components.totalClickSum = state.data.components.list.reduce((acc, cur) => acc + cur.totalClick, 0)
+        console.log()
+    }
         
     const revenue_series = ref([
         { name: 'Income', data: [16800, 16800, 15500, 17800, 15500, 17000, 19000, 16000, 15000, 17000, 14000, 17000] },
@@ -1295,14 +1284,13 @@
             },
             labels: ['Apparel', 'Sports', 'Others'],
         };
-
         if (is_dark) {
             option['states'] = {
                 hover: { filter: { type: 'none' } },
                 active: { filter: { type: 'none' } },
             };
         }
-
         return option;
     });
+    
 </script>
