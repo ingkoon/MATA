@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import i18n from '../i18n';
 import axios from 'axios'
 import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+
 
 export default new createStore({
     state: {
@@ -31,7 +33,7 @@ export default new createStore({
             { code: 'tr', name: 'Turkish' },
         ],
         token: null,
-        service:null,
+        services:null,
         durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
@@ -96,10 +98,12 @@ export default new createStore({
         SIGN_UP(){},
         setToken(state,token){
             state.token=token
+            console.log(state.token)
         },
-        save_List(payload){
+        set_service_list(state,payload){
             console.log('mutation 시작',payload)
-            state.service=payload
+            state.services=payload
+            console.log('mutation done', state.services)
         },
         setDurations(state, durations) {
             state.durations = durations
@@ -167,6 +171,7 @@ export default new createStore({
              
                 
                 context.commit('setToken',res.data.accessToken)
+                console.log("commit done, mutation setToken start")    
                 localStorage.setItem('accessToken',res.data.accessToken)
                 router.push('/')
                 })
@@ -181,10 +186,7 @@ export default new createStore({
             document.location.href = '/';
           },
 
-          get_service_list(context,payload){
-            console.log('action 시작')
-            context.commit('save_List',payload)
-          },
+          
 
           add_App(context,payload){
             const name=payload.name
@@ -226,5 +228,33 @@ export default new createStore({
             commit('setDurations', data) // 리스트 타입의 데이터를 상태 변수에 저장하는 뮤테이션 호출
         },
     },
+    getProjectList: function (){
+    // console.log(token)
+    const token=localStorage.getItem('accessToken')
+    axios({
+        method:'get',
+
+        url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
+        headers:{
+            "Authorization": `Bearer ${token}`,
+        },
+
+    })
+        .then(res=>{
+            console.log(`axios done ${res}`,res)
+            payload.value=res.data
+            console.log('asd')
+            
+            // store.dispatch('get_service_list',payload)
+            store.commit('set_service_list',res.data)
+            console.log(store.state.service)
+            localStorage.setItem('services',JSON.stringify(res.data))
+            return res.data
+        })
+        .catch(err=>{
+            console.log(err.response)
+        })
+},
     modules: {},
+    plugins: [createPersistedState()]
 });
