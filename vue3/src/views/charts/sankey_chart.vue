@@ -37,7 +37,6 @@
                     { source: 'node0', target: 'node4', value: 3, color: 'red' },
                 ],
             };
-            let svg = null;
 
             onMounted(() => {
                 // 기본 페이지
@@ -61,13 +60,13 @@
 
             async function changeNodeAndLink() {
                 // 노드, 링크 변경 -> 그림 다시 그리기
-                // items.nodes = []
-                // items.links = []
+                items.nodes = []
+                items.links = []
                 
                 const data = JSON.parse(store.state.journals.data);
                 const fromNode = store.state.journals.curNode;
+                // let fromNode = state.curNode;
                 console.log("fromNode......................",fromNode)
-                console.log(data)
                 items.nodes.push({name: fromNode, id: fromNode})
                 data[fromNode].forEach((d) => {
                     items.nodes.push({name: d.locationTo, id: d.locationTo})
@@ -95,7 +94,7 @@
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=30m&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
@@ -122,12 +121,16 @@
                         }];
                     }
                 });
-                let shortestKey;
+                console.log(groupedData)
+                
+                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                
                 for (let key in groupedData) {
-                    if (shortestKey != "None" || !shortestKey || key.length < shortestKey.length) {
+                    if (key != "none" && key.length < shortestKey.length) {
                         shortestKey = key;
                     }
                 }
+                console.log(shortestKey)
                 // 기본 세팅
                 store.state.journals.curNode = shortestKey;
                 store.state.journals.data = JSON.stringify(groupedData);
@@ -136,9 +139,10 @@
 
             async function drawgraph() {
                 console.log("grawgraph..................")
-                
-                // 그림 초기화
-                svg = null;
+                // 그림 초기화...
+                d3.selectAll(svgRef.value)
+                    .selectAll('*')
+                    .remove();
                 // 노드, 링크 세팅
                 await changeNodeAndLink();
                 
@@ -148,7 +152,7 @@
                 const nodeHeight = 160;
                 const nodePadding = 200;
                 const ENABLE_LINKS_GRADIENTS = true;
-                svg = d3.select(svgRef.value).attr('viewBox', [0, -100, width, height + 200]);
+                const svg = d3.select(svgRef.value).attr('viewBox', [0, -100, width, height + 200]);
 
                 const s = sankey()
                     .nodeId((d) => d.name)
@@ -177,15 +181,18 @@
                     .join('rect')
                     .attr('x', (d) => d.x0)
                     .attr('y', (d) => d.y0)
-                    .attr('height', (d) => 160)
+                    .attr('height', (d) => 100)
                     .attr('width', (d) => d.x1 - d.x0)
-                    .attr('fill', (d) => d.color)
+                    .attr('fill', (d, i) => `rgb(${i * 932 % 256}, ${i * 124 % 256}, ${i * 634 % 256})`)
+                    .attr('url', (d) => d.name)
                     .append('title')
                     .text((d) => `${d.name}\n${d.value}`);
 
                 svg.selectAll("rect")
-                    .on("click", function() {
-                        d3.select(this)
+                    .on("click", function(d) {
+                        store.state.journals.curNode = this.attributes.url.value;
+                        console.log('Clicked node:', store.state.journals.curNode);
+                        drawgraph();
                     })
                     .on("mouseover", function() {
                         d3.select(this)
