@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import i18n from '../i18n';
 import axios from 'axios'
 import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+
 
 export default new createStore({
     state: {
@@ -98,10 +100,12 @@ export default new createStore({
         SIGN_UP(){},
         setToken(state,token){
             state.token=token
+            console.log(state.token)
         },
-        save_List(payload){
+        set_service_list(state,payload){
             console.log('mutation 시작',payload)
-            state.service=payload
+            state.services=payload
+            console.log('mutation done', state.services)
         },
         setDurations(state, durations) {
             state.durations = durations
@@ -125,29 +129,29 @@ export default new createStore({
             //   username,password1,password2,email
             // }
             axios({
-                method:'post',
-                url: process.env.VUE_APP_API_HOST+'/api/v1/member/signup',
-                headers:{
-                    "Content-Type": "application/json",
-                },
-                data:{
-                    name: username,
-                    email : email,
-                    password: password1,
-                    // password2: password2,
-
-                },
+              method:'post',
+              url: process.env.VUE_APP_API_HOST+'/api/v1/member/signup',
+              headers:{
+                "Content-Type": "application/json",
+              },
+              data:{
+                name: username,
+                email : email,
+                password: password1,
+                // password2: password2,
+                
+              },
             })
-                .then(res=>{
-                    console.log(res)
-                    context.commit('SAVE_TOKEN', res.data.key)
-                    context.dispatch('logIn', { username: username, password: password2 })
-                })
-                .catch(err=>{
-                    console.log(err.response)
-                })
-        },
-        logIn(context,payload){
+              .then(res=>{
+              console.log(res)
+              context.commit('SAVE_TOKEN', res.data.key)
+              context.dispatch('logIn', { username: username, password: password2 })
+              })
+              .catch(err=>{
+              console.log(err.response)
+              })
+          },
+          logIn(context,payload){
             const password=payload.password
             const email=payload.email
             console.log(email,password)
@@ -155,40 +159,38 @@ export default new createStore({
                 method:'post',
                 url: process.env.VUE_APP_API_HOST+'/api/v1/member/login',
                 headers:{
-                    "Content-Type": "application/json",
+                  "Content-Type": "application/json",
                 },
                 data:{
-                    email : email,
-                    password: password,
-                    // password2: password2,
-
+                  email : email,
+                  password: password,
+                  // password2: password2,
+                  
                 },
-            })
+              })
                 .then(res=>{
-                    console.log(email,password)
-
-
-                    context.commit('setToken',res.data.accessToken)
-                    localStorage.setItem('accessToken',res.data.accessToken)
-                    router.push('/')
+                console.log(email,password)
+             
+                
+                context.commit('setToken',res.data.accessToken)
+                console.log("commit done, mutation setToken start")    
+                localStorage.setItem('accessToken',res.data.accessToken)
+                router.push('/')
                 })
                 .catch(err=>{
-                    console.log(err)
+                console.log(err)
                 })
 
-        },
-        logOut() {
+          },
+          logOut() {
             console.log("logged out");
             localStorage.removeItem('accessToken');
             document.location.href = '/';
-        },
+          },
 
-        get_service_list(context,payload){
-            console.log('action 시작')
-            context.commit('save_List',payload)
-        },
+          
 
-        add_App(context,payload){
+          add_App(context,payload){
             const name=payload.name
             const url=payload.url
             const category=payload.category
@@ -198,25 +200,25 @@ export default new createStore({
                 method:'post',
                 url: process.env.VUE_APP_API_HOST+'/api/v1/project/add',
                 headers:{
-                    "Authorization": `Bearer ${token}`,
+                  "Authorization": `Bearer ${token}`,
                 },
                 data:{
-                    name : name,
-                    url: url,
-                    category: category,
-                    // password2: password2,
-
+                  name : name,
+                  url: url,
+                  category: category,
+                  // password2: password2,
+                  
                 },
-            })
+              })
                 .then(res=>{
-                    console.log(category,token)
-                    console.log(res)
-                    router.push('/')
+                console.log(category,token)
+                console.log(res)
+                router.push('/')
                 })
                 .catch(err=>{
-                    console.log(err)
+                console.log(err)
                 })
-        },
+          },
         async fetchDurations({ commit }, {baseTime, interval}) {
             const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
             const params = {baseTime, interval};
@@ -228,5 +230,33 @@ export default new createStore({
             commit('setDurations', data) // 리스트 타입의 데이터를 상태 변수에 저장하는 뮤테이션 호출
         },
     },
+    getProjectList: function (){
+    // console.log(token)
+    const token=localStorage.getItem('accessToken')
+    axios({
+        method:'get',
+
+        url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
+        headers:{
+            "Authorization": `Bearer ${token}`,
+        },
+
+    })
+        .then(res=>{
+            console.log(`axios done ${res}`,res)
+            payload.value=res.data
+            console.log('asd')
+            
+            // store.dispatch('get_service_list',payload)
+            store.commit('set_service_list',res.data)
+            console.log(store.state.service)
+            localStorage.setItem('services',JSON.stringify(res.data))
+            return res.data
+        })
+        .catch(err=>{
+            console.log(err.response)
+        })
+},
     modules: {},
+    plugins: [createPersistedState()]
 });
