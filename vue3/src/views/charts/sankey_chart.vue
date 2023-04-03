@@ -42,9 +42,7 @@
             onMounted(() => {
                 // 기본 페이지
                 store.state.serviceId = route.path.split('/')[2]
-                // store.state.journals.curNode = "/"
                 getJournalsInfo();
-                console.log("axios exit.............." + store.state.journals.curNode)
             });
 
             watch(() => route.path, (newServiceId, oldServiceId) => {
@@ -54,25 +52,24 @@
                 getJournalsInfo();
             })
 
-            watch(() => store.state.journals.curNode, () => {
-                if(store.state.journals.curNode !== "/") {
+            watch(() => store.state.journals.clickFlag, () => {
                     // 현재 노드 변경
                     console.log("curNode..................", store.state.journals.curNode)
                     drawgraph(store.state.journals.curNode);
-                }
             })
 
 
-            async function changeNodeAndLink(data) {
+            async function changeNodeAndLink() {
                 // 노드, 링크 변경 -> 그림 다시 그리기
                 // items.nodes = []
                 // items.links = []
                 
+                const data = JSON.parse(store.state.journals.data);
                 const fromNode = store.state.journals.curNode;
                 console.log("fromNode......................",fromNode)
                 console.log(data)
                 items.nodes.push({name: fromNode, id: fromNode})
-                data.forEach((d) => {
+                data[fromNode].forEach((d) => {
                     items.nodes.push({name: d.locationTo, id: d.locationTo})
                     items.links.push({source: fromNode, target: d.locationTo, value: d.totalJournals})
                 })
@@ -96,7 +93,6 @@
             }
 
             const getJournalsInfo = async () => {
-                console.log("getJournalsInfo..........axios")
                 let resp = await axios({
                     method:'get',
                     url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
@@ -132,19 +128,20 @@
                         shortestKey = key;
                     }
                 }
-                // console.log(groupedData[shortestKey])
-                
                 // 기본 세팅
                 store.state.journals.curNode = shortestKey;
-                
-                drawgraph(groupedData[shortestKey])
+                store.state.journals.data = JSON.stringify(groupedData);
+                drawgraph()
             }
 
-            async function drawgraph(data) {
+            async function drawgraph() {
                 console.log("grawgraph..................")
-                svg = null;
                 
-                await changeNodeAndLink(data);
+                // 그림 초기화
+                svg = null;
+                // 노드, 링크 세팅
+                await changeNodeAndLink();
+                
                 const width = 600;
                 const height = 800;
                 const nodeWidth = 80;

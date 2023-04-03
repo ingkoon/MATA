@@ -35,7 +35,7 @@ export default new createStore({
         token: null,
         service:null,
         serviceId:null,
-        journals: {curNode : null, nodes : {}, links : {}},
+        journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
         durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
