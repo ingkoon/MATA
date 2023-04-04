@@ -37,7 +37,9 @@ export default new createStore({
         service:null,
         serviceId:null,
         journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
-        durations: [] // 리스트 타입의 상태 변수
+        durations: [], // 리스트 타입의 상태 변수
+        
+        urlList: []
     },
     mutations: {
         updateUrl(state, url){
@@ -113,6 +115,10 @@ export default new createStore({
         },
         setDurations(state, durations) {
             state.durations = durations
+            console.log("--------------------set durations -----------------")
+            // console.log("data is" + state.durations + state.durations.typeof);
+            // console.log(Object.keys(JSON.parse(state.durations)));
+            // console.log(JSON.parse(state.durations));
         }
     },
     getters: {
@@ -191,9 +197,7 @@ export default new createStore({
             localStorage.removeItem('accessToken');
             document.location.href = '/';
           },
-
-          
-
+        
           add_App(context,payload){
             const name=payload.name
             const url=payload.url
@@ -223,7 +227,7 @@ export default new createStore({
                 console.log(err)
                 })
           },
-        fetchDurations({ commit }, {baseTime, interval, serviceId}, headers) {
+        async fetchDurations({ commit }, {baseTime, interval, serviceId}) {
             console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
             console.log(123);
             const url = encodeURI(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations`);
@@ -233,7 +237,7 @@ export default new createStore({
                 'serviceid' : serviceId
             };
             console.log("axios input is ...")
-            axios({
+            await axios({
                 method: 'get',
                 url: process.env.VUE_APP_API_HOST 
                     + `/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}&serviceid=${serviceId}`,
@@ -241,16 +245,42 @@ export default new createStore({
                     "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
                 }
             }).then(response => {
-                const responseData = JSON.stringify(response.data);
-                console.log(responseData);
-                console.log("return is ... " + response+ " ,,,, " + response.length);
-                commit('setDurations', response.data);
+                const groupedData = {};
+                response.data.forEach((item) => {
+                    // Check if the locationFrom already exists in the groupedData object
+                    if (groupedData[item.location]) {
+                        // If it exists, update the existing object with the new values
+                        groupedData[item.location].push({
+                            "total_duration" : item.totalDuration,
+                            "total_session" : item.totalSession,
+                            "update_timestamp" : item.updateTimestamp
+                        });
+                    } else {
+                        // If it doesn't exist, create a new object with the values
+                        groupedData[item.location] = [{
+                            "total_duration" : item.totalDuration,
+                            "total_session" : item.totalSession,
+                            "update_timestamp" : item.updateTimestamp
+                        }];
+                    }
+                });
+                console.log("----------------start------------")
+                console.log(groupedData);
+                commit('setDurations', JSON.stringify(groupedData));
+                // const responseData = JSON.stringify(response.data);
+                // console.log("return is ... " + response+ " ,,,, " + response.length);
+                //
+                // store.urlList = state.durations.map(duration => duration.location);
+                //
+                // commit('setDurations', response.data);
                 // 여기서 apex-chart를 그리는 함수를 주입시켜 준다.
             }).catch(error =>{
                 console.error(error + "에러가 발생했습니다.");
             })
         },
     },
+    
+    
     getProjectList: function (){
     // console.log(token)
     const token=localStorage.getItem('accessToken')
