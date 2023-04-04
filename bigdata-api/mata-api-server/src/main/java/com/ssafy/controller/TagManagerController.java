@@ -73,7 +73,7 @@ public class TagManagerController {
             WebLog wl = new WebLog();
 
             try {
-                kafkaProducerService(wl)
+                kafkaProducerService.sendToKafka(wl);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
