@@ -3,7 +3,31 @@
         <div class="widget widget-">
             <div class="widget-heading">
                 <h5>Durations</h5>
-
+                <div class="dropdown btn-group">
+                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            class="feather feather-more-horizontal">
+                            <circle cx="12" cy="12" r="1"></circle>
+                            <circle cx="19" cy="12" r="1"></circle>
+                            <circle cx="5" cy="12" r="1"></circle>
+                        </svg>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
+                        <li v-for="item in location"> // 여기 조심해라 인재
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item">{{ item }}</a>
+                        </li>
+                    </ul>
+                </div>
+                
                 <div class="dropdown btn-group">
                     <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg
@@ -24,7 +48,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
                         <li v-for="item in state.data.timeLine">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedLocation = item.label">{{ item.label }}</a>
                         </li>
                     </ul>
                 </div>
@@ -48,17 +72,13 @@
     const state=  reactive({
         components: { ApexChart },
         data: {
-            selectedTimeLine : '1h',
-            // selectedPeriod : '1h',
+            // location: "1",
+            selectedLocation: Object.keys(JSON.parse(store.state.durations)),
+            selectedTimeLine : '5m',
+            selectedDuration: '1',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
-
-            period : [
-                {label: 'Daily', value: 1},
-                {label: 'Weekly', value: 7},
-                {label: 'Monthly', value: 30},
-                {label: 'Yearly', value: 365},
-            ],
+            
             timeLine : [
                 {label: '5m', value: '5'},
                 {label: '10m', value: '10'},
@@ -66,20 +86,49 @@
                 {label: '1h', value: '60'},
                 {label: '6h', value: '360'},
                 {label: '12h', value: '720'},
+                {label: '1d', value: '1440'},
+                {label: '1w', value: '1440'},
+                {label: '1m', value: '1440'},
+                {label: '1mo', value: '1440'},
+                {label: '6mo', value: '1440'},
+                {label: '1y', value: '1440'},
+                {label: 'all', value: '1440'},
             ],
         },
         duration_series: [],
         duration_options: {},
+        location: [],
     });
 
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
+        // updateChart();
     }
 
     const updateChart = async ()=>{
-        let sessions = store.state.durations.map(duration => duration.totalSession);
-        let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[1]);
+        console.log("------------start parsing----------------");
+        const parseDurations = JSON.parse(store.state.durations);
+        // const parseDurations = store.state.durations;
+        console.log(parseDurations.typeof);
+        console.log("-------------parse-----------");
+        console.log(parseDurations);
+        let sessions = Object.keys(parseDurations);
+        console.log("----------list--------------");
+        console.log(sessions);
+        let values = parseDurations[0];
+        console.log("-----------values-------------");
+        console.log(values);
+        // let timestamps = values.map(value => value.updateTimestamp);
+        // let durations = values.map(value => value.totalDuration);
+        
+        // let list = parseDurations.map(duration => duration.totalSession);
+        // let sessions = store.state.durations.map(duration => duration.totalSession);
+        let timestamps = parseDurations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[0]);
+        console.log("----------timestamp--------------");
+        console.log(timestamps);
         let maxVal = Math.max(sessions);
+        // let maxVal = 1;
+        
         state.duration_series = ref([
             { name: '인원 수', data: sessions}
         ]);
@@ -87,7 +136,7 @@
             const is_dark = store.state.is_dark_mode;
             // console.log(list[0]);
             // const list = store.state.durations.map(duration => JSON.stringify(duration));
-            const list = store.state.durations.map(duration => duration);
+            // const list = store.state.durations.map(duration => duration);
 
             return {
                 chart: {
@@ -127,7 +176,7 @@
                             return value;
                         },
                         offsetX: 0,
-                        offsetY: 10,
+                        offsetY: -10,
                         style: {
                             fontSize: '12px',
                             fontFamily: 'Nunito, sans-serif',
@@ -179,15 +228,15 @@
     }
 
     onMounted(()=> {
-        fetchData(Date.now(), '1d', route.params.id);
-        updateChart();
-        console.log(state.data.period);
+        fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
+        state.data.location = Object.keys(store.state.durations);
     });
 
     watchEffect(()=>{
         const selectedTimeLine= state.data.selectedTimeLine;
         fetchData(Date.now(), selectedTimeLine, route.params.id);
-        setInterval(()=>(updateChart(), 2000));
+        updateChart();
+        // setInterval(()=>(updateChart(), 1000));
     });
 </script>
 <!--데이터를 가져오는 부분을 함수로 수정해서 series와-->

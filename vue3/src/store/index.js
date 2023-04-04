@@ -112,8 +112,9 @@ export default new createStore({
         setDurations(state, durations) {
             state.durations = durations
             console.log("--------------------set durations -----------------")
-            // console.log(state.durations);
-            console.log(Object.keys(JSON.parse(state.durations)))
+            console.log("data is" + state.durations + state.durations.typeof);
+            console.log(Object.keys(JSON.parse(state.durations)));
+            console.log(JSON.parse(state.durations));
         }
     },
     getters: {
@@ -192,9 +193,7 @@ export default new createStore({
             localStorage.removeItem('accessToken');
             document.location.href = '/';
           },
-
-          
-
+        
           add_App(context,payload){
             const name=payload.name
             const url=payload.url
@@ -224,7 +223,7 @@ export default new createStore({
                 console.log(err)
                 })
           },
-        fetchDurations({ commit }, {baseTime, interval, serviceId}, headers) {
+        async fetchDurations({ commit }, {baseTime, interval, serviceId}) {
             console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
             console.log(123);
             const url = encodeURI(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations`);
@@ -234,7 +233,7 @@ export default new createStore({
                 'serviceid' : serviceId
             };
             console.log("axios input is ...")
-            axios({
+            await axios({
                 method: 'get',
                 url: process.env.VUE_APP_API_HOST 
                     + `/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}&serviceid=${serviceId}`,
