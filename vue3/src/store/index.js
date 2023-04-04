@@ -34,8 +34,6 @@ export default new createStore({
         ],
         token: null,
         service:null,
-        serviceId:null,
-        journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
         durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
@@ -100,12 +98,10 @@ export default new createStore({
         SIGN_UP(){},
         setToken(state,token){
             state.token=token
-            console.log(state.token)
         },
-        set_service_list(state,payload){
+        save_List(payload){
             console.log('mutation 시작',payload)
-            state.services=payload
-            console.log('mutation done', state.services)
+            state.service=payload
         },
         setDurations(state, durations) {
             state.durations = durations
@@ -173,7 +169,6 @@ export default new createStore({
              
                 
                 context.commit('setToken',res.data.accessToken)
-                console.log("commit done, mutation setToken start")    
                 localStorage.setItem('accessToken',res.data.accessToken)
                 router.push('/')
                 })
@@ -188,7 +183,10 @@ export default new createStore({
             document.location.href = '/';
           },
 
-          
+          get_service_list(context,payload){
+            console.log('action 시작')
+            context.commit('save_List',payload)
+          },
 
           add_App(context,payload){
             const name=payload.name
@@ -219,15 +217,32 @@ export default new createStore({
                 console.log(err)
                 })
           },
-        async fetchDurations({ commit }, {baseTime, interval}) {
-            const url = `http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}`
-            const params = {baseTime, interval};
-            const { data } = await axios.get(url, params).then(response => {
-                return response.data;
-            }).catch(error => {
-                console.error(error + "에 해당하는 에러가 발생했습니다.");
-            });
-            commit('setDurations', data) // 리스트 타입의 데이터를 상태 변수에 저장하는 뮤테이션 호출
+        fetchDurations({ commit }, {baseTime, interval, serviceId}, headers) {
+            console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
+            console.log(123);
+            const url = encodeURI(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations`);
+            const params = {
+                'basetmie' : baseTime, 
+                'interval' : interval, 
+                'serviceid' : serviceId
+            };
+            console.log("axios input is ...")
+            axios({
+                method: 'get',
+                url: process.env.VUE_APP_API_HOST 
+                    + `/api/v1/weblog/durations?basetime=${baseTime}&interval=${interval}&serviceid=${serviceId}`,
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                }
+            }).then(response => {
+                const responseData = JSON.stringify(response.data);
+                console.log(responseData);
+                console.log("return is ... " + response+ " ,,,, " + response.length);
+                commit('setDurations', response.data);
+                // 여기서 apex-chart를 그리는 함수를 주입시켜 준다.
+            }).catch(error =>{
+                console.error(error + "에러가 발생했습니다.");
+            })
         },
     },
     getProjectList: function (){
@@ -258,5 +273,4 @@ export default new createStore({
         })
 },
     modules: {},
-    plugins: [createPersistedState()]
 });
