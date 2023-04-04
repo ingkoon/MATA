@@ -22,7 +22,7 @@ export default {
     const store = useStore();
     const iframeRef = ref(null);
     const heatmapWrapper=ref(null);
-    const startUrl = localStorage.getItem('curNode') || '';
+    const startUrl = localStorage.getItem('curNode');
     const srcUrl = startUrl;
     const heatmapTarget = ref(null);
     let heatmapInstance = null;
@@ -50,8 +50,6 @@ export default {
       // const rect = ele.getBoundingClientRect();
       for (const i of heatmapData.value) {
         const transform = {
-          // x: rect.left + Math.round(x * 0.66),
-          // y: rect.top + Math.round(y * 0.66),
 
           x: i.x,
           y: i.y,
@@ -103,7 +101,7 @@ export default {
       const curNode = store.state.journals.curNode;
       
       loadHeatmap(store.state.curUrl || curNode);
-
+      // loadHeatmap(curNode);
 
       watch(() => store.state.curUrl, (newVal, oldVal) => {
         if (newVal !== oldVal) {
@@ -120,8 +118,7 @@ export default {
       watch(() => route.path, (newServiceId, oldServiceId) => {
                 // 페이지 변경 감지, curNode를 기본주소로...
                 store.state.serviceId = route.path.split('/')[2]
-                fetchClickData();
-            })
+      })
 
       
 
