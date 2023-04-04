@@ -54,7 +54,8 @@
                 </div>
             </div>
             <div class="widget-content">
-                <div class="chart-title">서비스 체류 시간 구간 <span class="text-primary ms-1">{{store.state.durations.length}}</span> 개</div>
+                <div class="chart-title">서비스 체류 시간 단위 <span class="text-primary ms-1">{{state.data.selectedTimeLine}}</span></div>
+                <div class="chart-title">체류 서비스 <span class="text-primary ms-1">{{state.selectedLocation}}</span></div>
                 <apex-chart v-if="state.duration_options" height="325" type="area" :options="state.duration_options" :series="state.duration_series"></apex-chart>
             </div>
         </div>
@@ -100,34 +101,33 @@
     
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
-        if(state.location.length === 0){
+        if(state.location.length === 0)
             await setState();
-        }
         await updateChart();
+        
     }
     
-    /*
-        값이 존재하지 않을 경우
-        state의 location과 selectedLocation을 초기화 
-     */
     const setState = async () =>  {
-        state.location = Object.keys(JSON.parse(store.state.durations));
-        state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
+        const tmp = Object.keys(JSON.parse(store.state.durations))
+        state.location = tmp;
+        state.selectedLocation = tmp[0]; 
     }
     
     const updateChart = async ()=>{
         const parseDurations = JSON.parse(store.state.durations);
-        let pages = Object.keys(parseDurations);
-        const optionDataList = parseDurations[pages[state.selectedLocation]];
+        console.log("----------parseDurations--------")
+        console.log(parseDurations);
+        console.log("----------selectedLocation--------")
+        const optionDataList = parseDurations[state.selectedLocation];
         console.log("----------optionDataList--------")
         console.log(optionDataList)
-        let sortedOptionDataList = optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
+        let sortedOptionDataList = typeof optionDataList === "undefined" ? [] : optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
         console.log(sortedOptionDataList);
         let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
         let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
         console.log("----------timestamp--------------");
         console.log(timestamps);
-        let maxVal = Math.max(sessions);
+        let maxVal = Math.max(sessions) ^ 2;
         // let maxVal = 1;
         
         state.duration_series = ref([
@@ -135,9 +135,6 @@
         ]);
         state.duration_options = computed(() => {
             const is_dark = store.state.is_dark_mode;
-            // console.log(list[0]);
-            // const list = store.state.durations.map(duration => JSON.stringify(duration));
-            // const list = store.state.durations.map(duration => duration);
 
             return {
                 chart: {
@@ -231,9 +228,13 @@
     });
 
     watchEffect(()=>{
-        const test = state.data.selectedTimeLine
+        const selectedTimeLine = state.data.selectedTimeLine;
+        const selectedLocation = state.selectedLocation;
         console.log(state.data.selectedTimeLine);
-        fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
+        if(selectedTimeLine && selectedLocation){
+            fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);    
+        }
+        
         // const selectedTimeLine = state.data.selectedTimeLine;
         // const selectedLocation = state.selectedLocation;
         // if(selectedTimeLine && selectedLocation) {
