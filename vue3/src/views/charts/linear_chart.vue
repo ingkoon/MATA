@@ -24,10 +24,10 @@
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
                         <li v-for='item in state.data.period'>
                             <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedPeriod = item.value">{{item.label}}</a>
-                        </li>   
+                        </li>
                     </ul>
                 </div>
-                
+
                 <div class="dropdown btn-group">
                     <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg
@@ -76,7 +76,7 @@
             selectedPeriod : '1h',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
-            
+
             period : [
                 {label: 'Daily', value: 1},
                 {label: 'Weekly', value: 7},
@@ -102,7 +102,7 @@
     const updateChart = async ()=>{
         let sessions = store.state.durations.map(duration => duration.totalSession);
         let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[1]);
-        
+
         state.duration_series = ref([
             { name: '인원 수', data: sessions}
         ]);
@@ -200,13 +200,13 @@
             };
         })
     }
-    
+
     onMounted(()=> {
         fetchData(Date.now(), '1d', route.params.id);
         updateChart();
         console.log(state.data.period);
     });
-    
+
     watchEffect(()=>{
         const { selectedTimeLine, selectedPeriod } = state.data;
         fetchData(Date.now(), selectedPeriod, route.params.id);
