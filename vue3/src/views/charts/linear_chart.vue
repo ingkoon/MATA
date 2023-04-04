@@ -3,54 +3,58 @@
         <div class="widget widget-">
             <div class="widget-heading">
                 <h5>Durations</h5>
-                <div class="dropdown btn-group">
-                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="feather feather-more-horizontal">
-                            <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="19" cy="12" r="1"></circle>
-                            <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="item in state.location">
-                            <a href="javascript:;" class="dropdown-item" v-on:click= "state.selectedLocation = item">{{ item }}</a>
-                        </li>
-                    </ul>
-                </div>
-                
-                <div class="dropdown btn-group">
-                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="feather feather-more-horizontal">
-                            <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="19" cy="12" r="1"></circle>
-                            <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="item in state.data.timeLine">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
-                        </li>
-                    </ul>
+                <div style='float: right;'>
+                    <div class="dropdown btn-group" style='margin-right: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;' >
+                        <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+    <!--                        <svg-->
+    <!--                            xmlns="http://www.w3.org/2000/svg"-->
+    <!--                            width="24"-->
+    <!--                            height="24"-->
+    <!--                            viewBox="0 0 24 24"-->
+    <!--                            fill="none"-->
+    <!--                            stroke="currentColor"-->
+    <!--                            stroke-width="2"-->
+    <!--                            stroke-linecap="round"-->
+    <!--                            stroke-linejoin="round"-->
+    <!--                            class="feather feather-more-horizontal">-->
+    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
+    <!--                        </svg>-->
+                            <p style='font-weight: bold;text-align: center; color: white; margin: 10px;'>{{state.selectedLocation}}</p>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
+                            <li v-for="item in state.location">
+                                <a href="javascript:;" class="dropdown-item" v-on:click= "state.selectedLocation = item">{{ item }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dropdown btn-group" style='margin-left: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;'>
+                        <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                            <p style='font-weight: bold;text-align: center; margin: 10px; color: white;'>{{state.data.selectedTimeLine}}</p>
+    <!--                        <svg-->
+    <!--                            xmlns="http://www.w3.org/2000/svg"-->
+    <!--                            width="24"-->
+    <!--                            height="24"-->
+    <!--                            viewBox="0 0 24 24"-->
+    <!--                            fill="none"-->
+    <!--                            stroke="currentColor"-->
+    <!--                            stroke-width="2"-->
+    <!--                            stroke-linecap="round"-->
+    <!--                            stroke-linejoin="round"-->
+    <!--                            class="feather feather-more-horizontal">-->
+    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
+    <!--                        </svg>-->
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
+                            <li v-for="item in state.data.timeLine">
+                                <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="widget-content">
@@ -234,12 +238,5 @@
         if(selectedTimeLine && selectedLocation){
             fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);    
         }
-        
-        // const selectedTimeLine = state.data.selectedTimeLine;
-        // const selectedLocation = state.selectedLocation;
-        // if(selectedTimeLine && selectedLocation) {
-        //     fetchData(Date.now(), selectedTimeLine, route.params.id);
-        //     updateChart();
-        // }
     });
 </script>
