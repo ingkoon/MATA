@@ -1,14 +1,18 @@
 <template>
     <div ref="plotlyChart"></div>
     <piechart></piechart>
+    <BarChart/>
 </template>
 
 <script>
     import { onMounted, ref } from 'vue';
     import Plotly from 'plotly.js-dist';
     import piechart from '@/views/piechart.vue';
+    import BarChart from '@/views/component_bar_chart.vue';
+    
     export default {
         components: {
+            BarChart,
             piechart,
         },
         setup() {
