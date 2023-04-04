@@ -347,10 +347,10 @@ FRONTEND\VUE3\SRC
 # ✔ 프로젝트 산출물
 
 ---
-
-# ✔ 프로젝트 결과물
-
----
+- [서비스 ERD](Docs/서비스%20ERD.png)
+- [Hive ERD](Docs/Hive%20ERD.png)
+- [최종 발표 PPT]()
+- [포딩 매뉴얼]()
 
 # 📊 MATA 대시보드 화면
 
