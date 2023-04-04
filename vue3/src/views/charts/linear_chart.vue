@@ -48,7 +48,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
                         <li v-for="item in state.data.timeLine">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedLocation = item.label">{{ item.label }}</a>
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
                         </li>
                     </ul>
                 </div>
@@ -72,10 +72,7 @@
     const state=  reactive({
         components: { ApexChart },
         data: {
-            // location: Object.keys(JSON.parse(store.state.durations)),
-            // selectedLocation: Object.keys(JSON.parse(store.state.durations)),
             selectedTimeLine : '5m',
-            selectedDuration: '1',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
             
@@ -95,7 +92,6 @@
                 {label: 'all', value: '1440'},
             ],
         },
-        
         duration_series: [],
         duration_options: {},
         location: [],
@@ -123,6 +119,8 @@
         const parseDurations = JSON.parse(store.state.durations);
         let pages = Object.keys(parseDurations);
         const optionDataList = parseDurations[pages[state.selectedLocation]];
+        console.log("----------optionDataList--------")
+        console.log(optionDataList)
         let sortedOptionDataList = optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
         console.log(sortedOptionDataList);
         let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
@@ -228,22 +226,19 @@
             };
         })
     }
-
     onMounted(()=> {
         fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
-        
-        // console.log("-------------------location test----------------");
-        // console.log(state.location);
-        // state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
     });
 
     watchEffect(()=>{
-        const selectedTimeLine= state.data.selectedTimeLine;
-        const selectedLocation = state.selectedLocation;
-        fetchData(Date.now(), selectedTimeLine, route.params.id);
+        const test = state.data.selectedTimeLine
+        console.log(state.data.selectedTimeLine);
+        fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
+        // const selectedTimeLine = state.data.selectedTimeLine;
+        // const selectedLocation = state.selectedLocation;
+        // if(selectedTimeLine && selectedLocation) {
+        //     fetchData(Date.now(), selectedTimeLine, route.params.id);
+        //     updateChart();
+        // }
     });
-
-    // const location = ref(Object.keys(JSON.parse(store.state.durations)));
-    // const selectedLocation = ref(Object.keys(JSON.parse(store.state.durations))[0]);
 </script>
-<!--데이터를 가져오는 부분을 함수로 수정해서 series와-->
