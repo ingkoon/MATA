@@ -45,6 +45,11 @@ public class ProjectService {
                 .collect(Collectors.toList());
     }
 
+    public ProjectResponse getProjectDetail(Long projectId){
+        Project project = projectRepository.findById(projectId).orElseThrow(NoSuchProjectException::new);
+        return ProjectResponse.fromEntity(project);
+    }
+
     @Transactional
     public void delete(ProjectRequest request){
         Project project = getProject(request);

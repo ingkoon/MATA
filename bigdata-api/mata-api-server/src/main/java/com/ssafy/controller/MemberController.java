@@ -26,6 +26,7 @@ public class MemberController {
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
 
+    // 깃장인재
     @PostMapping(value="/signup")
     public ResponseEntity<Void> signUp(@Validated @RequestBody MemberSignUpRequest request){
         memberService.signUp(request);

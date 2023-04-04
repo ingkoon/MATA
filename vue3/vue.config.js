@@ -11,6 +11,29 @@ module.exports = {
     chainWebpack: config => {
         // Remove prefetch plugin and that's it!
         config.plugins.delete('prefetch');
+        config.resolve.alias.set('vue', '@vue/runtime-dom')
+        config.module
+            .rule('json')
+            .test(/\.json$/)
+            .use('json-loader')
+            .loader('json-loader')
+            .end()
+            .rule('js')
+            .test(/\.m?js$/)
+            .exclude
+            .add(file => (
+                /node_modules/.test(file) &&
+                !/\.vue\.js/.test(file)
+            ))
+            .end()
+            .use('babel-loader')
+            .loader('babel-loader')
+            .end()
+            .rule('plotly')
+            .test(/plotly\.js-basic-dist/)
+            .use('plotly-loader')
+            .loader('plotly-loader')
+            .end()
     },
     configureWebpack: {
         resolve: {
