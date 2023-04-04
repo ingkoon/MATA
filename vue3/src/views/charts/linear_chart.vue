@@ -3,30 +3,6 @@
         <div class="widget widget-">
             <div class="widget-heading">
                 <h5>Durations</h5>
-                <div class="dropdown btn-group">
-                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="feather feather-more-horizontal">
-                            <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="19" cy="12" r="1"></circle>
-                            <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                        <li v-for='item in state.data.period'>
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedPeriod = item.value">{{item.label}}</a>
-                        </li>
-                    </ul>
-                </div>
 
                 <div class="dropdown btn-group">
                     <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
@@ -48,7 +24,7 @@
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
                         <li v-for="item in state.data.timeLine">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.value">{{ item.label }}</a>
+                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
                         </li>
                     </ul>
                 </div>
@@ -72,8 +48,8 @@
     const state=  reactive({
         components: { ApexChart },
         data: {
-            selectedTimeLine : Date.now(),
-            selectedPeriod : '1h',
+            selectedTimeLine : '1h',
+            // selectedPeriod : '1h',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
 
@@ -99,10 +75,11 @@
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
     }
+
     const updateChart = async ()=>{
         let sessions = store.state.durations.map(duration => duration.totalSession);
         let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[1]);
-
+        let maxVal = Math.max(sessions);
         state.duration_series = ref([
             { name: '인원 수', data: sessions}
         ]);
@@ -144,7 +121,7 @@
                     },
                 },
                 yaxis: {
-                    tickAmount: list.length, // default - 7
+                    tickAmount: maxVal, // default - 7
                     labels: {
                         formatter: function(value) {
                             return value;
@@ -208,8 +185,8 @@
     });
 
     watchEffect(()=>{
-        const { selectedTimeLine, selectedPeriod } = state.data;
-        fetchData(Date.now(), selectedPeriod, route.params.id);
+        const selectedTimeLine= state.data.selectedTimeLine;
+        fetchData(Date.now(), selectedTimeLine, route.params.id);
         setInterval(()=>(updateChart(), 2000));
     });
 </script>
