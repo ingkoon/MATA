@@ -86,9 +86,13 @@ public class WeblogController {
         List<PageRefer> pageRefers = hiveService.getPageRefers(baseTime, interval, serviceId);
         return ResponseEntity.status(HttpStatus.OK).body(pageRefers);
     }
-    @GetMapping("/referrers")
-    public ResponseEntity<List<Referrer>> getReferrers(@AuthenticationPrincipal UserDetails userDetails){
-        List<Referrer> referrers = hiveService.getReferrers();
-        return ResponseEntity.status(HttpStatus.OK).body(referrers);
+    @GetMapping("/refersall")
+    public ResponseEntity<List<PageRefer>> getPageRefersAll(@RequestParam(name="basetime") long baseTime,
+                                                         @RequestParam(name="interval") String interval,
+                                                         @RequestParam(name="serviceid") long serviceId,
+                                                         @AuthenticationPrincipal UserDetails userDetails) {
+        if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        List<PageRefer> pageRefers = hiveService.getPageRefersAll(baseTime, interval, serviceId);
+        return ResponseEntity.status(HttpStatus.OK).body(pageRefers);
     }
 }

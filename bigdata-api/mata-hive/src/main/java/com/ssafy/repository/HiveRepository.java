@@ -61,12 +61,6 @@ public class HiveRepository {
         pageRefer.setServiceId(resultSet.getLong("service_id"));
         return pageRefer;
     };
-    private final RowMapper<Referrer> referrerRowMapper = (resultSet, rowNum) -> {
-        Referrer referrer = new Referrer();
-        referrer.setReferrerId(resultSet.getLong("referrer_id"));
-        referrer.setReferrerName(resultSet.getString("referrer_name"));
-        return referrer;
-    };
 
     public List<Map<String, Object>> selectData() {
         String sql = "SHOW DATABASES;";
@@ -108,13 +102,18 @@ public class HiveRepository {
         String sql = String.format(//language=sql
                 "SELECT * FROM mata.page_refers_%s "+
                 "WHERE service_id=%d "+
+                    "AND update_timestamp<CAST(%d AS TIMESTAMP) "+
+                "LIMIT 100", interval, serviceId, baseTime);
+        return jdbcTemplate.query(sql, pageReferRowMapper);
+    }
+
+    public List<PageRefer> selectPageReferAll(long baseTime, String interval, long serviceId) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.page_refers_%s "+
+                        "WHERE service_id=%d "+
                         "AND update_timestamp BETWEEN CAST(%d AS TIMESTAMP) "+
                         "AND CAST(%d AS TIMESTAMP) ", interval, serviceId, baseTime-86400000, baseTime);
         return jdbcTemplate.query(sql, pageReferRowMapper);
-    }
-    public List<Referrer> selectReferrer() {
-        String sql = "SELECT * FROM mata.referrers";
-        return jdbcTemplate.query(sql, referrerRowMapper);
     }
 
     public List<PageDuration> selectPageUser(long baseTime, String interval, long serviceId) {
