@@ -16,9 +16,9 @@ const routes = [
     { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
     { path: '/barchart', name: 'barchart', component: () => import(/* webpackChunkName: "index2" */ '../views/component_bar_chart.vue'), },
     { path: '/piechart', name: 'piechart', component: () => import(/* webpackChunkName: "index2" */ '../views/piechart.vue'), },
-    // { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
+    { path: '/index2', name: 'index2', component: () => import(/* webpackChunkName: "index2" */ '../views/index2.vue'), },
     { path: '/index3', name: 'index3', component: () => import(/* webpackChunkName: "index3" */ '../views/index3.vue'), },
-
+    { path: '/linechart', name: 'linechart', component: () => import(/* webpackChunkName: "index3" */ '../views/linechart.vue'), },
     
     //auth
     {
