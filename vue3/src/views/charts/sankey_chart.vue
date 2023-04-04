@@ -72,29 +72,12 @@
                     items.nodes.push({name: d.locationTo, id: d.locationTo})
                     items.links.push({source: fromNode, target: d.locationTo, value: d.totalJournals})
                 })
-                
-                console.log(items.nodes)
-
-                // nodes: [
-                //     { node: 0, name: 'node0', id: 'node0', color: 'red' },
-                //     { node: 1, name: 'node1', id: 'node1', color: 'orange' },
-                //     { node: 2, name: 'node2', id: 'node2', color: 'blue' },
-                //     { node: 3, name: 'node3', id: 'node3', color: 'green' },
-                //     { node: 4, name: 'node4', id: 'node4', color: 'brown' },
-                // ],
-                //     links: [
-                //     { source: 'node0', target: 'node2', value: 1, color: 'red' },
-                //     { source: 'node1', target: 'node2', value: 2, color: 'orange' },
-                //     { source: 'node1', target: 'node3', value: 2, color: 'orange' },
-                //     { source: 'node0', target: 'node4', value: 3, color: 'red' },
-                // ],
-                
             }
 
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=30m&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
