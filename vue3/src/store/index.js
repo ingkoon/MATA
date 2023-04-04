@@ -33,7 +33,9 @@ export default new createStore({
             { code: 'tr', name: 'Turkish' },
         ],
         token: null,
-        services:null,
+        service:null,
+        serviceId:null,
+        journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
         durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
