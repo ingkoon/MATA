@@ -27,6 +27,7 @@
                         </li>   
                     </ul>
                 </div>
+                
                 <div class="dropdown btn-group">
                     <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
                         <svg
@@ -54,7 +55,7 @@
             </div>
             <div class="widget-content">
                 <div class="chart-title">서비스 체류 시간 구간 <span class="text-primary ms-1">{{store.state.durations.length}}</span> 개</div>
-                <apex-chart v-if="duration_options" height="325" type="area" :options="duration_options" :series="duration_series"></apex-chart>
+                <apex-chart v-if="state.duration_options" height="325" type="area" :options="state.duration_options" :series="state.duration_series"></apex-chart>
             </div>
         </div>
     </div>
@@ -72,7 +73,7 @@
         components: { ApexChart },
         data: {
             selectedTimeLine : Date.now(),
-            selectedPeriod : '1d',
+            selectedPeriod : '1h',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
             
@@ -91,11 +92,6 @@
                 {label: '12h', value: '720'},
             ],
         },
-        config : {
-            components: {
-                interval: '1d'
-            }
-        },
         duration_series: [],
         duration_options: {},
     });
@@ -105,132 +101,116 @@
     }
     const updateChart = async ()=>{
         let sessions = store.state.durations.map(duration => duration.totalSession);
-        let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[0]);
+        let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[1]);
         
+        state.duration_series = ref([
+            { name: '인원 수', data: sessions}
+        ]);
+        state.duration_options = computed(() => {
+            const is_dark = store.state.is_dark_mode;
+            // console.log(list[0]);
+            // const list = store.state.durations.map(duration => JSON.stringify(duration));
+            const list = store.state.durations.map(duration => duration);
+
+            return {
+                chart: {
+                    fontFamily: 'Nunito, sans-serif',
+                    zoom: { enabled: false },
+                    toolbar: { show: false },
+                },
+                dataLabels: { enabled: false },
+                stroke: { show: true, curve: 'smooth', width: 2, lineCap: 'square' },
+                dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
+                colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
+                markers: {
+                    discrete:
+                        { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 }
+                    // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
+                },
+                // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                labels: timestamps,
+                xaxis: {
+                    axisBorder: { show: false },
+                    axisTicks: { show: false },
+                    crosshairs: { show: true },
+                    labels: {
+                        offsetX: 0,
+                        offsetY: 5,
+                        style: {
+                            fontSize: '12px',
+                            fontFamily: 'Nunito, sans-serif',
+                            cssClass: 'apexcharts-xaxis-title'
+                        }
+                    },
+                },
+                yaxis: {
+                    tickAmount: list.length, // default - 7
+                    labels: {
+                        formatter: function(value) {
+                            return value;
+                        },
+                        offsetX: 0,
+                        offsetY: 10,
+                        style: {
+                            fontSize: '12px',
+                            fontFamily: 'Nunito, sans-serif',
+                            cssClass: 'apexcharts-yaxis-title'
+                        },
+                    },
+                },
+
+                grid: {
+                    borderColor: is_dark ? '#191e3a' : '#e0e6ed',
+                    strokeDashArray: 5,
+                    xaxis: { lines: { show: true } },
+                    yaxis: { lines: { show: false } },
+                    padding: { top: 0, right: 0, bottom: 0, left: 0 },
+                },
+                legend: {
+                    position: 'top',
+                    horizontalAlign: 'right',
+                    offsetY: 0,
+                    fontSize: '16px',
+                    fontFamily: 'Nunito, sans-serif',
+                    markers: {
+                        width: 10,
+                        height: 10,
+                        strokeWidth: 0,
+                        strokeColor: '#fff',
+                        fillColors: undefined,
+                        radius: 12,
+                        onClick: undefined,
+                        offsetX: 0,
+                        offsetY: 0
+                    },
+                    itemMargin: { horizontal: 20, vertical: 5 },
+                },
+                tooltip: { theme: 'dark', marker: { show: true }, x: { show: false } },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        type: 'vertical',
+                        shadeIntensity: 1,
+                        inverseColors: !1,
+                        opacityFrom: is_dark ? 0.19 : 0.28,
+                        opacityTo: 0.05,
+                        stops: is_dark ? [100, 100] : [45, 100],
+                    },
+                },
+            };
+        })
     }
     
     onMounted(()=> {
         fetchData(Date.now(), '1d', route.params.id);
+        updateChart();
         console.log(state.data.period);
     });
     
     watchEffect(()=>{
         const { selectedTimeLine, selectedPeriod } = state.data;
         fetchData(Date.now(), selectedPeriod, route.params.id);
-    })
-    
-    // onUpdated(()=>{
-    //     fetchData(
-    //         state.data.selectedTimeLine, 
-    //         state.data.selectedPeriod, 
-    //         state.data.serviceId);
-    // });
-    const duration_series = ref([
-        { name: '인원 수', data: store.state.durations.map(duration => duration.totalSession)}
-    ]);
-    const duration_options = computed(() => {
-        const is_dark = store.state.is_dark_mode;
-        // console.log(list[0]);
-        // const list = store.state.durations.map(duration => JSON.stringify(duration));
-        const list = store.state.durations.map(duration => duration);
-        console.log(list);
-        // console.log(list[0].updateTimestamp);
-        console.log(list.map(duration => duration.updateTimestamp));
-        console.log(list.map(duration => new Date(duration.updateTimestamp)));
-        console.log(list.map(duration => duration.totalSession));
-        
-        
-        return {
-            chart: {
-                fontFamily: 'Nunito, sans-serif',
-                zoom: { enabled: false },
-                toolbar: { show: false },
-            },
-            dataLabels: { enabled: false },
-            stroke: { show: true, curve: 'smooth', width: 2, lineCap: 'square' },
-            dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
-            colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
-            markers: {
-                discrete: 
-                    { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 }
-                    // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
-                
-            },
-            // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            labels: list.map(duration =>new Date(duration.updateTimestamp).toISOString().split('T')[0]),
-            xaxis: {
-                axisBorder: { show: false },
-                axisTicks: { show: false },
-                crosshairs: { show: true },
-                labels: {
-                    // formatter: function(value){
-                    //     return new Date(value)
-                    // },
-                    
-                    offsetX: 0,
-                    offsetY: 5,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Nunito, sans-serif',
-                        cssClass: 'apexcharts-xaxis-title'
-                    }
-                },
-            },
-            yaxis: {
-                tickAmount: list.length, // default - 7
-                labels: {
-                    formatter: function(value) {
-                        return value;
-                    },
-                    offsetX: -10,
-                    offsetY: 0,
-                    style: {
-                        fontSize: '12px',
-                        fontFamily: 'Nunito, sans-serif',
-                        cssClass: 'apexcharts-yaxis-title'
-                    },
-                },
-            },
-            
-            grid: {
-                borderColor: is_dark ? '#191e3a' : '#e0e6ed',
-                strokeDashArray: 5,
-                xaxis: { lines: { show: true } },
-                yaxis: { lines: { show: false } },
-                padding: { top: 0, right: 0, bottom: 0, left: 0 },
-            },
-            legend: {
-                position: 'top',
-                horizontalAlign: 'right',
-                offsetY: 0,
-                fontSize: '16px',
-                fontFamily: 'Nunito, sans-serif',
-                markers: {
-                    width: 10,
-                    height: 10,
-                    strokeWidth: 0,
-                    strokeColor: '#fff',
-                    fillColors: undefined,
-                    radius: 12,
-                    onClick: undefined,
-                    offsetX: 0,
-                    offsetY: 0
-                },
-                itemMargin: { horizontal: 20, vertical: 5 },
-            },
-            tooltip: { theme: 'dark', marker: { show: true }, x: { show: false } },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    shadeIntensity: 1,
-                    inverseColors: !1,
-                    opacityFrom: is_dark ? 0.19 : 0.28,
-                    opacityTo: 0.05,
-                    stops: is_dark ? [100, 100] : [45, 100],
-                },
-            },
-        };
-    })
+        setInterval(()=>(updateChart(), 2000));
+    });
 </script>
 <!--데이터를 가져오는 부분을 함수로 수정해서 series와-->
