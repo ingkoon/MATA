@@ -104,38 +104,29 @@
     
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
+        if(state.location.length === 0){
+            await setState();
+        }
         await updateChart();
     }
     
+    /*
+        값이 존재하지 않을 경우
+        state의 location과 selectedLocation을 초기화 
+     */
+    const setState = async () =>  {
+        state.location = Object.keys(JSON.parse(store.state.durations));
+        state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
+    }
+    
     const updateChart = async ()=>{
-        console.log("------------start parsing----------------");
-        console.log(store.state.durations)
         const parseDurations = JSON.parse(store.state.durations);
-        // const parseDurations = store.state.durations;
-        console.log(parseDurations.typeof);
-        console.log("-------------parse-----------");
-        console.log(parseDurations);
-        let sessions = Object.keys(parseDurations);
-        console.log("----------list--------------");
-        console.log(sessions);
-        let values = parseDurations[0];
-        console.log("-----------values-------------");
-        console.log(values);
-        
-        // let timestamps = values.map(value => value.updateTimestamp);
-        // let durations = values.map(value => value.totalDuration);
-        
-        // let list = parseDurations.map(duration => duration.totalSession);
-        // let sessions = store.state.durations.map(duration => duration.totalSession);
-        const optionDataList = parseDurations[state.location];
-        console.log("-------------optionDataList-------------");
-        console.log(optionDataList);
-        
-        let timestamps = parseDurations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[0]);
-        
-        /*
-        
-        */
+        let pages = Object.keys(parseDurations);
+        const optionDataList = parseDurations[pages[state.selectedLocation]];
+        let sortedOptionDataList = optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
+        console.log(sortedOptionDataList);
+        let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
+        let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
         console.log("----------timestamp--------------");
         console.log(timestamps);
         let maxVal = Math.max(sessions);
@@ -162,8 +153,8 @@
                 colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
                 markers: {
                     discrete:
-                        { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 }
-                    // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
+                        { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
+                        // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 }
                 },
                 // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 labels: timestamps,
@@ -196,7 +187,6 @@
                         },
                     },
                 },
-
                 grid: {
                     borderColor: is_dark ? '#191e3a' : '#e0e6ed',
                     strokeDashArray: 5,
@@ -242,16 +232,15 @@
     onMounted(()=> {
         fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
         
-        state.location = Object.keys(JSON.parse(store.state.durations));
-        console.log("-------------------location test----------------");
-        console.log(state.location);
-        state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
+        // console.log("-------------------location test----------------");
+        // console.log(state.location);
+        // state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
     });
 
     watchEffect(()=>{
         const selectedTimeLine= state.data.selectedTimeLine;
+        const selectedLocation = state.selectedLocation;
         fetchData(Date.now(), selectedTimeLine, route.params.id);
-        // updateChart();
     });
 
     // const location = ref(Object.keys(JSON.parse(store.state.durations)));
