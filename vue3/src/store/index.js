@@ -36,7 +36,9 @@ export default new createStore({
         service:null,
         serviceId:null,
         journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
-        durations: [] // 리스트 타입의 상태 변수
+        durations: [], // 리스트 타입의 상태 변수
+        
+        urlList: []
     },
     mutations: {
         setLayout(state, payload) {
@@ -109,6 +111,9 @@ export default new createStore({
         },
         setDurations(state, durations) {
             state.durations = durations
+            console.log("--------------------set durations -----------------")
+            // console.log(state.durations);
+            console.log(Object.keys(JSON.parse(state.durations)))
         }
     },
     getters: {
@@ -237,16 +242,42 @@ export default new createStore({
                     "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
                 }
             }).then(response => {
-                const responseData = JSON.stringify(response.data);
-                console.log(responseData);
-                console.log("return is ... " + response+ " ,,,, " + response.length);
-                commit('setDurations', response.data);
+                const groupedData = {};
+                response.data.forEach((item) => {
+                    // Check if the locationFrom already exists in the groupedData object
+                    if (groupedData[item.location]) {
+                        // If it exists, update the existing object with the new values
+                        groupedData[item.location].push({
+                            "total_duration" : item.totalDuration,
+                            "total_session" : item.totalSession,
+                            "update_timestamp" : item.updateTimestamp
+                        });
+                    } else {
+                        // If it doesn't exist, create a new object with the values
+                        groupedData[item.location] = [{
+                            "total_duration" : item.totalDuration,
+                            "total_session" : item.totalSession,
+                            "update_timestamp" : item.updateTimestamp
+                        }];
+                    }
+                });
+                console.log("----------------start------------")
+                console.log(groupedData);
+                commit('setDurations', JSON.stringify(groupedData));
+                // const responseData = JSON.stringify(response.data);
+                // console.log("return is ... " + response+ " ,,,, " + response.length);
+                //
+                // store.urlList = state.durations.map(duration => duration.location);
+                //
+                // commit('setDurations', response.data);
                 // 여기서 apex-chart를 그리는 함수를 주입시켜 준다.
             }).catch(error =>{
                 console.error(error + "에러가 발생했습니다.");
             })
         },
     },
+    
+    
     getProjectList: function (){
     // console.log(token)
     const token=localStorage.getItem('accessToken')
