@@ -23,19 +23,8 @@
             });
             const svgRef = ref(null);
             const items = {
-                nodes: [
-                    { node: 0, name: 'node0', id: 'node0', color: 'red' },
-                    { node: 1, name: 'node1', id: 'node1', color: 'orange' },
-                    { node: 2, name: 'node2', id: 'node2', color: 'blue' },
-                    { node: 3, name: 'node3', id: 'node3', color: 'green' },
-                    { node: 4, name: 'node4', id: 'node4', color: 'brown' },
-                ],
-                links: [
-                    { source: 'node0', target: 'node2', value: 1, color: 'red' },
-                    { source: 'node1', target: 'node2', value: 2, color: 'orange' },
-                    { source: 'node1', target: 'node3', value: 2, color: 'orange' },
-                    { source: 'node0', target: 'node4', value: 3, color: 'red' },
-                ],
+                nodes: [],
+                links: [],
             };
 
             onMounted(() => {
@@ -123,28 +112,21 @@
             async function drawgraph() {
                 console.log("grawgraph..................")
                 // 그림 초기화...
-                d3.selectAll(svgRef.value)
-                    .selectAll('*')
+                d3.selectAll("rect")
                     .remove();
+                d3.selectAll("g")
+                    .remove();
+                
                 // 노드, 링크 세팅
                 await changeNodeAndLink();
                 
-                const width = 600;
+                const width = 1000;
                 const height = 800;
-                const nodeWidth = 80;
-                const nodeHeight = 160;
+                const nodeWidth = 300;
+                const nodeHeight = 500;
                 const nodePadding = 200;
                 const ENABLE_LINKS_GRADIENTS = true;
-                const svg = d3.select(svgRef.value).attr('viewBox', [0, -100, width, height + 200]);
-
-                const s = sankey()
-                    .nodeId((d) => d.name)
-                    .nodeWidth(80)
-                    .nodePadding(100)
-                    .extent([
-                        [1, 1],
-                        [width, height],
-                    ])(items);
+                const svg = d3.select(svgRef.value).attr('viewBox', [0, -250, width, height + 200]);
 
                 const { nodes, links } = sankey()
                     .nodeId((d) => d.name)
@@ -166,26 +148,27 @@
                     .attr('y', (d) => d.y0)
                     .attr('height', (d) => 100)
                     .attr('width', (d) => d.x1 - d.x0)
-                    .attr('fill', (d, i) => `rgb(${i * 932 % 256}, ${i * 124 % 256}, ${i * 634 % 256})`)
+                    .attr('fill', (d, i) => `rgb(${(80 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(50 + i * 634) % 256})`)
                     .attr('url', (d) => d.name)
                     .append('title')
                     .text((d) => `${d.name}\n${d.value}`);
 
                 svg.selectAll("rect")
-                    .on("click", function(d) {
+                    .on("click", function() {
+                        console.log("click........... 아마도 히트맵 자리, node가 갖는 주소는", this.attributes.url.value)
+                    })
+                    .on("dblclick", function() {
                         store.state.journals.curNode = this.attributes.url.value;
                         console.log('Clicked node:', store.state.journals.curNode);
                         drawgraph();
                     })
                     .on("mouseover", function() {
                         d3.select(this)
-                            .attr("fill", "yellow")
                             .attr("stroke", "orange")
                             .attr("stroke-width", 2);
                     })
                     .on("mouseout", function() {
                         d3.select(this)
-                            .attr("fill", (d) => d.color)
                             .attr("stroke", "none")
                             .attr("stroke-width", 0);
                     });
@@ -195,6 +178,8 @@
                     .append('g')
                     .attr('fill', 'none')
                     .attr('stroke-opacity', 0.5)
+                    // .attr('fill', (d) => d.target.color)
+                    .attr('fill', (d, i) => `rgb(${(42 + i * 426) % 256}, ${(200 + i * 731) % 256}, ${(100 + i * 197) % 256})`)
                     .selectAll('g')
                     .data(links)
                     .join('g')
@@ -234,7 +219,7 @@
                 svg
                     .append('g')
                     .attr('font-family', 'sans-serif')
-                    .attr('font-size', 10)
+                    .attr('font-size', 20)
                     .selectAll('text')
                     .data(nodes)
                     .join('text')
