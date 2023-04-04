@@ -77,6 +77,7 @@
                     </div>
                 </div>
             </div>
+
             <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-sales-category">
                     <div class="widget-heading">
@@ -87,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-6 col-12 layout-spacing">
                 <div class="widget widget-dailysales">
                     <div class="widget-heading">
@@ -802,38 +803,185 @@
                 </div>
             </div>
 
-            <div class="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="row widget widget-components wrapper">
-                    <div class="widget widget-summary col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 border-0 p-2 h-auto">
-                        <div class="widget-heading">
-                            <h5>컴포넌트</h5>
-                        </div>
-                        <div class="widget-content">
-                            <div class="summary-list" v-for='item in state.data.components.list.slice(0, 3)'>
-                                <div class="w-summary-details">
-                                    <div class="w-summary-info">
-                                        <h6>{{ item.targetId }}</h6>
-                                        <p class="summary-count">{{ (item.totalClick / state.data.components.totalClickSum * 100).toFixed(1) }}%</p>
-                                    </div>
-                                    <div class="w-summary-stats">
-                                        <div class="progress">
-                                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" :aria-valuenow='(item.totalClick / state.data.components.totalClickSum * 100)' class="progress-bar bg-gradient-primary" :style="'width: '+(item.totalClick / state.data.components.totalClickSum * 100).toFixed(1)+'%'"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
+                <div class="widget widget-top-selling-products">
+                    <div class="widget-heading">
+                        <h5>Top Selling Product</h5>
                     </div>
-                    <div class="widget-content table-responsive overflow-auto col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 p-3 d-flex">
+
+                    <div class="widget-content table-responsive">
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th><div class="th-content">ID</div></th>
-                                    <th><div class="th-content th-heading">페이지</div></th>
-                                    <th><div class="th-content th-heading">총 클릭</div></th>
-                                    <th><div class="th-content th-heading">클릭 비율</div></th>
+                                    <th><div class="th-content">Product</div></th>
+                                    <th><div class="th-content th-heading">Price</div></th>
+                                    <th><div class="th-content th-heading">Discount</div></th>
+                                    <th><div class="th-content">Sold</div></th>
+                                    <th><div class="th-content">Source</div></th>
                                 </tr>
                             </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="td-content d-flex">
+                                            <img src="@/assets/images/product-headphones.jpg" alt="product" />
+                                            <div class="align-self-center">
+                                                <p class="prd-name">Headphone</p>
+                                                <p class="prd-category text-primary">Digital</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="pricing">$168.09</span></div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="discount-pricing">$60.09</span></div>
+                                    </td>
+                                    <td><div class="td-content">170</div></td>
+                                    <td>
+                                        <div class="td-content">
+                                            <a href="javascript:void(0);" class="text-danger"
+                                                ><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-chevrons-right"
+                                                >
+                                                    <polyline points="13 17 18 12 13 7"></polyline>
+                                                    <polyline points="6 17 11 12 6 7"></polyline>
+                                                </svg>
+                                                Direct</a
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="td-content d-flex">
+                                            <img src="@/assets/images/product-shoes.jpg" alt="product" />
+                                            <div class="align-self-center">
+                                                <p class="prd-name">Shoes</p>
+                                                <p class="prd-category text-warning">Faishon</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="pricing">$108.09</span></div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="discount-pricing">$47.09</span></div>
+                                    </td>
+                                    <td><div class="td-content">130</div></td>
+                                    <td>
+                                        <div class="td-content">
+                                            <a href="javascript:void(0);" class="text-primary"
+                                                ><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-chevrons-right"
+                                                >
+                                                    <polyline points="13 17 18 12 13 7"></polyline>
+                                                    <polyline points="6 17 11 12 6 7"></polyline>
+                                                </svg>
+                                                Google</a
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="td-content d-flex">
+                                            <img src="@/assets/images/product-watch.jpg" alt="product" />
+                                            <div class="align-self-center">
+                                                <p class="prd-name">Watch</p>
+                                                <p class="prd-category text-danger">Accessories</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="pricing">$88.00</span></div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="discount-pricing">$20.00</span></div>
+                                    </td>
+                                    <td><div class="td-content">66</div></td>
+                                    <td>
+                                        <div class="td-content">
+                                            <a href="javascript:void(0);" class="text-warning"
+                                                ><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-chevrons-right"
+                                                >
+                                                    <polyline points="13 17 18 12 13 7"></polyline>
+                                                    <polyline points="6 17 11 12 6 7"></polyline>
+                                                </svg>
+                                                Ads</a
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="td-content d-flex">
+                                            <img src="@/assets/images/product-laptop.jpg" alt="product" />
+                                            <div class="align-self-center">
+                                                <p class="prd-name">Laptop</p>
+                                                <p class="prd-category text-primary">Digital</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="pricing">$110.00</span></div>
+                                    </td>
+                                    <td>
+                                        <div class="td-content"><span class="discount-pricing">$33.00</span></div>
+                                    </td>
+                                    <td><div class="td-content">35</div></td>
+                                    <td>
+                                        <div class="td-content">
+                                            <a href="javascript:void(0);" class="text-info"
+                                                ><svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    stroke-width="2"
+                                                    stroke-linecap="round"
+                                                    stroke-linejoin="round"
+                                                    class="feather feather-chevrons-right"
+                                                >
+                                                    <polyline points="13 17 18 12 13 7"></polyline>
+                                                    <polyline points="6 17 11 12 6 7"></polyline>
+                                                </svg>
+                                                Email</a
+                                            >
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
                             <tbody>
                                 <tr v-for='item in state.data.components.list'>
                                     <td>
@@ -847,6 +995,7 @@
                                     <td>
                                         <div class="td-content"><span class="discount-pricing"> {{ item.totalClick }} </span></div>
                                     </td>
+                                    <td><div class="td-content">30</div></td>
                                     <td>
                                         <div class="td-content"><span class="discount-pricing"> {{ (item.totalClick / state.data.components.totalClickSum * 100).toFixed(1) }}% </span></div>
                                     </td>
@@ -862,14 +1011,17 @@
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted, reactive } from 'vue';
+    import { computed, ref, onMounted, onUpdated, reactive } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
+    useMeta({ title: 'Sales Admin' });
     import { useRoute } from 'vue-router';
+    
+    
     useMeta({ title: 'Sales Admin' });
     import Linear_chart from '@/views/charts/linear_chart.vue';
     
@@ -898,7 +1050,7 @@
     });
     
     onMounted(() => {
-        getComponentStats();
+        getComponentStats('1d');
     })
     
     //Revenue
@@ -918,7 +1070,8 @@
         state.clientToken = body;
     }
 
-    const getComponentStats = async () => {
+    const getComponentStats = async (interval) => {
+        state.configs.components.interval = interval
         let resp = await axios({
             method:'get',
             url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/components?basetime=${Date.now()}&interval=${ state.configs.components.interval }&serviceid=${state.serviceId}`,
@@ -968,67 +1121,67 @@
     const revenue_options = computed(() => {
         const is_dark = store.state.is_dark_mode;
         return {
-            // chart: {
-            //     fontFamily: 'Nunito, sans-serif',
-            //     zoom: { enabled: false },
-            //     toolbar: { show: false },
-            // },
-            // dataLabels: { enabled: false },
-            // stroke: { show: true, curve: 'smooth', width: 2, lineCap: 'square' },
-            // dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
-            // colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
-            // markers: {
-            //     discrete: [
-            //         { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
-            //         { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
-            //     ],
-            // },
+            chart: {
+                fontFamily: 'Nunito, sans-serif',
+                zoom: { enabled: false },
+                toolbar: { show: false },
+            },
+            dataLabels: { enabled: false },
+            stroke: { show: true, curve: 'smooth', width: 2, lineCap: 'square' },
+            dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
+            colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
+            markers: {
+                discrete: [
+                    { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
+                    { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
+                ],
+            },
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            // xaxis: {
-            //     axisBorder: { show: false },
-            //     axisTicks: { show: false },
-            //     crosshairs: { show: true },
-            //     labels: { offsetX: 0, offsetY: 5, style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-xaxis-title' } },
-            // },
-            // yaxis: {
-            //     tickAmount: 7,
-            //     labels: {
-            //         formatter: function (value) {
-            //             return value / 1000 + 'K';
-            //         },
-            //         offsetX: -10,
-            //         offsetY: 0,
-            //         style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-yaxis-title' },
-            //     },
-            // },
-            // grid: {
-            //     borderColor: is_dark ? '#191e3a' : '#e0e6ed',
-            //     strokeDashArray: 5,
-            //     xaxis: { lines: { show: true } },
-            //     yaxis: { lines: { show: false } },
-            //     padding: { top: 0, right: 0, bottom: 0, left: 0 },
-            // },
-            // legend: {
-            //     position: 'top',
-            //     horizontalAlign: 'right',
-            //     offsetY: 0,
-            //     fontSize: '16px',
-            //     fontFamily: 'Nunito, sans-serif',
-            //     markers: { width: 10, height: 10, strokeWidth: 0, strokeColor: '#fff', fillColors: undefined, radius: 12, onClick: undefined, offsetX: 0, offsetY: 0 },
-            //     itemMargin: { horizontal: 20, vertical: 5 },
-            // },
-            // tooltip: { theme: 'dark', marker: { show: true }, x: { show: false } },
-            // fill: {
-            //     type: 'gradient',
-            //     gradient: {
-            //         type: 'vertical',
-            //         shadeIntensity: 1,
-            //         inverseColors: !1,
-            //         opacityFrom: is_dark ? 0.19 : 0.28,
-            //         opacityTo: 0.05,
-            //         stops: is_dark ? [100, 100] : [45, 100],
-            //     },
-            // },
+            xaxis: {
+                axisBorder: { show: false },
+                axisTicks: { show: false },
+                crosshairs: { show: true },
+                labels: { offsetX: 0, offsetY: 5, style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-xaxis-title' } },
+            },
+            yaxis: {
+                tickAmount: 7,
+                labels: {
+                    formatter: function (value) {
+                        return value / 1000 + 'K';
+                    },
+                    offsetX: -10,
+                    offsetY: 0,
+                    style: { fontSize: '12px', fontFamily: 'Nunito, sans-serif', cssClass: 'apexcharts-yaxis-title' },
+                },
+            },
+            grid: {
+                borderColor: is_dark ? '#191e3a' : '#e0e6ed',
+                strokeDashArray: 5,
+                xaxis: { lines: { show: true } },
+                yaxis: { lines: { show: false } },
+                padding: { top: 0, right: 0, bottom: 0, left: 0 },
+            },
+            legend: {
+                position: 'top',
+                horizontalAlign: 'right',
+                offsetY: 0,
+                fontSize: '16px',
+                fontFamily: 'Nunito, sans-serif',
+                markers: { width: 10, height: 10, strokeWidth: 0, strokeColor: '#fff', fillColors: undefined, radius: 12, onClick: undefined, offsetX: 0, offsetY: 0 },
+                itemMargin: { horizontal: 20, vertical: 5 },
+            },
+            tooltip: { theme: 'dark', marker: { show: true }, x: { show: false } },
+            fill: {
+                type: 'gradient',
+                gradient: {
+                    type: 'vertical',
+                    shadeIntensity: 1,
+                    inverseColors: !1,
+                    opacityFrom: is_dark ? 0.19 : 0.28,
+                    opacityTo: 0.05,
+                    stops: is_dark ? [100, 100] : [45, 100],
+                },
+            },
         };
     });
 

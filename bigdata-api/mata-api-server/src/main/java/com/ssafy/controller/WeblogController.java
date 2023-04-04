@@ -23,7 +23,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/weblog")
 public class WeblogController {
     private final HiveService hiveService;
-    private final List<String> validation = Arrays.asList("1m", "5m", "10m", "30m", "1h", "6h", "12h", "1d", "1w", "1mo", "6mo", "1y");
+    private final List<String> validation = Arrays.asList("1m", "5m", "10m", "30m", "1h", "6h", "12h", "1d", "1w", "1mo", "6mo", "1y", "all");
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> getTest(@AuthenticationPrincipal UserDetails userDetails){
         List<Map<String, Object>> webLogs = hiveService.getWebLogs();
@@ -42,9 +42,10 @@ public class WeblogController {
     public ResponseEntity<List<Click>> getClicks(@RequestParam(name="basetime") long baseTime,
                                                  @RequestParam(name="interval") String interval,
                                                  @RequestParam(name="serviceid") long serviceId,
+                                                 @RequestParam(name="location") String location,
                                                  @AuthenticationPrincipal UserDetails userDetails) {
         if(!validation.contains(interval)) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        List<Click> clicks = hiveService.getClicks(baseTime, interval, serviceId);
+        List<Click> clicks = hiveService.getClicks(baseTime, interval, serviceId, location);
         return ResponseEntity.status(HttpStatus.OK).body(clicks);
     }
     @GetMapping("/durations")

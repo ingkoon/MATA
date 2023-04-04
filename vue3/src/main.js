@@ -4,6 +4,10 @@ import router from './router';
 import store from './store';
 const app = createApp(App);
 
+import heatmap from 'vue-heatmapjs'
+
+
+
 // bootstrap
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
@@ -46,6 +50,9 @@ import vue3JsonExcel from 'vue3-json-excel';
 //vue-wizard
 import VueFormWizard from 'vue3-form-wizard';
 import 'vue3-form-wizard/dist/style.css';
+
+//plotly
+import Plotly from 'plotly.js-dist'
 
 // set default settings
 import appSetting from './app-setting';

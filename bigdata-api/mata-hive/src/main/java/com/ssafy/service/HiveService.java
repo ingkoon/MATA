@@ -23,8 +23,8 @@ public class HiveService {
         return hiveRepository.selectComponent(baseTime, interval, serviceId);
     }
 
-    public List<Click> getClicks(long baseTime, String interval, long serviceId){
-        return hiveRepository.selectClick(baseTime, interval, serviceId);
+    public List<Click> getClicks(long baseTime, String interval, long serviceId, String location){
+        return hiveRepository.selectClick(baseTime, interval, serviceId, location);
     }
     public List<PageDuration> getPageDurations(long baseTime, String interval, long serviceId){
         return hiveRepository.selectPageDuration(baseTime, interval, serviceId);

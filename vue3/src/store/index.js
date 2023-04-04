@@ -2,6 +2,8 @@ import { createStore } from 'vuex';
 import i18n from '../i18n';
 import axios from 'axios'
 import router from '@/router'
+import createPersistedState from 'vuex-persistedstate'
+
 
 export default new createStore({
     state: {
@@ -11,7 +13,6 @@ export default new createStore({
         is_dark_mode: false,
         dark_mode: 'light',
         locale: null,
-        
         menu_style: 'vertical',
         layout_style: 'full',
         countryList: [
@@ -33,8 +34,7 @@ export default new createStore({
         ],
         token: null,
         service:null,
-        serviceId: null,
-        durations: [] // 리스트 타입의 상태 변수 -> duration
+        durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
         setLayout(state, payload) {
@@ -104,8 +104,7 @@ export default new createStore({
             state.service=payload
         },
         setDurations(state, durations) {
-            state.durations = durations;
-            console.log("durations is..." + state.durations);
+            state.durations = durations
         }
     },
     getters: {
@@ -246,5 +245,32 @@ export default new createStore({
             })
         },
     },
+    getProjectList: function (){
+    // console.log(token)
+    const token=localStorage.getItem('accessToken')
+    axios({
+        method:'get',
+
+        url: process.env.VUE_APP_API_HOST+'/api/v1/project/',
+        headers:{
+            "Authorization": `Bearer ${token}`,
+        },
+
+    })
+        .then(res=>{
+            console.log(`axios done ${res}`,res)
+            payload.value=res.data
+            console.log('asd')
+            
+            // store.dispatch('get_service_list',payload)
+            store.commit('set_service_list',res.data)
+            console.log(store.state.service)
+            localStorage.setItem('services',JSON.stringify(res.data))
+            return res.data
+        })
+        .catch(err=>{
+            console.log(err.response)
+        })
+},
     modules: {},
 });

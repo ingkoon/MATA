@@ -80,12 +80,12 @@ public class HiveRepository {
                     "LIMIT 100", interval, serviceId, baseTime);
         return jdbcTemplate.query(sql, componentRowMapper);
     }
-    public List<Click> selectClick(long baseTime, String interval, long serviceId) {
+    public List<Click> selectClick(long baseTime, String interval, long serviceId, String location) {
         String sql = String.format(//language=sql
                 "SELECT * FROM mata.clicks_%s "+
                     "WHERE service_id=%d "+
-                        "AND update_timestamp<CAST(%d AS TIMESTAMP) "+
-                    "LIMIT 100", interval, serviceId, baseTime);
+                        "AND update_timestamp<CAST(%d AS TIMESTAMP) AND location = %s"+
+                    "LIMIT 100", interval, serviceId, baseTime, location);
         return jdbcTemplate.query(sql, clickRowMapper);
     }
     public List<PageDuration> selectPageDuration(long baseTime, String interval, long serviceId) {
