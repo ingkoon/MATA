@@ -33,8 +33,14 @@
                     <div class="widget-heading">
                         <sankeyChart/>
                     </div>
+                    
                 </div>
+                
             </div>
+            <div class="col-xl-8 col-lg-8" >
+                <heatmap/>
+            </div>
+            
 
             <div>
                 <Linear_chart/>
@@ -1015,6 +1021,7 @@
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
+    import heatmap from './charts/click_heatmap.vue';
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';

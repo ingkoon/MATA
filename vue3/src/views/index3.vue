@@ -1,6 +1,7 @@
 <template>
-  <div  ref="heatmapTarget">
-    <iframe ref="iframeRef" src="http://localhost:3001/" width="1280" height="720"></iframe>
+  <div class="heatmap-wrapper" ref="heatmapTarget" style="width: 100%; height: 1000;">
+    <div class="heatmap-canvas"></div>
+    <iframe ref="iframeRef" id="my-iframe" src="http://localhost:3001/" width="100%" height="100%" ></iframe>
   </div>
 </template>
 
@@ -20,13 +21,13 @@ export default {
 
     const fetchClickData = async () => {
       try{
-        const response = await axios.get(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/clicks?basetime=20230331085028&interval=1h&serviceid=2`); // API 엔드포인트에 맞게 수정해주세요
+        const response = await axios.get(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/clicks?basetime=${Date.now()}&interval=1h&serviceid=2&location="http://localhost:3001/"`); // API 엔드포인트에 맞게 수정해주세요
         tempData.value = response.data;
         
         heatmapData.value = tempData.value.map(item=>{
         return {
-          x: item.positionX * 0.66,
-          y: item.positionY * 0.66,
+          x: item.positionX ,
+          y: item.positionY ,
           value : item.totalClick * 10
         }
         
@@ -47,7 +48,6 @@ export default {
         console.error();
       }
     };
-
 
     const setHeatmapData = () => {
       heatmapInstance.setData({
@@ -83,3 +83,11 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.heatmap-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+</style>

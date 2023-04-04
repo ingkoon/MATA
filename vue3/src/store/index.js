@@ -7,6 +7,7 @@ import createPersistedState from 'vuex-persistedstate'
 
 export default new createStore({
     state: {
+        curUrl: '',
         layout: 'app',
         is_show_sidebar: true,
         is_show_search: false,
@@ -39,6 +40,9 @@ export default new createStore({
         durations: [] // 리스트 타입의 상태 변수
     },
     mutations: {
+        updateUrl(state, url){
+            state.curUrl = url;
+        },
         setLayout(state, payload) {
             state.layout = payload;
         },
@@ -276,3 +280,4 @@ export default new createStore({
 },
     modules: {},
 });
+
