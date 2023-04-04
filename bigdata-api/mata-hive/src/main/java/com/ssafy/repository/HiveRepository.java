@@ -57,7 +57,7 @@ public class HiveRepository {
         pageRefer.setTotalSession(resultSet.getInt("total_session"));
         pageRefer.setTotalPageenter(resultSet.getLong("total_pageenter"));
         pageRefer.setUpdateTimestamp(resultSet.getTimestamp("update_timestamp"));
-        pageRefer.setReferrerId(resultSet.getLong("referrer_id"));
+        pageRefer.setReferrer(resultSet.getString("referrer"));
         pageRefer.setServiceId(resultSet.getLong("service_id"));
         return pageRefer;
     };

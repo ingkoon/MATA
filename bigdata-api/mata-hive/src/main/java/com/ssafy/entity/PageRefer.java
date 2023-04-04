@@ -10,7 +10,7 @@ public class PageRefer {
     private int totalSession;
     private long totalPageenter;
     private Timestamp updateTimestamp;
-    private long referrerId;
+    private String referrer;
     private long serviceId;
 
 }
