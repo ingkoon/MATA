@@ -105,6 +105,7 @@
                 console.log(shortestKey)
                 // 기본 세팅
                 store.state.journals.curNode = shortestKey;
+                localStorage.setItem('curNode', shortestKey);
                 store.state.journals.data = JSON.stringify(groupedData);
                 drawgraph()
             }

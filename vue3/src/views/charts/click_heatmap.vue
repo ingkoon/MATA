@@ -1,7 +1,7 @@
 <template>
   <div id = "heatmapContainer" class="heatmap-container" ref="heatmapTarget" style="width: 854px; height: 480px;">
     <div class="heatmap-canvas"></div>
-    <iframe ref="iframeRef" id="my-iframe" :src="srcUrl" width="100%" height="100%" ></iframe>
+    <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" ></iframe>
     <div ref="heatmapWrapper"></div>
   </div>
 </template>
@@ -22,8 +22,6 @@ export default {
     const store = useStore();
     const iframeRef = ref(null);
     const heatmapWrapper=ref(null);
-    const startUrl = localStorage.getItem('curNode');
-    const srcUrl = startUrl;
     const heatmapTarget = ref(null);
     let heatmapInstance = null;
     const heatmapData = ref([]);
@@ -98,10 +96,11 @@ export default {
     onMounted(() => {
   
 
-      const curNode = store.state.journals.curNode;
+      // const curNode = store.state.journals.curNode;
+      const curNode = localStorage.getItem('curNode');
       
       loadHeatmap(store.state.curUrl || curNode);
-      // loadHeatmap(curNode);
+  
 
       watch(() => store.state.curUrl, (newVal, oldVal) => {
         if (newVal !== oldVal) {
@@ -135,8 +134,12 @@ export default {
 
 <style scoped>
 .heatmapWrapper{
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
+  z-index: 1;
 }
+
 </style>
