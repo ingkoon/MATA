@@ -39,7 +39,7 @@ public class HiveService {
         return hiveRepository.selectPageJournal(baseTime, interval, serviceId);
     }
     public List<PageRefer> getPageRefers(long baseTime, String interval, long serviceId){
-        return hiveRepository.selectpageRefer(baseTime, interval, serviceId);
+        return hiveRepository.selectPageRefer(baseTime, interval, serviceId);
     }
     public List<Referrer> getReferrers(){
         return hiveRepository.selectReferrer();
