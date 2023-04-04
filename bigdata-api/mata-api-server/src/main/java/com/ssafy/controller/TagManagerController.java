@@ -19,6 +19,17 @@ public class TagManagerController {
     @PostMapping("/dump")
     public ResponseEntity<?> getLogDump(@RequestBody WebLog[] body) {
 
+        List referlist = new ArrayList<>();
+        for (int i = 0; i < 100; i++) {
+            referlist.add("https://www.google.com/" + ("mata"+i).hashCode());
+        }
+        for (int i = 0; i < 100; i++) {
+            referlist.add("https://www.naver.com/" + ("mata"+i).hashCode());
+        }
+        for (int i = 0; i < 100; i++) {
+            referlist.add("https://www.daum.com/" + ("mata"+i).hashCode());
+        }
+
         Arrays.stream(body).forEach(wl -> {
 //            kafkaProducerService.checkValidation(wl.getServiceToken()); // 토큰 검증 로직
 //            wl.setServiceId(kafkaProducerService.getProjectId(wl.getServiceToken())); // 토큰으로 서비 아이디 가져오기
@@ -30,12 +41,43 @@ public class TagManagerController {
             System.out.println(wl.getPositionY());
             System.out.println(wl.getLocation());
             System.out.println(new Timestamp(wl.getTimestamp()));
+            System.out.println(wl.getPrevLocation());
+            if(wl.getPrevLocation().equals("none")) {
+                wl.setReferrer((String) referlist.get((int) (Math.random() * 300)));
+            }
+            System.out.println(wl.getReferrer());
             try {
                 kafkaProducerService.sendToKafka(wl);
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         });
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping("/exampledata_webtojava")
+    public ResponseEntity<?> getLogDump() {
+//        web에서 들어오는 데이터 형태
+//        serviceToken: this.serviceToken,
+//        sessionId: this.sessionId,
+//        event: eventType,
+//        targetId: (e && e.target && e.target.id) ? e.target.id : 'none',
+//        positionX: e && e.pageX ? e.pageX : null,
+//        positionY: e && e.pageY ? e.pageY : null,
+//        location: this.location,
+//        prevLocation: this.prevLocation,
+//        referrer: this.referrer,
+//        timestamp: Date.now(),
+//        pageDuration: Date.now() - this.enterTimer
+        for (int i = 0; i < 100000; i++) {
+            WebLog wl = new WebLog();
+
+            try {
+                kafkaProducerService.sendToKafka(wl);
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+        }
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

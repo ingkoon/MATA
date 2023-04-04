@@ -8,7 +8,8 @@ export default class TagManager {
   ) {
 
     if(!sessionStorage.getItem('TAGMANAGER_SESSION')){
-      sessionStorage.setItem('TAGMANAGER_SESSION', 'test-session-id')
+      let randomValue = Math.floor(Math.random() * (Math.pow(2, 52) - 1));
+      sessionStorage.setItem('TAGMANAGER_SESSION', randomValue)
     }
     this.sessionId = sessionStorage.getItem('TAGMANAGER_SESSION')
     this.bootstrap = bootstrap;

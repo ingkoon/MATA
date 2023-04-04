@@ -7,18 +7,12 @@ import SecondVIew from "./view/SecondView";
 import MainView from "./view/MainView";
 import TagManager from "./module";
 
-const tagManager = new TagManager('http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/dump', "tag-manager-service-token", ['click'])
+const tagManager = new TagManager("ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/dump", "tokentokentoken", ['click'])
+
 
 export default function App() {
   const location = useLocation()
-  // if(document.getElementById("referrer-meta") == null) {
-  //   // referrer 권한 추가
-  //   var meta = document.createElement('meta');
-  //   meta.id = "referrer-meta";
-  //   meta.name = 'referrer';
-  //   meta.content = "unsafe-url";
-  //   document.getElementsByTagName('head')[0].appendChild(meta);
-  // }
+
   useEffect(() => {
     tagManager.attach();
     return () => {

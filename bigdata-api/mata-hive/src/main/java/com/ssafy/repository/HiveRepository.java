@@ -57,15 +57,9 @@ public class HiveRepository {
         pageRefer.setTotalSession(resultSet.getInt("total_session"));
         pageRefer.setTotalPageenter(resultSet.getLong("total_pageenter"));
         pageRefer.setUpdateTimestamp(resultSet.getTimestamp("update_timestamp"));
-        pageRefer.setReferrerId(resultSet.getLong("referrer_id"));
+        pageRefer.setReferrer(resultSet.getString("referrer"));
         pageRefer.setServiceId(resultSet.getLong("service_id"));
         return pageRefer;
-    };
-    private final RowMapper<Referrer> referrerRowMapper = (resultSet, rowNum) -> {
-        Referrer referrer = new Referrer();
-        referrer.setReferrerId(resultSet.getLong("referrer_id"));
-        referrer.setReferrerName(resultSet.getString("referrer_name"));
-        return referrer;
     };
 
     public List<Map<String, Object>> selectData() {
@@ -104,7 +98,7 @@ public class HiveRepository {
                         "AND CAST(%d AS TIMESTAMP) ", interval, serviceId, baseTime-86400000, baseTime);
         return jdbcTemplate.query(sql, pageJournalRowMapper);
     }
-    public List<PageRefer> selectpageRefer(long baseTime, String interval, long serviceId) {
+    public List<PageRefer> selectPageRefer(long baseTime, String interval, long serviceId) {
         String sql = String.format(//language=sql
                 "SELECT * FROM mata.page_refers_%s "+
                 "WHERE service_id=%d "+
@@ -112,9 +106,14 @@ public class HiveRepository {
                 "LIMIT 100", interval, serviceId, baseTime);
         return jdbcTemplate.query(sql, pageReferRowMapper);
     }
-    public List<Referrer> selectReferrer() {
-        String sql = "SELECT * FROM mata.referrers";
-        return jdbcTemplate.query(sql, referrerRowMapper);
+
+    public List<PageRefer> selectPageReferAll(long baseTime, String interval, long serviceId) {
+        String sql = String.format(//language=sql
+                "SELECT * FROM mata.page_refers_%s "+
+                        "WHERE service_id=%d "+
+                        "AND update_timestamp BETWEEN CAST(%d AS TIMESTAMP) "+
+                        "AND CAST(%d AS TIMESTAMP) ", interval, serviceId, baseTime-86400000, baseTime);
+        return jdbcTemplate.query(sql, pageReferRowMapper);
     }
 
     public List<PageDuration> selectPageUser(long baseTime, String interval, long serviceId) {
