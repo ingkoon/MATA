@@ -92,16 +92,16 @@ public class HiveRepository {
         String sql = String.format(//language=sql
                 "SELECT * FROM mata.page_durations_%s "+
                     "WHERE service_id=%d "+
-                        "AND update_timestamp BETWEEN CAST(%d AS TIMESTAMP) "+
-                        "AND CAST(%d AS TIMESTAMP) ", interval, serviceId, baseTime-86400000, baseTime);
+                        "AND update_timestamp<CAST(%d AS TIMESTAMP) "+
+                    "LIMIT 100", interval, serviceId, baseTime);
         return jdbcTemplate.query(sql, pageDurationRowMapper);
     }
     public List<PageJournal> selectPageJournal(long baseTime, String interval, long serviceId) {
         String sql = String.format(//language=sql
                 "SELECT * FROM mata.page_journals_%s "+
                     "WHERE service_id=%d "+
-                        "AND update_timestamp<CAST(%d AS TIMESTAMP) "+
-                    "LIMIT 100", interval, serviceId, baseTime);
+                        "AND update_timestamp BETWEEN CAST(%d AS TIMESTAMP) "+
+                        "AND CAST(%d AS TIMESTAMP) ", interval, serviceId, baseTime-86400000, baseTime);
         return jdbcTemplate.query(sql, pageJournalRowMapper);
     }
     public List<PageRefer> selectpageRefer(long baseTime, String interval, long serviceId) {
