@@ -112,9 +112,9 @@ export default new createStore({
         setDurations(state, durations) {
             state.durations = durations
             console.log("--------------------set durations -----------------")
-            console.log("data is" + state.durations + state.durations.typeof);
-            console.log(Object.keys(JSON.parse(state.durations)));
-            console.log(JSON.parse(state.durations));
+            // console.log("data is" + state.durations + state.durations.typeof);
+            // console.log(Object.keys(JSON.parse(state.durations)));
+            // console.log(JSON.parse(state.durations));
         }
     },
     getters: {

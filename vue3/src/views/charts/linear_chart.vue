@@ -22,8 +22,8 @@
                         </svg>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="item in location"> // 여기 조심해라 인재
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item">{{ item }}</a>
+                        <li v-for="item in state.location">
+                            <a href="javascript:;" class="dropdown-item" v-on:click= "state.selectedLocation = item">{{ item }}</a>
                         </li>
                     </ul>
                 </div>
@@ -72,8 +72,8 @@
     const state=  reactive({
         components: { ApexChart },
         data: {
-            // location: "1",
-            selectedLocation: Object.keys(JSON.parse(store.state.durations)),
+            // location: Object.keys(JSON.parse(store.state.durations)),
+            // selectedLocation: Object.keys(JSON.parse(store.state.durations)),
             selectedTimeLine : '5m',
             selectedDuration: '1',
             serviceId : route.params.id,
@@ -95,18 +95,21 @@
                 {label: 'all', value: '1440'},
             ],
         },
+        
         duration_series: [],
         duration_options: {},
         location: [],
+        selectedLocation: null,
     });
-
+    
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
-        // updateChart();
+        await updateChart();
     }
-
+    
     const updateChart = async ()=>{
         console.log("------------start parsing----------------");
+        console.log(store.state.durations)
         const parseDurations = JSON.parse(store.state.durations);
         // const parseDurations = store.state.durations;
         console.log(parseDurations.typeof);
@@ -118,12 +121,21 @@
         let values = parseDurations[0];
         console.log("-----------values-------------");
         console.log(values);
+        
         // let timestamps = values.map(value => value.updateTimestamp);
         // let durations = values.map(value => value.totalDuration);
         
         // let list = parseDurations.map(duration => duration.totalSession);
         // let sessions = store.state.durations.map(duration => duration.totalSession);
+        const optionDataList = parseDurations[state.location];
+        console.log("-------------optionDataList-------------");
+        console.log(optionDataList);
+        
         let timestamps = parseDurations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[0]);
+        
+        /*
+        
+        */
         console.log("----------timestamp--------------");
         console.log(timestamps);
         let maxVal = Math.max(sessions);
@@ -229,14 +241,20 @@
 
     onMounted(()=> {
         fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
-        state.data.location = Object.keys(store.state.durations);
+        
+        state.location = Object.keys(JSON.parse(store.state.durations));
+        console.log("-------------------location test----------------");
+        console.log(state.location);
+        state.selectedLocation = ref(Object.keys(store.state.durations)[0]);
     });
 
     watchEffect(()=>{
         const selectedTimeLine= state.data.selectedTimeLine;
         fetchData(Date.now(), selectedTimeLine, route.params.id);
-        updateChart();
-        // setInterval(()=>(updateChart(), 1000));
+        // updateChart();
     });
+
+    // const location = ref(Object.keys(JSON.parse(store.state.durations)));
+    // const selectedLocation = ref(Object.keys(JSON.parse(store.state.durations))[0]);
 </script>
 <!--데이터를 가져오는 부분을 함수로 수정해서 series와-->
