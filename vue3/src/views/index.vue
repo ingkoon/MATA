@@ -1,34 +1,34 @@
 <template>
     <div class="layout-px-spacing dash_1">
         <div class='row layout-top-spacing'>
-        <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-            <div class='widget p-3'>
-                <div style='float: right'>
-                    <div class="dropdown btn-group">
-                        <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-more-horizontal"
-                            >
-                                <circle cx="12" cy="12" r="1"></circle>
-                                <circle cx="19" cy="12" r="1"></circle>
-                                <circle cx="5" cy="12" r="1"></circle>
-                            </svg>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
-                            <li><a href="javascript:;" class="dropdown-item">새로운 토큰을 발급받으려면 재발급 버튼을 클릭하세요!</a></li>
-                        </ul>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class='widget p-3'>
+                    <div style='float: right'>
+                        <div class="dropdown btn-group">
+                            <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="feather feather-more-horizontal"
+                                >
+                                    <circle cx="12" cy="12" r="1"></circle>
+                                    <circle cx="19" cy="12" r="1"></circle>
+                                    <circle cx="5" cy="12" r="1"></circle>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
+                                <li><a href="javascript:;" class="dropdown-item">새로운 토큰을 발급받으려면 재발급 버튼을 클릭하세요!</a></li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                    <h4>사용자 토큰</h4>            
+                    <h4>사용자 토큰</h4>
                     <div>
                         <span style='font-weight: bold'> 프로젝트명 : </span><span class="text-primary ms-3">{{ state.serviceName }}</span>
                     </div>
@@ -36,14 +36,14 @@
                         <span style='font-weight: bold'> 토큰 : </span> <span class="text-primary ms-3">{{ state.clientToken }}</span>
                     </div>
                     <button @click="get_token" style='font-weight: bold; text-align: center; color: white; background: #1B2E4BFF; border-radius: 5px; box-shadow: 2px 2px 2px gray; border: none; margin-top: 10px;'>재발급</button>
+                </div>
             </div>
         </div>
-    </div>
-        
+
         <div class='navbar-nav flex-row' style='margin-top: 3%;'>
             <total_user/>
         </div>
-        
+
         <teleport to="#breadcrumb">
             <ul class="navbar-nav flex-row">
                 <li>
@@ -57,7 +57,7 @@
                 </li>
             </ul>
         </teleport>
-        
+
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-revenue">
@@ -67,7 +67,7 @@
                 </div>
             </div>
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing" >
-<!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
+                <!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
                 <heatmap/>
             </div>
             <div>
@@ -97,17 +97,17 @@
     useMeta({ title: 'Sales Admin' });
     import Linear_chart from '@/views/charts/linear_chart.vue';
     import Total_user from '@/views/charts/total_user.vue';
-    
+
     const route =useRoute();
-    const store = useStore();    
-    
+    const store = useStore();
+
     const state = reactive({
         serviceId: route.path.split('/')[2],
         accessToken: localStorage.getItem("accessToken"),
         clientToken: null,
         serviceName: null,
         pageDurations: {
-            
+
         },
         configs: {
             components: {
@@ -122,16 +122,16 @@
             }
         }
     });
-    
+
     onMounted(() => {
         getComponentStats('1d');
         get_project();
     })
-    
+
     watchEffect(()=> {
         const token = state.clientToken;
     })
-    
+
     const get_project = async ()=> {
         let resp = await axios({
             method:'get',
@@ -146,7 +146,7 @@
         state.serviceName = body.name;
         state.clientToken = body.token == null ? "아직 발급받지 않은 상태입니다." : body.token;
     }
-    
+
     //Revenue
     const get_token = async () => {
         let resp = await axios({

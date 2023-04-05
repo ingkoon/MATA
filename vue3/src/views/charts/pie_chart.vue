@@ -1,6 +1,7 @@
 <template>
     <div>
         <div ref="pieChart"></div>
+        <div ref="barChart"></div>
     </div>
 </template>
 
@@ -22,6 +23,7 @@
                 curNode: null,
             });
             const pieChart = ref(null);
+            const barChart = ref(null);
             const items = {
                 nodes: [],
                 links: [],
@@ -74,6 +76,7 @@
 
                 const chartData = referrerGroups.filter(group => group.x !== null);
 
+                // pie option
                 const options = {
                     series: chartData.map(data => data.y),
                     chart: {
@@ -89,14 +92,33 @@
                                 width: 200
                             },
                             legend: {
-                                position: 'bottom'
+                                position: 'left'
                             }
                         }
                     }]
+                }
+
+                const barOptions = {
+                    series: [
+                        {
+                            name: "Page enter",
+                            data: chartData.map((item) => item.z),
+                        },
+                    ],
+                    chart: {
+                        type: "bar",
+                        height: 350,
+                        background: "#fff",
+                    },
+                    xaxis: {
+                        categories: chartData.map((item) => item.x),
+                    },
                 };
 
                 const chartInstance = new ApexCharts(pieChart.value, options);
+                const barChartInstance = new ApexCharts(barChart.value, barOptions);
                 await chartInstance.render();
+                await barChartInstance.render();
 
             });
 
