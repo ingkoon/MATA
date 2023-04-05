@@ -254,37 +254,39 @@
                 </div>
             </div>
 
-            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-total-order">
-                    <div class="widget-heading">
-                        <div class="w-icon">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="20"
-                                height="20"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                stroke-width="2"
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                class="feather feather-shopping-cart"
-                            >
-                                <circle cx="9" cy="21" r="1"></circle>
-                                <circle cx="20" cy="21" r="1"></circle>
-                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                            </svg>
-                        </div>
-                        <div>
-                            <div class="w-value">3,192</div>
-                            <div class="w-numeric-title">Total Orders</div>
-                        </div>
-                    </div>
-                    <div class="widget-content p-0">
-                        <apex-chart v-if="total_orders_options" height="290" type="area" :options="total_orders_options" :series="total_orders_series"></apex-chart>
-                    </div>
-                </div>
-            </div>
+            <total_user/>
+            
+<!--            <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">-->
+<!--                <div class="widget widget-total-order">-->
+<!--                    <div class="widget-heading">-->
+<!--                        <div class="w-icon">-->
+<!--                            <svg-->
+<!--                                xmlns="http://www.w3.org/2000/svg"-->
+<!--                                width="20"-->
+<!--                                height="20"-->
+<!--                                viewBox="0 0 24 24"-->
+<!--                                fill="none"-->
+<!--                                stroke="currentColor"-->
+<!--                                stroke-width="2"-->
+<!--                                stroke-linecap="round"-->
+<!--                                stroke-linejoin="round"-->
+<!--                                class="feather feather-shopping-cart"-->
+<!--                            >-->
+<!--                                <circle cx="9" cy="21" r="1"></circle>-->
+<!--                                <circle cx="20" cy="21" r="1"></circle>-->
+<!--                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>-->
+<!--                            </svg>-->
+<!--                        </div>-->
+<!--                        <div>-->
+<!--                            <div class="w-value">3,192</div>-->
+<!--                            <div class="w-numeric-title">Total Orders</div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="widget-content p-0">-->
+<!--                        <apex-chart v-if="total_orders_options" height="290" type="area" :options="total_orders_options" :series="total_orders_series"></apex-chart>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
             <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-recent-activity">
@@ -1031,6 +1033,7 @@
     
     useMeta({ title: 'Sales Admin' });
     import Linear_chart from '@/views/charts/linear_chart.vue';
+    import Total_user from '@/views/charts/total_user.vue';
     
     const route =useRoute();
     const store = useStore();    

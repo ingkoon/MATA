@@ -6,21 +6,6 @@
                 <div style='float: right;'>
                     <div class="dropdown btn-group" style='margin-right: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;' >
                         <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-    <!--                        <svg-->
-    <!--                            xmlns="http://www.w3.org/2000/svg"-->
-    <!--                            width="24"-->
-    <!--                            height="24"-->
-    <!--                            viewBox="0 0 24 24"-->
-    <!--                            fill="none"-->
-    <!--                            stroke="currentColor"-->
-    <!--                            stroke-width="2"-->
-    <!--                            stroke-linecap="round"-->
-    <!--                            stroke-linejoin="round"-->
-    <!--                            class="feather feather-more-horizontal">-->
-    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
-    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
-    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
-    <!--                        </svg>-->
                             <p style='font-weight: bold;text-align: center; color: white; margin: 10px;'>{{state.selectedLocation}}</p>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
@@ -33,21 +18,6 @@
                     <div class="dropdown btn-group" style='margin-left: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;'>
                         <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
                             <p style='font-weight: bold;text-align: center; margin: 10px; color: white;'>{{state.data.selectedTimeLine}}</p>
-    <!--                        <svg-->
-    <!--                            xmlns="http://www.w3.org/2000/svg"-->
-    <!--                            width="24"-->
-    <!--                            height="24"-->
-    <!--                            viewBox="0 0 24 24"-->
-    <!--                            fill="none"-->
-    <!--                            stroke="currentColor"-->
-    <!--                            stroke-width="2"-->
-    <!--                            stroke-linecap="round"-->
-    <!--                            stroke-linejoin="round"-->
-    <!--                            class="feather feather-more-horizontal">-->
-    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
-    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
-    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
-    <!--                        </svg>-->
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
                             <li v-for="item in state.data.timeLine">
@@ -79,7 +49,6 @@
         data: {
             selectedTimeLine : '5m',
             serviceId : route.params.id,
-            accessToken: localStorage.getItem("accessToken"),
             
             timeLine : [
                 {label: '5m', value: '5'},
