@@ -30,13 +30,11 @@ export default {
       try{
 
         const frame = document.getElementById("my-iframe");
-        const boundingRect = frame.getBoundingClientRect();
         console.log("url은" + url);
-        const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}&location="${url}"`); // API 엔드포인트에 맞게 수정해주세요
+        const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=5m&serviceid=${store.state.serviceId}&location="${url}"`); // API 엔드포인트에 맞게 수정해주세요
         // const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=5m&serviceid=${store.state.serviceId}&location="http://localhost:3001/"`); // API 엔드포인트에 맞게 수정해주세요
 // 
         tempData.value = response.data;
-        console.log(tempData.value);
         heatmapData.value = tempData.value.map(item=>{
         return {
           x: Math.round(item.positionX *(854/1920)),
@@ -99,7 +97,6 @@ export default {
     onMounted(() => {
   
 
-      // const curNode = store.state.journals.curNode;
       const curNode = localStorage.getItem('curNode');
       
       loadHeatmap(store.state.curUrl || curNode);
@@ -117,9 +114,12 @@ export default {
         }
       });
 
-      watch(() => route.path, (newServiceId, oldServiceId) => {
+      watch(() => store.state.serviceId, (newServiceId, oldServiceId) => {
                 // 페이지 변경 감지, curNode를 기본주소로...
-                store.state.serviceId = route.path.split('/')[2]
+                console.log(`서비스Id 변경감지${oldServiceId} => ${newServiceId}`);
+                data.splice(0, data.length);
+                store.commit('updateUrl', "about:blank");
+                loadHeatmap(store.state.curUrl);
       })
 
       
