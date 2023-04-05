@@ -39,7 +39,9 @@ export default new createStore({
         journals: {curNode : null, data : null, nodes : {}, links : {}, clickFlag : false},
         durations: [], // 리스트 타입의 상태 변수
         
-        urlList: []
+        urlList: [],
+
+        totalDailyUser: null,
     },
     mutations: {
         updateUrl(state, url){
@@ -115,10 +117,9 @@ export default new createStore({
         },
         setDurations(state, durations) {
             state.durations = durations
-            console.log("--------------------set durations -----------------")
-            // console.log("data is" + state.durations + state.durations.typeof);
-            // console.log(Object.keys(JSON.parse(state.durations)));
-            // console.log(JSON.parse(state.durations));
+        },
+        setDailyTotalUser(state, totalDailyUser) {
+            state.totalDailyUser = totalDailyUser
         }
     },
     getters: {
@@ -278,7 +279,33 @@ export default new createStore({
                 console.error(error + "에러가 발생했습니다.");
             })
         },
+        async fetchDailyUser({commit}, {baseTime, interval, serviceId}){
+            console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
+            console.log(123);
+            await axios({
+                method: 'get',
+                url: process.env.VUE_APP_API_HOST
+                    + `/api/v1/weblog/refersall?basetime=${baseTime}&interval=${interval}&serviceid=${serviceId}`,
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+                }
+            }).then(response => {
+                let totalUser = 0;
+                response.data.forEach((item) => {
+                    // console.log(totalPageenter);
+                    totalUser+=item.totalSession;
+                });
+                console.log("-----------------total user----------------");
+                console.log(parseInt(totalUser));
+                commit('setDailyTotalUser', totalUser);
+            }).catch(error => {
+                console.error(error + "에러가 발생했습니다.");
+            })
+        },
     },
+    
+   
+    
     
     
     getProjectList: function (){
@@ -307,7 +334,7 @@ export default new createStore({
         .catch(err=>{
             console.log(err.response)
         })
-},
+    },
     modules: {},
 });
 
