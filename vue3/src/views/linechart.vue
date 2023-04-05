@@ -78,7 +78,7 @@
                         for (const re in tempo) {
                             console.log(re)
                             
-                            if (re==null){
+                            if (re=='null'){
                                 
                             }
                             
