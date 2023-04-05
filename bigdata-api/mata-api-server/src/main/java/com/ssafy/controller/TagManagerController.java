@@ -124,8 +124,12 @@ public class TagManagerController {
                     wl.setLocation("http://localhost:3001"+urlList.get(i%3));
                 } else {
                     // 내부 이동
+//                    x = true ? asdf : asdf;
                     wl.setPrevLocation("http://localhost:3001"+urlList.get(hashValue%10));
-                    wl.setLocation("http://localhost:3001"+urlList.get(hashValue2%10));
+                    if(hashValue % 10 == hashValue2 % 10) {
+                        hashValue2++;
+                    }
+                    wl.setLocation("http://localhost:3001"+urlList.get(hashValue2%10 ));
                 }
                 long duTime = 10 + hashValue % 100;
                 int hashValue3 = (int)(Math.random()*100000);
