@@ -37,8 +37,8 @@
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
                 })
-                
-                
+
+
                 console.log("------------response----------------");
                 console.log(response);
                 console.log("------------response.data----------------");
@@ -67,8 +67,8 @@
                     }
                     return groups;
                 }, []);
-                
-                
+
+
                 console.log("------------referrerGroups----------------");
                 console.log(referrerGroups);
 
@@ -78,7 +78,8 @@
                     series: chartData.map(data => data.y),
                     chart: {
                         type: 'pie',
-                        height: 350
+                        height: 350,
+                        background: '#fff',
                     },
                     labels: chartData.map(data => data.x),
                     responsive: [{
@@ -96,6 +97,7 @@
 
                 const chartInstance = new ApexCharts(pieChart.value, options);
                 await chartInstance.render();
+
             });
 
             return {
