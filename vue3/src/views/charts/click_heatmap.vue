@@ -1,8 +1,16 @@
 <template>
-  <div id = "heatmapContainer" class="heatmap-container" ref="heatmapTarget" style="width: 854px; height: 480px;">
-    <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" ></iframe>
+  <div id="heatmapContainer" class="heatmap-container" ref="heatmapWrapper" style="width: 854px; height: 480px; position: relative;">
+    <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" style="position: absolute; top: 0; left: 0;"></iframe>
   </div>
 </template>
+
+<!-- <template>
+  <div id="heatmapWrapper" ref="heatmapWrapper" style="position: relative; width: 854px; height: 480px;">
+    <div id="heatmapContainer" style="position: relative; top: 0; left: 0; width: 100%; height: 100%;"></div>
+    <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" style="position: absolute; top: 0; left: 0; z-index: 1;"></iframe>
+  </div>
+</template> -->
+
 
 <script>
 import { ref, onMounted, watch} from 'vue';
@@ -20,7 +28,6 @@ export default {
     const store = useStore();
     const iframeRef = ref(null);
     const heatmapWrapper=ref(null);
-    const heatmapTarget = ref(null);
     let heatmapInstance = null;
     const heatmapData = ref([]);
     const tempData = ref([]);
@@ -29,7 +36,6 @@ export default {
     const fetchClickData = async (url) => {
       try{
 
-        const frame = document.getElementById("my-iframe");
         console.log("url은" + url);
         const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=5m&serviceid=${store.state.serviceId}&location="${url}"`); // API 엔드포인트에 맞게 수정해주세요
         // const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=5m&serviceid=${store.state.serviceId}&location="http://localhost:3001/"`); // API 엔드포인트에 맞게 수정해주세요
@@ -59,26 +65,26 @@ export default {
 
 
       console.log(data);
-      setHeatmapData();
-      
-      } catch (error){
-        console.error();
-      }
-    };
-
-    const setHeatmapData = () => {
-      heatmapInstance.setData({
+      if(heatmapInstance){
+        heatmapInstance.setData({
         max:100,
         data
-      });
-    };
-    
+        });
+      }
+      
+    } catch (error){
+      console.error();
+    }
+  };
+
 
     const loadHeatmap = (url) =>{
+
+
       iframeRef.value.src = url;
       iframeRef.value.onload = () => {
         heatmapInstance = heatmap.create({
-        container: heatmapTarget.value,
+        container: heatmapWrapper.value,
         radius: 25,
         maxOpacity: 0.6,
         minOpacity: 0,
@@ -97,19 +103,23 @@ export default {
     onMounted(() => {
   
 
-      const curNode = localStorage.getItem('curNode');
-      
-      loadHeatmap(store.state.curUrl || curNode);
+      // const curNode = localStorage.getItem('curNode');
+      // loadHeatmap(store.state.curUrl || curNode);
+      loadHeatmap("about:blank");
   
 
       watch(() => store.state.curUrl, (newVal, oldVal) => {
+        
         if (newVal !== oldVal) {
           data.splice(0, data.length);
+          if(heatmapInstance){
           heatmapInstance.setData({
           max:100,
           data: []
+          
       });
-          iframeRef.value.src = newVal;
+    }
+          // loadHeatmap("https://malachai.tistory.com/");
           loadHeatmap(newVal);
         }
       });
@@ -128,7 +138,6 @@ export default {
 
     return {
       heatmapWrapper,
-      heatmapTarget,
       iframeRef,
     };
   }
