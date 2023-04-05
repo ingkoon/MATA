@@ -133,13 +133,16 @@
                     },
                 },
                 yaxis: {
-                    tickAmount: maxVal, // default - 7
+                    tickAmount: 5, // default - 7
+                    // forceNiceScale: true,
                     labels: {
                         formatter: function(value) {
                             return value;
                         },
+                        min: 0,
+                        max: 10,
                         offsetX: 0,
-                        offsetY: -10,
+                        offsetY: 0,
                         style: {
                             fontSize: '12px',
                             fontFamily: 'Nunito, sans-serif',
