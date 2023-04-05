@@ -45,6 +45,10 @@
             <div>
                 <Linear_chart/>
             </div>
+
+            <div>
+                <BarChart></BarChart>
+            </div>
             
             <total_user/>
         </div>
@@ -63,6 +67,7 @@
     import axios from 'axios';
     useMeta({ title: 'Sales Admin' });
     import { useRoute } from 'vue-router';
+    import BarChart from './component_bar_chart.vue'
     
     
     useMeta({ title: 'Sales Admin' });
