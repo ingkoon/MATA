@@ -66,7 +66,7 @@
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
@@ -105,6 +105,7 @@
                 console.log(shortestKey)
                 // 기본 세팅
                 store.state.journals.curNode = shortestKey;
+                localStorage.setItem('curNode', shortestKey);
                 store.state.journals.data = JSON.stringify(groupedData);
                 drawgraph()
             }
@@ -156,6 +157,7 @@
                 svg.selectAll("rect")
                     .on("click", function() {
                         console.log("click........... 아마도 히트맵 자리, node가 갖는 주소는", this.attributes.url.value)
+                        store.commit('updateUrl', this.attributes.url.value);
                     })
                     .on("dblclick", function() {
                         store.state.journals.curNode = this.attributes.url.value;

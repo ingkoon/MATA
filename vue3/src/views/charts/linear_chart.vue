@@ -3,34 +3,63 @@
         <div class="widget widget-">
             <div class="widget-heading">
                 <h5>Durations</h5>
-
-                <div class="dropdown btn-group">
-                    <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="feather feather-more-horizontal">
-                            <circle cx="12" cy="12" r="1"></circle>
-                            <circle cx="19" cy="12" r="1"></circle>
-                            <circle cx="5" cy="12" r="1"></circle>
-                        </svg>
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
-                        <li v-for="item in state.data.timeLine">
-                            <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
-                        </li>
-                    </ul>
+                <div style='float: right;'>
+                    <div class="dropdown btn-group" style='margin-right: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;' >
+                        <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+    <!--                        <svg-->
+    <!--                            xmlns="http://www.w3.org/2000/svg"-->
+    <!--                            width="24"-->
+    <!--                            height="24"-->
+    <!--                            viewBox="0 0 24 24"-->
+    <!--                            fill="none"-->
+    <!--                            stroke="currentColor"-->
+    <!--                            stroke-width="2"-->
+    <!--                            stroke-linecap="round"-->
+    <!--                            stroke-linejoin="round"-->
+    <!--                            class="feather feather-more-horizontal">-->
+    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
+    <!--                        </svg>-->
+                            <p style='font-weight: bold;text-align: center; color: white; margin: 10px;'>{{state.selectedLocation}}</p>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
+                            <li v-for="item in state.location">
+                                <a href="javascript:;" class="dropdown-item" v-on:click= "state.selectedLocation = item">{{ item }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dropdown btn-group" style='margin-left: 25px; box-shadow: 2px 2px 2px gray; border-radius: 5px; background: #1B2E4BFF;'>
+                        <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                            <p style='font-weight: bold;text-align: center; margin: 10px; color: white;'>{{state.data.selectedTimeLine}}</p>
+    <!--                        <svg-->
+    <!--                            xmlns="http://www.w3.org/2000/svg"-->
+    <!--                            width="24"-->
+    <!--                            height="24"-->
+    <!--                            viewBox="0 0 24 24"-->
+    <!--                            fill="none"-->
+    <!--                            stroke="currentColor"-->
+    <!--                            stroke-width="2"-->
+    <!--                            stroke-linecap="round"-->
+    <!--                            stroke-linejoin="round"-->
+    <!--                            class="feather feather-more-horizontal">-->
+    <!--                            <circle cx="12" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="19" cy="12" r="1"></circle>-->
+    <!--                            <circle cx="5" cy="12" r="1"></circle>-->
+    <!--                        </svg>-->
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="tlnRevenue">
+                            <li v-for="item in state.data.timeLine">
+                                <a href="javascript:;" class="dropdown-item" v-on:click="state.data.selectedTimeLine = item.label">{{ item.label }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
             <div class="widget-content">
-                <div class="chart-title">서비스 체류 시간 구간 <span class="text-primary ms-1">{{store.state.durations.length}}</span> 개</div>
+                <div class="chart-title">서비스 체류 시간 단위 <span class="text-primary ms-1">{{state.data.selectedTimeLine}}</span></div>
+                <div class="chart-title">체류 서비스 <span class="text-primary ms-1">{{state.selectedLocation}}</span></div>
                 <apex-chart v-if="state.duration_options" height="325" type="area" :options="state.duration_options" :series="state.duration_series"></apex-chart>
             </div>
         </div>
@@ -48,17 +77,10 @@
     const state=  reactive({
         components: { ApexChart },
         data: {
-            selectedTimeLine : '1h',
-            // selectedPeriod : '1h',
+            selectedTimeLine : '5m',
             serviceId : route.params.id,
             accessToken: localStorage.getItem("accessToken"),
-
-            period : [
-                {label: 'Daily', value: 1},
-                {label: 'Weekly', value: 7},
-                {label: 'Monthly', value: 30},
-                {label: 'Yearly', value: 365},
-            ],
+            
             timeLine : [
                 {label: '5m', value: '5'},
                 {label: '10m', value: '10'},
@@ -66,28 +88,57 @@
                 {label: '1h', value: '60'},
                 {label: '6h', value: '360'},
                 {label: '12h', value: '720'},
+                {label: '1d', value: '1440'},
+                {label: '1w', value: '1440'},
+                {label: '1m', value: '1440'},
+                {label: '1mo', value: '1440'},
+                {label: '6mo', value: '1440'},
+                {label: '1y', value: '1440'},
+                {label: 'all', value: '1440'},
             ],
         },
         duration_series: [],
         duration_options: {},
+        location: [],
+        selectedLocation: null,
     });
-
+    
     const fetchData = async (baseTime, interval, serviceId) => {
         await store.dispatch('fetchDurations', { baseTime, interval, serviceId });
+        if(state.location.length === 0)
+            await setState();
+        await updateChart();
+        
     }
-
+    
+    const setState = async () =>  {
+        const tmp = Object.keys(JSON.parse(store.state.durations))
+        state.location = tmp;
+        state.selectedLocation = tmp[0]; 
+    }
+    
     const updateChart = async ()=>{
-        let sessions = store.state.durations.map(duration => duration.totalSession);
-        let timestamps = store.state.durations.map(duration => new Date(duration.updateTimestamp).toISOString().split('T')[1]);
-        let maxVal = Math.max(sessions);
+        const parseDurations = JSON.parse(store.state.durations);
+        console.log("----------parseDurations--------")
+        console.log(parseDurations);
+        console.log("----------selectedLocation--------")
+        const optionDataList = parseDurations[state.selectedLocation];
+        console.log("----------optionDataList--------")
+        console.log(optionDataList)
+        let sortedOptionDataList = typeof optionDataList === "undefined" ? [] : optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
+        console.log(sortedOptionDataList);
+        let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
+        let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
+        console.log("----------timestamp--------------");
+        console.log(timestamps);
+        let maxVal = Math.max(sessions) ^ 2;
+        // let maxVal = 1;
+        
         state.duration_series = ref([
             { name: '인원 수', data: sessions}
         ]);
         state.duration_options = computed(() => {
             const is_dark = store.state.is_dark_mode;
-            // console.log(list[0]);
-            // const list = store.state.durations.map(duration => JSON.stringify(duration));
-            const list = store.state.durations.map(duration => duration);
 
             return {
                 chart: {
@@ -101,8 +152,8 @@
                 colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
                 markers: {
                     discrete:
-                        { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 }
-                    // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 },
+                        { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
+                        // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 }
                 },
                 // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 labels: timestamps,
@@ -127,7 +178,7 @@
                             return value;
                         },
                         offsetX: 0,
-                        offsetY: 10,
+                        offsetY: -10,
                         style: {
                             fontSize: '12px',
                             fontFamily: 'Nunito, sans-serif',
@@ -135,7 +186,6 @@
                         },
                     },
                 },
-
                 grid: {
                     borderColor: is_dark ? '#191e3a' : '#e0e6ed',
                     strokeDashArray: 5,
@@ -177,17 +227,16 @@
             };
         })
     }
-
     onMounted(()=> {
-        fetchData(Date.now(), '1d', route.params.id);
-        updateChart();
-        console.log(state.data.period);
+        fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);
     });
 
     watchEffect(()=>{
-        const selectedTimeLine= state.data.selectedTimeLine;
-        fetchData(Date.now(), selectedTimeLine, route.params.id);
-        setInterval(()=>(updateChart(), 2000));
+        const selectedTimeLine = state.data.selectedTimeLine;
+        const selectedLocation = state.selectedLocation;
+        console.log(state.data.selectedTimeLine);
+        if(selectedTimeLine && selectedLocation){
+            fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);    
+        }
     });
 </script>
-<!--데이터를 가져오는 부분을 함수로 수정해서 series와-->
