@@ -37,7 +37,8 @@
                 </div>
                 
             </div>
-            <div class="col-xl-8 col-lg-8" >
+            <div class="col-md-8 col-xl-8 col-lg-8 d-flex justify-content-center" >
+            <!-- <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
                 <heatmap/>
             </div>
             

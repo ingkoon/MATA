@@ -1,8 +1,6 @@
 <template>
   <div id = "heatmapContainer" class="heatmap-container" ref="heatmapTarget" style="width: 854px; height: 480px;">
-    <div class="heatmap-canvas"></div>
     <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" ></iframe>
-    <div ref="heatmapWrapper"></div>
   </div>
 </template>
 
@@ -27,19 +25,24 @@ export default {
     const heatmapData = ref([]);
     const tempData = ref([]);
     const data = [      ]
-    const ele = document.querySelector("#heatmapContainer");
 
     const fetchClickData = async (url) => {
       try{
+
+        const frame = document.getElementById("my-iframe");
+        const boundingRect = frame.getBoundingClientRect();
         console.log("url은" + url);
-        const response = await axios.get(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/clicks?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}&location="${url}"`); // API 엔드포인트에 맞게 수정해주세요
-        // const response = await axios.get(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/clicks?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}&location="http://localhost:3001/"`); // API 엔드포인트에 맞게 수정해주세요
+        const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}&location="${url}"`); // API 엔드포인트에 맞게 수정해주세요
+        // const response = await axios.get(process.env.VUE_APP_API_HOST+`/api/v1/weblog/clicks?basetime=${Date.now()}&interval=5m&serviceid=${store.state.serviceId}&location="http://localhost:3001/"`); // API 엔드포인트에 맞게 수정해주세요
+// 
         tempData.value = response.data;
-        
+        console.log(tempData.value);
         heatmapData.value = tempData.value.map(item=>{
         return {
-          x: Math.round(item.positionX *0.44),
-          y: Math.round(item.positionY *0.44),
+          x: Math.round(item.positionX *(854/1920)),
+          // x: item.positionX,
+          y:  Math.round(item.positionY *(480/1080)),
+          y:  item.positionY,
           value : item.totalClick * 20
         }
         
@@ -133,13 +136,5 @@ export default {
 </script>
 
 <style scoped>
-.heatmapWrapper{
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
 
 </style>
