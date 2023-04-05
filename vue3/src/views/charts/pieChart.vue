@@ -35,12 +35,14 @@
             };
         },
         mounted() {
-            fetch('http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com//api/v1/weblog/refers?basetime=30&interval=5')
+            console.log('before fetch');
+            console.log(Date.now());
+            fetch(process.env.VUE_APP_API_HOST + `/api/v1/weblog/refersall?basetime=${Date.now()}&interval=all&serviceid=2`)
                 .then(response => response.json())
                 .then(data => {
                     const labels = [];
                     const series = [];
-
+                    
                     data.forEach(item => {
                         labels.push(item.referrerId);
                         series.push(item.totalSession);
