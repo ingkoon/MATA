@@ -1,5 +1,49 @@
 <template>
     <div class="layout-px-spacing dash_1">
+        <div class='row layout-top-spacing'>
+            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                <div class='widget p-3'>
+                    <div style='float: right'>
+                        <div class="dropdown btn-group">
+                            <a href="javascript:;" id="ddlRevenue" class="btn dropdown-toggle btn-icon-only" data-bs-toggle="dropdown" aria-expanded="false">
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    class="feather feather-more-horizontal"
+                                >
+                                    <circle cx="12" cy="12" r="1"></circle>
+                                    <circle cx="19" cy="12" r="1"></circle>
+                                    <circle cx="5" cy="12" r="1"></circle>
+                                </svg>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="ddlRevenue">
+                                <li><a href="javascript:;" class="dropdown-item">새로운 토큰을 발급받으려면 재발급 버튼을 클릭하세요!</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <h4>사용자 토큰</h4>
+                    <div>
+                        <span style='font-weight: bold'> 프로젝트명 : </span><span class="text-primary ms-3">{{ state.serviceName }}</span>
+                    </div>
+                    <div>
+                        <span style='font-weight: bold'> 토큰 : </span> <span class="text-primary ms-3">{{ state.clientToken }}</span>
+                    </div>
+                    <button @click="get_token" style='font-weight: bold; text-align: center; color: white; background: #1B2E4BFF; border-radius: 5px; box-shadow: 2px 2px 2px gray; border: none; margin-top: 10px;'>재발급</button>
+                </div>
+            </div>
+        </div>
+
+        <div class='navbar-nav flex-row' style='margin-top: 3%;'>
+            <total_user/>
+        </div>
+
         <teleport to="#breadcrumb">
             <ul class="navbar-nav flex-row">
                 <li>
@@ -13,36 +57,19 @@
                 </li>
             </ul>
         </teleport>
-        <div class='row layout-top-spacing'>
-            <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                <div class='widget p-3'>
-                    <h5>사용자 토큰</h5>
-                    <div> {{ $route.params.id }}</div>
-                    <div>
-                        토큰 : {{  }}
-                    </div>
-                    <button @click="get_token">재발급</button>
-                </div>
-            </div>
-        </div>
 
-        
         <div class="row layout-top-spacing">
             <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
                 <div class="widget widget-revenue">
                     <div class="widget-heading">
                         <sankeyChart/>
                     </div>
-                    
                 </div>
-                
             </div>
-            <div class="col-md-8 col-xl-8 col-lg-8 d-flex justify-content-center" >
-            <!-- <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
+            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing" >
+                <!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
                 <heatmap/>
             </div>
-            
-
             <div>
                 <Linear_chart/>
             </div>
@@ -50,15 +77,13 @@
             <div>
                 <BarChart></BarChart>
             </div>
-            
-            <total_user/>
         </div>
     </div>
 </template>
 
 <script setup>
     import '@/assets/sass/widgets/widgets.scss';
-    import { computed, ref, onMounted, onUpdated, reactive } from 'vue';
+    import { computed, ref, onMounted, onUpdated, reactive, watch, watchEffect } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
     import sankeyChart from './charts/sankey_chart.vue';
@@ -69,21 +94,20 @@
     useMeta({ title: 'Sales Admin' });
     import { useRoute } from 'vue-router';
     import BarChart from './component_bar_chart.vue'
-    
-    
     useMeta({ title: 'Sales Admin' });
     import Linear_chart from '@/views/charts/linear_chart.vue';
     import Total_user from '@/views/charts/total_user.vue';
-    
+
     const route =useRoute();
-    const store = useStore();    
-    
+    const store = useStore();
+
     const state = reactive({
         serviceId: route.path.split('/')[2],
         accessToken: localStorage.getItem("accessToken"),
         clientToken: null,
+        serviceName: null,
         pageDurations: {
-            
+
         },
         configs: {
             components: {
@@ -98,11 +122,31 @@
             }
         }
     });
-    
+
     onMounted(() => {
         getComponentStats('1d');
+        get_project();
     })
-    
+
+    watchEffect(()=> {
+        const token = state.clientToken;
+    })
+
+    const get_project = async ()=> {
+        let resp = await axios({
+            method:'get',
+            url: process.env.VUE_APP_API_HOST+`/api/v1/project/${route.params.id}`,
+            headers:{
+                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`,
+            },
+        })
+        let body = resp.data;
+        console.log("------------body---------");
+        console.log(body);
+        state.serviceName = body.name;
+        state.clientToken = body.token == null ? "아직 발급받지 않은 상태입니다." : body.token;
+    }
+
     //Revenue
     const get_token = async () => {
         let resp = await axios({
@@ -117,7 +161,7 @@
         })
         let body = resp.data
         console.log(body);
-        state.clientToken = body;
+        state.clientToken = body.token == null ? "아직 발급받지 않은 상태입니다." : body.token;
     }
 
     const getComponentStats = async (interval) => {
@@ -163,58 +207,6 @@
         state.data.components.totalClickSum = state.data.components.list.reduce((acc, cur) => acc + cur.totalClick, 0)
         console.log()
     }
-
-    //Daily Sales
-    const daily_sales_series = ref([
-        { name: 'Sales', data: [44, 55, 41, 67, 22, 43, 21] },
-        { name: 'Last Week', data: [13, 23, 20, 8, 13, 27, 33] },
-    ]);
-    const daily_sales_options = computed(() => {
-        return {
-            chart: { toolbar: { show: false }, stacked: true, stackType: '100%' },
-            dataLabels: { enabled: false },
-            stroke: { show: true, width: 1 },
-            colors: ['#e2a03f', '#e0e6ed'],
-            responsive: [{ breakpoint: 480, options: { legend: { position: 'bottom', offsetX: -10, offsetY: 0 } } }],
-            xaxis: { labels: { show: false }, categories: ['Sun', 'Mon', 'Tue', 'Wed', 'Thur', 'Fri', 'Sat'] },
-            yaxis: { show: false },
-            fill: { opacity: 1 },
-            plotOptions: { bar: { horizontal: false, columnWidth: '25%' } },
-            legend: { show: false },
-            grid: {
-                show: false,
-                xaxis: { lines: { show: false } },
-                padding: { top: 10, right: -20, bottom: -20, left: -20 },
-            },
-        };
-    });
-
-    //Total Orders
-    const total_orders_series = ref([{ name: 'Sales', data: [28, 40, 36, 52, 38, 60, 38, 52, 36, 40] }]);
-    const total_orders_options = computed(() => {
-        const is_dark = store.state.is_dark_mode;
-        return {
-            chart: { sparkline: { enabled: true } },
-            stroke: { curve: 'smooth', width: 2 },
-            colors: is_dark ? ['#1abc9c'] : ['#fff'],
-            labels: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-            yaxis: { min: 0, show: false },
-            grid: { padding: { top: 125, right: 0, bottom: 0, left: 0 } },
-            fill: {
-                opacity: 1,
-                type: 'gradient',
-                gradient: {
-                    type: 'vertical',
-                    shadeIntensity: 1,
-                    inverseColors: !1,
-                    opacityFrom: is_dark ? 0.3 : 0.4,
-                    opacityTo: 0.05,
-                    stops: is_dark ? [100, 100] : [45, 100],
-                },
-            },
-            tooltip: { x: { show: false }, theme: 'dark' },
-        };
-    });
 
     //Sales by Category
     const sales_donut_series = ref([985, 737, 270]);
@@ -278,5 +270,4 @@
         }
         return option;
     });
-    
 </script>

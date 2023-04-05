@@ -18,7 +18,7 @@
     import { useRoute } from 'vue-router'
     import { useStore } from 'vuex'
     import ApexChart from 'vue3-apexcharts';
-    import { computed, onMounted, onUpdated, reactive, ref, watchEffect } from 'vue';
+    import { computed, onMounted, onUpdated, reactive, ref } from 'vue';
     
     const route = useRoute();
     const store = useStore();
