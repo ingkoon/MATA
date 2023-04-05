@@ -6,6 +6,8 @@ CREATE KEYSPACE tagmanager WITH REPLICATION = {
 	'replication_factor' : 1
 };
 USE tagmanager;
+DROP TABLE IF EXISTS tagmanager.stream;
+
 CREATE TABLE stream (
   key TEXT,
   service_token TEXT,
@@ -26,6 +28,73 @@ CREATE TABLE stream (
 sudo docker exec master01 hive -e "
 CREATE DATABASE IF NOT EXISTS mata;
 USE mata;
+drop table if exists clicks_10m;
+drop table if exists clicks_12h;
+drop table if exists clicks_1d;
+drop table if exists clicks_1h;
+drop table if exists clicks_1m;
+drop table if exists clicks_1mo;
+drop table if exists clicks_1w;
+drop table if exists clicks_1y;
+drop table if exists clicks_30m;
+drop table if exists clicks_5m;
+drop table if exists clicks_6h;
+drop table if exists clicks_6mo;
+drop table if exists clicks_all;
+drop table if exists components_10m;
+drop table if exists components_12h;
+drop table if exists components_1d;
+drop table if exists components_1h;
+drop table if exists components_1m;
+drop table if exists components_1mo;
+drop table if exists components_1w;
+drop table if exists components_1y;
+drop table if exists components_30m;
+drop table if exists components_5m;
+drop table if exists components_6h;
+drop table if exists components_6mo;
+drop table if exists components_all;
+drop table if exists page_durations_10m;
+drop table if exists page_durations_12h;
+drop table if exists page_durations_1d;
+drop table if exists page_durations_1h;
+drop table if exists page_durations_1m;
+drop table if exists page_durations_1mo;
+drop table if exists page_durations_1w;
+drop table if exists page_durations_1y;
+drop table if exists page_durations_30m;
+drop table if exists page_durations_5m;
+drop table if exists page_durations_6h;
+drop table if exists page_durations_6mo;
+drop table if exists page_durations_all;
+drop table if exists page_journals_10m;
+drop table if exists page_journals_12h;
+drop table if exists page_journals_1d;
+drop table if exists page_journals_1h;
+drop table if exists page_journals_1m;
+drop table if exists page_journals_1mo;
+drop table if exists page_journals_1w;
+drop table if exists page_journals_1y;
+drop table if exists page_journals_30m;
+drop table if exists page_journals_5m;
+drop table if exists page_journals_6h;
+drop table if exists page_journals_6mo;
+drop table if exists page_journals_all;
+drop table if exists page_refers_10m;
+drop table if exists page_refers_12h;
+drop table if exists page_refers_1d;
+drop table if exists page_refers_1h;
+drop table if exists page_refers_1m;
+drop table if exists page_refers_1mo;
+drop table if exists page_refers_1w;
+drop table if exists page_refers_1y;
+drop table if exists page_refers_30m;
+drop table if exists page_refers_5m;
+drop table if exists page_refers_6h;
+drop table if exists page_refers_6mo;
+drop table if exists page_refers_all;
+drop table if exists services;
+
 CREATE TABLE IF NOT EXISTS services(
   service_id BIGINT,
   host_name STRING,
