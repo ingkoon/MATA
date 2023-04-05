@@ -152,8 +152,8 @@ public class TagManagerController {
                     wl.setTargetId(idList.get(hashValue3%4));
                     wl.setEvent("click");
                     wl.setPageDuration(duTime*j);
-                    wl.setPositionX(hashValue%1000 + hashValue3%100);
-                    wl.setPositionY(hashValue%520 + hashValue3%100);
+                    wl.setPositionX(hashValue%1000 + hashValue3%10);
+                    wl.setPositionY(hashValue%520 + hashValue3%10);
                 }
 
                 if(wl.getPrevLocation().equals("none")) {
