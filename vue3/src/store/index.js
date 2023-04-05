@@ -229,15 +229,12 @@ export default new createStore({
                 })
           },
         async fetchDurations({ commit }, {baseTime, interval, serviceId}) {
-            console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
-            console.log(123);
             const url = encodeURI(`http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/weblog/durations`);
             const params = {
                 'basetmie' : baseTime, 
                 'interval' : interval, 
                 'serviceid' : serviceId
             };
-            console.log("axios input is ...")
             await axios({
                 method: 'get',
                 url: process.env.VUE_APP_API_HOST 
@@ -265,8 +262,6 @@ export default new createStore({
                         }];
                     }
                 });
-                console.log("----------------start------------")
-                console.log(groupedData);
                 commit('setDurations', JSON.stringify(groupedData));
                 // const responseData = JSON.stringify(response.data);
                 // console.log("return is ... " + response+ " ,,,, " + response.length);
@@ -280,8 +275,6 @@ export default new createStore({
             })
         },
         async fetchDailyUser({commit}, {baseTime, interval, serviceId}){
-            console.log('basetime = ' + baseTime +  ' interval = ' + interval +' serviceid = ' +  serviceId);
-            console.log(123);
             await axios({
                 method: 'get',
                 url: process.env.VUE_APP_API_HOST
@@ -291,12 +284,9 @@ export default new createStore({
                 }
             }).then(response => {
                 let totalUser = 0;
-                response.data.forEach((item) => {
-                    // console.log(totalPageenter);
+                response.data.forEach((item) => {       
                     totalUser+=item.totalSession;
                 });
-                console.log("-----------------total user----------------");
-                console.log(parseInt(totalUser));
                 commit('setDailyTotalUser', totalUser);
             }).catch(error => {
                 console.error(error + "에러가 발생했습니다.");

@@ -88,18 +88,10 @@
     
     const updateChart = async ()=>{
         const parseDurations = JSON.parse(store.state.durations);
-        console.log("----------parseDurations--------")
-        console.log(parseDurations);
-        console.log("----------selectedLocation--------")
         const optionDataList = parseDurations[state.selectedLocation];
-        console.log("----------optionDataList--------")
-        console.log(optionDataList)
         let sortedOptionDataList = typeof optionDataList === "undefined" ? [] : optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
-        console.log(sortedOptionDataList);
         let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
         let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
-        console.log("----------timestamp--------------");
-        console.log(timestamps);
         let maxVal = Math.max(sessions) ^ 2;
         // let maxVal = 1;
         
@@ -203,7 +195,6 @@
     watchEffect(()=>{
         const selectedTimeLine = state.data.selectedTimeLine;
         const selectedLocation = state.selectedLocation;
-        console.log(state.data.selectedTimeLine);
         if(selectedTimeLine && selectedLocation){
             fetchData(Date.now(), state.data.selectedTimeLine, route.params.id);    
         }
