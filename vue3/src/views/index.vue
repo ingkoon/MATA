@@ -91,6 +91,7 @@
                         <h4>유입 경로</h4>
                         <linechart></linechart>
                     </div>
+                    <pie_chart></pie_chart>
                 </div>
             </div>
         </div>
@@ -112,6 +113,7 @@
     import Linear_chart from '@/views/charts/linear_chart.vue';
     import Total_user from '@/views/charts/total_user.vue';
     import linechart from './linechart.vue'
+    import Pie_chart from '@/views/charts/pie_chart.vue';
 
 
     useMeta({ title: 'Sales Admin' });
