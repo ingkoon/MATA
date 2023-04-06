@@ -1,5 +1,4 @@
 <template>
-    <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 col-12 layout-spacing">
         <div class="widget widget-total-order">
             <div class="widget-heading">
                 <div>
@@ -11,7 +10,6 @@
                 <apex-chart v-if="state.total_orders_options" height="290" type="area" :options="state.total_orders_options" :series="state.total_orders_series"></apex-chart>
             </div>
         </div>
-    </div>
 </template>
 
 <script setup>
