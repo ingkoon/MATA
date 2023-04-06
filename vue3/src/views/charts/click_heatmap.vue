@@ -1,5 +1,5 @@
 <template>
-  <div id="heatmapContainer" class="heatmap-container" ref="heatmapWrapper" style="width: 854px; height: 480px; position: relative;">
+  <div id="heatmapContainer" class="heatmap-container" ref="heatmapWrapper" style="width: 640px; height: 400px; position: absolute;">
     <iframe ref="iframeRef" id="my-iframe" src='about:blank' width="100%" height="100%" style="position: absolute; top: 0; left: 0;"></iframe>
   </div>
 </template>
@@ -43,7 +43,7 @@ export default {
         tempData.value = response.data;
         heatmapData.value = tempData.value.map(item=>{
         return {
-          x: Math.round(item.positionX *(854/1920)),
+          x: Math.round(item.positionX *(640/1920)),
           // x: item.positionX,
           y:  Math.round(item.positionY *(480/1080)),
           y:  item.positionY,

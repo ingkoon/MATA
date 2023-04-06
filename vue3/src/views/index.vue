@@ -69,10 +69,9 @@
                             <SankeyChart/>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 layout-spacing">
-                        <div class='widget p-3 h-auto'>
-                            <h4>히트맵</h4>
-                            <!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 layout-spacing d-flex justify-content-center">
+                        <div class='widget p-3 h-auto '>
+                        <h4>히트맵</h4>                            
                             <HeatMap/>
                         </div>
                     </div>
