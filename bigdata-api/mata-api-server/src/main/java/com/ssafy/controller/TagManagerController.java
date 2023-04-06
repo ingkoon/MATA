@@ -90,19 +90,6 @@ public class TagManagerController {
         idList.add("map1");
         idList.add("map2");
 
-//        web에서 들어오는 데이터 형태
-//        serviceToken: this.serviceToken,
-//        sessionId: this.sessionId,
-//        event: eventType,
-//        targetId: (e && e.target && e.target.id) ? e.target.id : 'none',
-//        positionX: e && e.pageX ? e.pageX : null,
-//        positionY: e && e.pageY ? e.pageY : null,
-//        location: this.location,
-//        prevLocation: this.prevLocation,
-//        referrer: this.referrer,
-//        timestamp: Date.now(),
-//        pageDuration: Date.now() - this.enterTimer
-
         // 1000명의 유저 접속, url 랜덤
         for (int i = 0; i < 1000; i++) {
             // 10개의 event
