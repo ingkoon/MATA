@@ -133,7 +133,7 @@ public class TagManagerController {
                 }
                 long duTime = 10 + hashValue % 100;
                 int hashValue3 = (int)(Math.random()*100000);
-                wl.setTimestamp(time+hashValue*10);
+                wl.setTimestamp(time+hashValue*10000);
                 wl.setEvent("none");
                 if(j==0) {
                     // pageenter

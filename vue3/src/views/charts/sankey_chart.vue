@@ -6,6 +6,7 @@
 <script>
     import * as d3 from 'd3';
     import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+    import { drag } from 'd3-drag';
     import axios from 'axios';
     import { ref, watch, onMounted, reactive, watchEffect, onUpdated } from 'vue';
     import { useRoute } from 'vue-router';
@@ -95,7 +96,7 @@
                 });
                 console.log(groupedData)
                 
-                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
                 
                 for (let key in groupedData) {
                     if (key != "none" && key.length < shortestKey.length) {
@@ -113,21 +114,23 @@
             async function drawgraph() {
                 console.log("grawgraph..................")
                 // 그림 초기화...
-                d3.selectAll("rect")
+                d3.select(svgRef.value)
+                    .selectAll("rect")
                     .remove();
-                d3.selectAll("g")
+                d3.select(svgRef.value)
+                    .selectAll("g")
                     .remove();
                 
                 // 노드, 링크 세팅
                 await changeNodeAndLink();
                 
-                const width = 1000;
-                const height = 800;
+                const width = 1300;
+                const height = 1000;
                 const nodeWidth = 300;
-                const nodeHeight = 500;
-                const nodePadding = 200;
+                const nodeHeight = 200;
+                const nodePadding = 100;
                 const ENABLE_LINKS_GRADIENTS = true;
-                const svg = d3.select(svgRef.value).attr('viewBox', [0, -250, width, height + 200]);
+                const svg = d3.select(svgRef.value).attr('viewBox', [0, -50, width, height + 200]);
 
                 const { nodes, links } = sankey()
                     .nodeId((d) => d.name)
@@ -137,6 +140,18 @@
                         [1, 1],
                         [width, height - nodeHeight],
                     ])(items);
+                nodes.forEach((node) => {
+                    node.y0 *= 2
+                    node.y1 *= 2
+                })
+                links.forEach((link) => {
+                    
+                    link.y0 *= 2
+                    link.y1 *= 2
+                })
+                
+                console.log("nodes :" ,nodes)
+                console.log("links :" ,links)
 
                 svg
                     .append('g')
@@ -147,8 +162,8 @@
                     .join('rect')
                     .attr('x', (d) => d.x0)
                     .attr('y', (d) => d.y0)
-                    .attr('height', (d) => 100)
-                    .attr('width', (d) => d.x1 - d.x0)
+                    .attr('height', (d) => 50)
+                    .attr('width', (d) => 100)
                     .attr('fill', (d, i) => `rgb(${(80 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(50 + i * 634) % 256})`)
                     .attr('url', (d) => d.name)
                     .append('title')
@@ -197,12 +212,12 @@
 
                     gradient
                         .append('stop')
-                        .attr('offset', '0%')
+                        .attr('offset', '40%')
                         .attr('stop-color', (d) => d.source.color);
 
                     gradient
                         .append('stop')
-                        .attr('offset', '100%')
+                        .attr('offset', '60%')
                         .attr('stop-color', (d) => d.target.color);
                 }
 
@@ -225,7 +240,7 @@
                     .selectAll('text')
                     .data(nodes)
                     .join('text')
-                    .attr('x', (d) => d.x0 + 8)
+                    .attr('x', (d) => d.x0 + 50)
                     .attr('y', (d) => (d.y1 + d.y0) / 2)
                     .attr('dy', '0.35em')
                     .attr('text-anchor', 'start')
