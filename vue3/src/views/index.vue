@@ -135,7 +135,7 @@
     import Total_user from '@/views/charts/total_user.vue';
     import linechart from './linechart.vue'
     import Pie_chart from '@/views/charts/pie_chart.vue';
-    import PieCshart from '@/views/piechart.vue'
+    import PieChart from '@/views/piechart.vue'
 
 
     useMeta({ title: 'Sales Admin' });
