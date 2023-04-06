@@ -74,7 +74,7 @@
                             </div>
                             <div class="row widget-content">
                                 <div class="row col-xl-4 col-lg-5 col-md-12 col-sm-12 align-items-center">
-                                    <p class='text-start p-4' style='font-weight: bold'>페이지에서 사용자의 클릭 위치를 집계하여 시각화할 수 있습니다.</p>
+                                    <p class='text-start p-4' style='font-weight: bold'>페이지에서 사용자의 클릭 위치를 집계하여 시각화 하였습니다.</p>
                                 </div>
                                 <div class="col-xl-8 col-lg-7 col-md-12 col-sm-12">
 <!--                                    <img src='@/assets/images/dashboard-preview-heatmap.png' class='rounded-3 border-3 shadow-lg w-100'>-->
@@ -89,10 +89,25 @@
                             </div>
                             <div class="row widget-content">
                                 <div class="col-xl-8 col-lg-7 col-md-12 col-sm-12">
-                                    <!--                                    <img src='@/assets/images/dashboard-preview-duration.png' class='rounded-3 border-3 shadow-lg w-100'>-->
+                                    <img src='@/assets/images/dashboard-preview-duration.png' class='rounded-3 border-3 shadow-lg w-100'>
                                 </div>
                                 <div class="row col-xl-4 col-lg-5 col-md-12 col-sm-12 align-items-center">
-                                    <p class='text-start p-4' style='font-weight: bold'>웹페이지서 고객이 머무는 시간을 집계하여 시각화할 수 있습니다.</p>
+                                    <p class='text-start p-4' style='font-weight: bold'>웹페이지서 고객이 머무는 시간을 집계하여 시각화 하였습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget layout-spacing my-3">
+                            <div class="widget-heading m-3">
+                                <h2>
+                                    고객 유입 경로 통계
+                                </h2>
+                            </div>
+                            <div class="row widget-content">
+                                <div class="row col-xl-4 col-lg-5 col-md-12 col-sm-12 align-items-center">
+                                    <p class='text-start p-4' style='font-weight: bold'>사용자가 페이지에 유입한 경로를 집계하여 시각화 하였습니다.</p>
+                                </div>
+                                <div class="col-xl-8 col-lg-7 col-md-12 col-sm-12">
+                                    <img src='@/assets/images/dashboard-preview-referrer.png' class='rounded-3 border-3 shadow-lg w-100'>
                                 </div>
                             </div>
                         </div>

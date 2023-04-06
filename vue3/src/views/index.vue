@@ -63,13 +63,13 @@
         
             <div class="row">
                 <div class="row col-12 layout-spacing">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 layout-spacing">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
                         <div class='widget p-3'>
                             <h4>고객 동선</h4>
                             <SankeyChart/>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 layout-spacing d-flex justify-content-center">
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
                         <div class='widget p-3 h-auto '>
                         <h4>히트맵</h4>                            
                             <HeatMap/>
@@ -86,11 +86,15 @@
             
             <div class="row">
                 <div class='col-12 layout-spacing'>
-                    <div class='widget p-3'>
+                    <div class='row align-items-center widget p-3'>
                         <h4>유입 경로</h4>
-                        <linechart></linechart>
+                        <div class='col-xl-8 col-lg-12 col-md-12 col-sm-12'>
+                            <linechart></linechart>
+                        </div>
+                        <div class='col-xl-4 col-lg-12 col-md-12 col-sm-12 h-auto'>
+                            <pie_chart></pie_chart>
+                        </div>
                     </div>
-                    <pie_chart></pie_chart>
                 </div>
             </div>
         </div>
