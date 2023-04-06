@@ -99,6 +99,22 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class='col-12 layout-spacing'>
+                    <div class='widget p-3'>
+                        <div class='row align-items-center'>
+                            <h4>컴포넌트 </h4>
+                            <div class='col-xl-6 col-lg-6 col-md-6 col-sm-6'>
+                                <BarChart></BarChart>
+                            </div>
+                            <div class='col-xl-6 col-lg-6 col-md-6 col-sm-6 h-auto'>
+                                <PieChart></PieChart>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -119,6 +135,7 @@
     import Total_user from '@/views/charts/total_user.vue';
     import linechart from './linechart.vue'
     import Pie_chart from '@/views/charts/pie_chart.vue';
+    import PieCshart from '@/views/piechart.vue'
 
 
     useMeta({ title: 'Sales Admin' });
