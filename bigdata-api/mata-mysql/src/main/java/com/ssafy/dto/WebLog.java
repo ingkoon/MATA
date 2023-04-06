@@ -23,8 +23,8 @@ public class WebLog {
     private String targetId = "none";
     private int positionX;
     private int positionY;
-    private String location = "none";
-    private String prevLocation = "none";
+    private String location;
+    private String prevLocation;
     private String referrer = "none";
     private long timestamp;
     private long pageDuration;
