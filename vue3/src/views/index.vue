@@ -63,14 +63,14 @@
         
             <div class="row">
                 <div class="row col-12 layout-spacing">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <div class='widget p-3'>
                             <h4>고객 동선</h4>
                             <SankeyChart/>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12">
-                        <div class='widget p-3 h-auto '>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class='widget p-3'>
                         <h4>히트맵</h4>                            
                             <HeatMap/>
                         </div>
