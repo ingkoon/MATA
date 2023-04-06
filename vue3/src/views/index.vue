@@ -63,14 +63,14 @@
         
             <div class="row">
                 <div class="row col-12 layout-spacing">
-                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
                         <div class='widget p-3'>
                             <h4>고객 동선</h4>
                             <SankeyChart/>
                         </div>
                     </div>
-                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 d-flex justify-content-center">
-                        <div class='widget p-3 h-auto' style="margin-left:40px">
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
+                        <div class='widget p-3'>
                         <h4>히트맵</h4>                            
                             <HeatMap/>
                         </div>
@@ -99,22 +99,6 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class='col-12 layout-spacing'>
-                    <div class='widget p-3'>
-                        <div class='row align-items-center'>
-                            <h4>컴포넌트 </h4>
-                            <div class='col-xl-6 col-lg-6 col-md-6 col-sm-6'>
-                                <BarChart></BarChart>
-                            </div>
-                            <div class='col-xl-6 col-lg-6 col-md-6 col-sm-6 h-auto'>
-                                <PieChart></PieChart>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </template>
@@ -135,7 +119,6 @@
     import Total_user from '@/views/charts/total_user.vue';
     import linechart from './linechart.vue'
     import Pie_chart from '@/views/charts/pie_chart.vue';
-    import PieChart from '@/views/piechart.vue'
 
 
     useMeta({ title: 'Sales Admin' });

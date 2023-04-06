@@ -59,8 +59,10 @@
                 console.log("fromNode......................",fromNode)
                 items.nodes.push({name: fromNode, id: fromNode})
                 data[fromNode].forEach((d) => {
-                    items.nodes.push({name: d.locationTo, id: d.locationTo})
-                    items.links.push({source: fromNode, target: d.locationTo, value: d.totalJournals})
+                    if(fromNode != d.locationTo) {
+                        items.nodes.push({ name: d.locationTo, id: d.locationTo })
+                        items.links.push({ source: fromNode, target: d.locationTo, value: d.totalJournals })
+                    }
                 })
             }
 
@@ -129,8 +131,8 @@
                 const nodeWidth = 300;
                 const nodeHeight = 200;
                 const nodePadding = 100;
-                const ENABLE_LINKS_GRADIENTS = true;
-                const svg = d3.select(svgRef.value).attr('viewBox', [0, -50, width, height + 200]);
+                const ENABLE_LINKS_GRADIENTS = false;
+                const svg = d3.select(svgRef.value).attr('viewBox', [-30, -50, width, height + 200]);
 
                 const { nodes, links } = sankey()
                     .nodeId((d) => d.name)
@@ -140,15 +142,14 @@
                         [1, 1],
                         [width, height - nodeHeight],
                     ])(items);
-                nodes.forEach((node) => {
-                    node.y0 *= 2
-                    node.y1 *= 2
-                })
-                links.forEach((link) => {
-                    
-                    link.y0 *= 2
-                    link.y1 *= 2
-                })
+                // nodes.forEach((node) => {
+                //     node.y0 *= 2
+                //     node.y1 *= 2
+                // })
+                // links.forEach((link) => {
+                //     link.y0 *= 2
+                //     link.y1 *= 2
+                // })
                 
                 console.log("nodes :" ,nodes)
                 console.log("links :" ,links)
@@ -164,7 +165,7 @@
                     .attr('y', (d) => d.y0)
                     .attr('height', (d) => 50)
                     .attr('width', (d) => 100)
-                    .attr('fill', (d, i) => `rgb(${(80 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(50 + i * 634) % 256})`)
+                    .attr('fill', (d, i) => `rgb(${(120 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(170 + i * 634) % 256})`)
                     .attr('url', (d) => d.name)
                     .append('title')
                     .text((d) => `${d.name}\n${d.value}`);
@@ -195,7 +196,6 @@
                     .append('g')
                     .attr('fill', 'none')
                     .attr('stroke-opacity', 0.5)
-                    // .attr('fill', (d) => d.target.color)
                     .attr('fill', (d, i) => `rgb(${(42 + i * 426) % 256}, ${(200 + i * 731) % 256}, ${(100 + i * 197) % 256})`)
                     .selectAll('g')
                     .data(links)
