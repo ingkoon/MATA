@@ -6,10 +6,10 @@
     import { ref, onMounted } from 'vue';
     import Plotly from 'plotly.js-dist';
     import axios from 'axios';
-    import { useStore } from 'vuex';
+    import { useRoute } from 'vue-router';
     export default {
         setup() {
-            const store=useStore()
+            const route= useRoute()
             const linechart = ref(null);
             const trace1 = {
                 x: [1, 2, 3, 7],
@@ -40,7 +40,7 @@
                 console.log(present)
                 axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+"/api/v1/weblog/refers?interval=5m&serviceid="+2+"&basetime="+Date.now(),
+                    url: process.env.VUE_APP_API_HOST+"/api/v1/weblog/refers?interval=5m&serviceid="+route.params.id+"&basetime="+Date.now(),
 
                 })
                     .then(res=>{
