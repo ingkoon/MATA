@@ -87,14 +87,36 @@
     }
     
     const updateChart = async ()=>{
+        let i;
         const parseDurations = JSON.parse(store.state.durations);
         const optionDataList = parseDurations[state.selectedLocation];
         
         let sortedOptionDataList = typeof optionDataList === "undefined" ? [] : optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
         console.log(sortedOptionDataList);
-        let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
-        let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
-        let durations = sortedOptionDataList.map(dataList => Math.round(((dataList.total_duration / dataList.total_session))/1000 * 100 )/100);
+        
+        let idx = 0;
+        
+        for(i in state.data.timeLine){
+            console.log(state.data.timeLine[i].label + " : " + state.data.selectedTimeLine);
+            if(state.data.timeLine[i].label === state.data.selectedTimeLine){
+                idx = i;
+            }
+        }
+        
+        let timestamps = sortedOptionDataList.map(dataList => (new Date(dataList.update_timestamp)
+            .toISOString().split('T')[1])
+            .split(".")[0]
+            .substring(0,5));
+        console.log(idx);
+        if(idx > 4){
+              timestamps = sortedOptionDataList.map(dataList => (new Date(dataList.update_timestamp)
+                  .toISOString().split('T')[0]));
+        }
+        
+        let sessions = sortedOptionDataList
+            .map(dataList => dataList.total_session);
+        let durations = sortedOptionDataList
+            .map(dataList => Math.round(((dataList.total_duration / dataList.total_session))/1000 * 100 )/100);
         let maxVal = Math.max(sessions) ^ 2;
         // let maxVal = 1;
         
