@@ -7,7 +7,7 @@ import SecondVIew from "./view/SecondView";
 import MainView from "./view/MainView";
 import TagManager from "./module";
 
-const tagManager = new TagManager("https://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/dump", "c0611632-43dc-498a-917b-a884344ecfdd", ['click'], "*")
+const tagManager = new TagManager("https://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com/api/v1/dump", "9b559890-eb45-45fa-ad8c-7852e4a9e9dc", ['click'], "*")
 
 
 export default function App() {
