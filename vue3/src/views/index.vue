@@ -86,13 +86,15 @@
             
             <div class="row">
                 <div class='col-12 layout-spacing'>
-                    <div class='row align-items-center widget p-3'>
-                        <h4>유입 경로</h4>
-                        <div class='col-xl-8 col-lg-12 col-md-12 col-sm-12'>
-                            <linechart></linechart>
-                        </div>
-                        <div class='col-xl-4 col-lg-12 col-md-12 col-sm-12 h-auto'>
-                            <pie_chart></pie_chart>
+                    <div class='widget p-3'>
+                        <div class='row align-items-center'>
+                            <h4>유입 경로</h4>
+                            <div class='col-xl-8 col-lg-12 col-md-12 col-sm-12'>
+                                <linechart></linechart>
+                            </div>
+                            <div class='col-xl-4 col-lg-12 col-md-12 col-sm-12 h-auto'>
+                                <pie_chart></pie_chart>
+                            </div>
                         </div>
                     </div>
                 </div>
