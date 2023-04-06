@@ -180,17 +180,24 @@ export default new createStore({
                 },
               })
                 .then(res=>{
-                console.log(email,password)
+                console.log(res.data)
+                console.log(!res.data)
+                if (!res.data){
+                    router.push('/auth/login')
+                    alert('틀림')
+                }
              
-                
+                else{
                 context.commit('setToken',res.data.accessToken)
                 console.log("commit done, mutation setToken start")    
                 localStorage.setItem('accessToken',res.data.accessToken)
-                router.push('/')
+                router.push('/')}
+
                 })
                 .catch(err=>{
                 console.log(err)
                 })
+                
 
           },
           logOut() {
