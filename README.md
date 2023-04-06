@@ -326,23 +326,57 @@ FRONTEND\VUE3\SRC
 ---
 
 ### 이태희 (팀장)
-
 `Frontend` `Backend` `System`
 
-데이터 플랫폼 아키텍쳐 설계
-
-실시간 ETL 파이프라인 개발
+- 데이터 플랫폼 아키텍쳐 설계
+- 데이터 플랫폼 구축
+- Kafka Producer 개발
+- 실시간 ETL 파이프라인 개발
+- 배치 ETL 파이프라인 개발
+- 리눅스 개발 환경 개선
 
 ### 김태영
+`Frontend` `Backend` `Data Warehouse`
 
+- Spring boot 기반 회원, 프로젝트 도메인 API 작성
+- Vue3 기반 히트맵 컴포넌트 개발
+- Cassandra To Hive를 위한 Spark스크립트 작성
+- UCC 제작
+- ERD 제작
 
 ### 김호성
+`Frontend`  `Data Warehouse`
+
+- vue app 개발
+- vue plotly 기반 대시보드 컴포넌트 개발
+- UCC 제작
+- Cassandra To Hive를 위한 Spark스크립트 작성
 
 ### 박건우
+`Frontend` `Backend`
+
+- vue3 차트 컴포넌트 개발
+- backend api 테스트
+- 영상 편집
 
 ### 이인재
+`Frontend` `Backend` `Data Mart`
+
+- MySQL, Hive ERD 설계
+- Spring boot 기반 회원, 프로젝트 도메인 API 작성
+- Hive 대용량 데이터 조회 쿼리 작성
+- Vue3 기반 대시보드 컴포넌트 개발
+- 서버 대여 (**3월 지출 비용 약 270,000원, 4월 현재(23/04/06) 70,000원**)
 
 ### 정준호
+`Frontend` `Backend` `Workflow Management`
+
+- Airflow Dag 작성
+- Data Workflow 자동화
+- Hive 데이터 조회 쿼리 작성
+- Vue3 기반 여정지도 컴포넌트 개발
+- Hive ERD 설계
+- SparkSQL 쿼리 작성
 
 # ✔ 프로젝트 산출물
 
@@ -351,7 +385,7 @@ FRONTEND\VUE3\SRC
 - [Hive ERD](Docs/Hive%20ERD.png)
 - [서비스 API 목록](Docs/API%20목록.html)
 - [최종 발표 PPT]()
-- [포딩 매뉴얼]()
+- [포딩 매뉴얼](Docs/포딩매뉴얼.docx)
 
 # 📊 MATA 대시보드 화면
 
