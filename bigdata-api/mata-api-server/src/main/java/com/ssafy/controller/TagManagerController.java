@@ -57,8 +57,8 @@ public class TagManagerController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/exampledata_webtojava")
-    public ResponseEntity<?> getLogDump() {
+    @GetMapping("/exampledata_webtojava/{serviceId}")
+    public ResponseEntity<?> dummyDataSetting(@PathVariable("serviceId") Long serviceId) {
 
         List referlist = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -95,32 +95,28 @@ public class TagManagerController {
             // 10개의 event
             for (int j = 0; j < 10; j++) {
                 WebLog wl = new WebLog();
-                wl.setServiceId(2L);
+                wl.setServiceId(serviceId);
                 int hashValue = (int)(Math.random()*100000);
-                int hashValue2 = (int)(Math.random()*100000);
+                int hashValue2 = (int)(Math.random()*5) + 1;
 
                 wl.setServiceToken("token.........."+i);
                 wl.setSessionId(String.valueOf(String.valueOf(hashValue).hashCode()));
                 wl.setPrevLocation("none");
                 long nowTime = System.currentTimeMillis();
-                long time = nowTime - nowTime%1000000;
+                long time = nowTime - nowTime%10000000;
 
                 // 외부 접속
                 if(i%5 == 0) {
                     wl.setPrevLocation("none");
-                    wl.setLocation("http://localhost:3001"+urlList.get(i%3));
+                    wl.setLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(i%3));
                 } else {
                     // 내부 이동
-//                    x = true ? asdf : asdf;
-                    wl.setPrevLocation("http://localhost:3001"+urlList.get(hashValue%10));
-                    if(hashValue % 10 == hashValue2 % 10) {
-                        hashValue2++;
-                    }
-                    wl.setLocation("http://localhost:3001"+urlList.get(hashValue2%10 ));
+                    wl.setPrevLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(hashValue%10));
+                    wl.setLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(((hashValue %10) + hashValue2) %10 ));
                 }
-                long duTime = 10 + hashValue % 100;
+                long duTime = 10 + hashValue % 1000;
                 int hashValue3 = (int)(Math.random()*100000);
-                wl.setTimestamp(time+hashValue*10000);
+                wl.setTimestamp(time+hashValue*100);
                 wl.setEvent("none");
                 if(j==0) {
                     // pageenter

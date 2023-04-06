@@ -69,7 +69,7 @@
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=6h&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
