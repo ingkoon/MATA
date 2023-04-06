@@ -69,8 +69,8 @@
                             <SankeyChart/>
                         </div>
                     </div>
-                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12">
-                        <div class='widget p-3'>
+                    <div class="col-xl-6 col-lg-6 col-md-12 col-sm-12  d-flex justify-content-arround">
+                        <div class='widget p-3' style="margin-left: 40px;">
                         <h4>히트맵</h4>                            
                             <HeatMap/>
                         </div>
@@ -92,7 +92,7 @@
                             <div class='col-xl-8 col-lg-12 col-md-12 col-sm-12'>
                                 <linechart></linechart>
                             </div>
-                            <div class='col-xl-4 col-lg-12 col-md-12 col-sm-12 h-auto'>
+                            <div class='col-xl-4 col-lg-12 col-md-12 col-sm-12 h-auto '>
                                 <pie_chart></pie_chart>
                             </div>
                         </div>

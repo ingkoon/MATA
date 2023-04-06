@@ -131,7 +131,7 @@
                 const nodeWidth = 300;
                 const nodeHeight = 200;
                 const nodePadding = 100;
-                const ENABLE_LINKS_GRADIENTS = false;
+                const ENABLE_LINKS_GRADIENTS = true;
                 const svg = d3.select(svgRef.value).attr('viewBox', [-30, -50, width, height + 200]);
 
                 const { nodes, links } = sankey()
@@ -142,14 +142,6 @@
                         [1, 1],
                         [width, height - nodeHeight],
                     ])(items);
-                // nodes.forEach((node) => {
-                //     node.y0 *= 2
-                //     node.y1 *= 2
-                // })
-                // links.forEach((link) => {
-                //     link.y0 *= 2
-                //     link.y1 *= 2
-                // })
                 
                 console.log("nodes :" ,nodes)
                 console.log("links :" ,links)
@@ -163,7 +155,7 @@
                     .join('rect')
                     .attr('x', (d) => d.x0)
                     .attr('y', (d) => d.y0)
-                    .attr('height', (d) => 50)
+                    .attr('height', (d) => d.y1 - d.y0)
                     .attr('width', (d) => 100)
                     .attr('fill', (d, i) => `rgb(${(120 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(170 + i * 634) % 256})`)
                     .attr('url', (d) => d.name)
@@ -195,7 +187,7 @@
                 const link = svg
                     .append('g')
                     .attr('fill', 'none')
-                    .attr('stroke-opacity', 0.5)
+                    .attr('stroke-opacity', 0.2)
                     .attr('fill', (d, i) => `rgb(${(42 + i * 426) % 256}, ${(200 + i * 731) % 256}, ${(100 + i * 197) % 256})`)
                     .selectAll('g')
                     .data(links)
@@ -240,7 +232,7 @@
                     .selectAll('text')
                     .data(nodes)
                     .join('text')
-                    .attr('x', (d) => d.x0 + 50)
+                    .attr('x', (d) => d.x0 - 100)
                     .attr('y', (d) => (d.y1 + d.y0) / 2)
                     .attr('dy', '0.35em')
                     .attr('text-anchor', 'start')
