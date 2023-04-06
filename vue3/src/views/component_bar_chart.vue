@@ -8,6 +8,7 @@
     import { onMounted, ref } from 'vue';
     import Plotly from 'plotly.js-dist';
     import axios from 'axios';
+    import { useStore } from 'vuex';
 
     export default {
         name: 'BarChart',
@@ -15,6 +16,7 @@
             const barChart = ref(null);
 
             onMounted(() => {
+                const store=useStore
                 const data = [{ x: ['giraffes', 'orangutans', 'monkeys'], y: [20, 14, 23], type: 'bar' }];
                 const layout = { title: 'A Simple Bar Chart' };
                 const config = { responsive: true };
@@ -22,7 +24,7 @@
 
                 axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+'/api/v1/weblog/components?basetime=20230331085028&interval=1h&serviceid=2',
+                    url: process.env.VUE_APP_API_HOST+'/api/v1/weblog/components?basetime='+Date.now()+'&interval=1h&serviceid='+store.state.serviceId,
 
                 })
                     .then(res=>{
