@@ -6,9 +6,10 @@
     import { ref, onMounted } from 'vue';
     import Plotly from 'plotly.js-dist';
     import axios from 'axios';
-
+    import { useStore } from 'vuex';
     export default {
         setup() {
+            const store=useStore()
             const linechart = ref(null);
             const trace1 = {
                 x: [1, 2, 3, 7],
@@ -39,7 +40,7 @@
                 console.log(present)
                 axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+"/api/v1/weblog/refers?interval=5m&serviceid=2&basetime=1680625761225",
+                    url: process.env.VUE_APP_API_HOST+"/api/v1/weblog/refers?interval=5m&serviceid="+2+"&basetime="+Date.now(),
 
                 })
                     .then(res=>{
@@ -77,12 +78,17 @@
                         
                         for (const re in tempo) {
                             console.log(re)
-                            
+                            const sortedX = tempo[re].dateFormat.slice().sort((a, b) => a - b);
+                            const sortedY = [];
+                            sortedX.forEach((val, i) => {
+                                const index = tempo[re].dateFormat.indexOf(val);
+                                sortedY[i] = tempo[re].sessionCount[index];
+                                })
                             if (re=='null'){
                                 
                             }
                             
-                            else{data.push( {x: tempo[re].dateFormat, y: tempo[re].sessionCount, mode: 'lines',name:re}   )}
+                            else{data.push( {x: sortedX, y: tempo[re].sessionCount, mode: 'lines',name:re}   )}
                         }
                         console.log(data)
                         

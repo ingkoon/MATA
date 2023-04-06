@@ -75,7 +75,7 @@
             </div>
 
             <div>
-                <BarChart></BarChart>
+                <linechart></linechart>
             </div>
         </div>
     </div>
@@ -91,13 +91,14 @@
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
-    useMeta({ title: 'Sales Admin' });
     import { useRoute } from 'vue-router';
     import BarChart from './component_bar_chart.vue'
-    useMeta({ title: 'Sales Admin' });
     import Linear_chart from '@/views/charts/linear_chart.vue';
     import Total_user from '@/views/charts/total_user.vue';
+    import linechart from './linechart.vue'
 
+
+    useMeta({ title: 'Sales Admin' });
     const route =useRoute();
     const store = useStore();
 
