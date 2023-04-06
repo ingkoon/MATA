@@ -156,7 +156,7 @@ export default new createStore({
               .then(res=>{
               console.log(res)
               context.commit('SAVE_TOKEN', res.data.key)
-              context.dispatch('logIn', { username: username, password: password2 })
+              context.dispatch('logIn', { email: email, password: password2 })
               })
               .catch(err=>{
               console.log(err.response)
