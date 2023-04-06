@@ -7,11 +7,13 @@
     import Plotly from 'plotly.js-dist';
     import axios from 'axios';
     import router from '@/router';
+    import { useStore } from 'vuex';
     export default {
         name: 'PieChart',
         
         
         setup() {
+            const store=useStore()
             const pieChart = ref(null);
             const data = [{
                 values: [1,2,3,4,5],
@@ -22,7 +24,7 @@
             onMounted(() => {
                 axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+'/api/v1/weblog/components?basetime=20230331085028&interval=1h&serviceid=2',
+                    url: process.env.VUE_APP_API_HOST+'/api/v1/weblog/components?basetime='+Date.now()+"&interval=1h&serviceid="+store.state.serviceId,
                     
                 })
                     .then(res=>{
