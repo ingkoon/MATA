@@ -4,7 +4,7 @@ import router from './router';
 import store from './store';
 const app = createApp(App);
 
-import heatmap from 'vue-heatmapjs'
+// import heatmap from 'vue-heatmapjs'
 
 
 

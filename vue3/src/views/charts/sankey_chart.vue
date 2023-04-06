@@ -6,6 +6,7 @@
 <script>
     import * as d3 from 'd3';
     import { sankey, sankeyLinkHorizontal } from 'd3-sankey';
+    import { drag } from 'd3-drag';
     import axios from 'axios';
     import { ref, watch, onMounted, reactive, watchEffect, onUpdated } from 'vue';
     import { useRoute } from 'vue-router';
@@ -23,19 +24,8 @@
             });
             const svgRef = ref(null);
             const items = {
-                nodes: [
-                    { node: 0, name: 'node0', id: 'node0', color: 'red' },
-                    { node: 1, name: 'node1', id: 'node1', color: 'orange' },
-                    { node: 2, name: 'node2', id: 'node2', color: 'blue' },
-                    { node: 3, name: 'node3', id: 'node3', color: 'green' },
-                    { node: 4, name: 'node4', id: 'node4', color: 'brown' },
-                ],
-                links: [
-                    { source: 'node0', target: 'node2', value: 1, color: 'red' },
-                    { source: 'node1', target: 'node2', value: 2, color: 'orange' },
-                    { source: 'node1', target: 'node3', value: 2, color: 'orange' },
-                    { source: 'node0', target: 'node4', value: 3, color: 'red' },
-                ],
+                nodes: [],
+                links: [],
             };
 
             onMounted(() => {
@@ -72,29 +62,12 @@
                     items.nodes.push({name: d.locationTo, id: d.locationTo})
                     items.links.push({source: fromNode, target: d.locationTo, value: d.totalJournals})
                 })
-                
-                console.log(items.nodes)
-
-                // nodes: [
-                //     { node: 0, name: 'node0', id: 'node0', color: 'red' },
-                //     { node: 1, name: 'node1', id: 'node1', color: 'orange' },
-                //     { node: 2, name: 'node2', id: 'node2', color: 'blue' },
-                //     { node: 3, name: 'node3', id: 'node3', color: 'green' },
-                //     { node: 4, name: 'node4', id: 'node4', color: 'brown' },
-                // ],
-                //     links: [
-                //     { source: 'node0', target: 'node2', value: 1, color: 'red' },
-                //     { source: 'node1', target: 'node2', value: 2, color: 'orange' },
-                //     { source: 'node1', target: 'node3', value: 2, color: 'orange' },
-                //     { source: 'node0', target: 'node4', value: 3, color: 'red' },
-                // ],
-                
             }
 
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=30m&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=all&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
@@ -123,7 +96,7 @@
                 });
                 console.log(groupedData)
                 
-                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
                 
                 for (let key in groupedData) {
                     if (key != "none" && key.length < shortestKey.length) {
@@ -133,6 +106,7 @@
                 console.log(shortestKey)
                 // 기본 세팅
                 store.state.journals.curNode = shortestKey;
+                localStorage.setItem('curNode', shortestKey);
                 store.state.journals.data = JSON.stringify(groupedData);
                 drawgraph()
             }
@@ -140,28 +114,23 @@
             async function drawgraph() {
                 console.log("grawgraph..................")
                 // 그림 초기화...
-                d3.selectAll(svgRef.value)
-                    .selectAll('*')
+                d3.select(svgRef.value)
+                    .selectAll("rect")
                     .remove();
+                d3.select(svgRef.value)
+                    .selectAll("g")
+                    .remove();
+                
                 // 노드, 링크 세팅
                 await changeNodeAndLink();
                 
-                const width = 600;
-                const height = 800;
-                const nodeWidth = 80;
-                const nodeHeight = 160;
-                const nodePadding = 200;
+                const width = 1300;
+                const height = 1000;
+                const nodeWidth = 300;
+                const nodeHeight = 200;
+                const nodePadding = 100;
                 const ENABLE_LINKS_GRADIENTS = true;
-                const svg = d3.select(svgRef.value).attr('viewBox', [0, -100, width, height + 200]);
-
-                const s = sankey()
-                    .nodeId((d) => d.name)
-                    .nodeWidth(80)
-                    .nodePadding(100)
-                    .extent([
-                        [1, 1],
-                        [width, height],
-                    ])(items);
+                const svg = d3.select(svgRef.value).attr('viewBox', [0, -50, width, height + 200]);
 
                 const { nodes, links } = sankey()
                     .nodeId((d) => d.name)
@@ -171,6 +140,18 @@
                         [1, 1],
                         [width, height - nodeHeight],
                     ])(items);
+                nodes.forEach((node) => {
+                    node.y0 *= 2
+                    node.y1 *= 2
+                })
+                links.forEach((link) => {
+                    
+                    link.y0 *= 2
+                    link.y1 *= 2
+                })
+                
+                console.log("nodes :" ,nodes)
+                console.log("links :" ,links)
 
                 svg
                     .append('g')
@@ -181,28 +162,30 @@
                     .join('rect')
                     .attr('x', (d) => d.x0)
                     .attr('y', (d) => d.y0)
-                    .attr('height', (d) => 100)
-                    .attr('width', (d) => d.x1 - d.x0)
-                    .attr('fill', (d, i) => `rgb(${i * 932 % 256}, ${i * 124 % 256}, ${i * 634 % 256})`)
+                    .attr('height', (d) => 50)
+                    .attr('width', (d) => 100)
+                    .attr('fill', (d, i) => `rgb(${(80 + i * 932) % 256}, ${(150 + i * 124) % 256}, ${(50 + i * 634) % 256})`)
                     .attr('url', (d) => d.name)
                     .append('title')
                     .text((d) => `${d.name}\n${d.value}`);
 
                 svg.selectAll("rect")
-                    .on("click", function(d) {
+                    .on("click", function() {
+                        console.log("click........... 아마도 히트맵 자리, node가 갖는 주소는", this.attributes.url.value)
+                        store.commit('updateUrl', this.attributes.url.value);
+                    })
+                    .on("dblclick", function() {
                         store.state.journals.curNode = this.attributes.url.value;
                         console.log('Clicked node:', store.state.journals.curNode);
                         drawgraph();
                     })
                     .on("mouseover", function() {
                         d3.select(this)
-                            .attr("fill", "yellow")
                             .attr("stroke", "orange")
                             .attr("stroke-width", 2);
                     })
                     .on("mouseout", function() {
                         d3.select(this)
-                            .attr("fill", (d) => d.color)
                             .attr("stroke", "none")
                             .attr("stroke-width", 0);
                     });
@@ -212,6 +195,8 @@
                     .append('g')
                     .attr('fill', 'none')
                     .attr('stroke-opacity', 0.5)
+                    // .attr('fill', (d) => d.target.color)
+                    .attr('fill', (d, i) => `rgb(${(42 + i * 426) % 256}, ${(200 + i * 731) % 256}, ${(100 + i * 197) % 256})`)
                     .selectAll('g')
                     .data(links)
                     .join('g')
@@ -227,12 +212,12 @@
 
                     gradient
                         .append('stop')
-                        .attr('offset', '0%')
+                        .attr('offset', '40%')
                         .attr('stop-color', (d) => d.source.color);
 
                     gradient
                         .append('stop')
-                        .attr('offset', '100%')
+                        .attr('offset', '60%')
                         .attr('stop-color', (d) => d.target.color);
                 }
 
@@ -251,11 +236,11 @@
                 svg
                     .append('g')
                     .attr('font-family', 'sans-serif')
-                    .attr('font-size', 10)
+                    .attr('font-size', 20)
                     .selectAll('text')
                     .data(nodes)
                     .join('text')
-                    .attr('x', (d) => d.x0 + 8)
+                    .attr('x', (d) => d.x0 + 50)
                     .attr('y', (d) => (d.y1 + d.y0) / 2)
                     .attr('dy', '0.35em')
                     .attr('text-anchor', 'start')

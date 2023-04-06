@@ -4,16 +4,17 @@ export default class TagManager {
     bootstrap = '',
     serviceToken = '',
     events = ['click', 'mouseenter', 'mouseleave', 'scroll'],
-    className = 'tag-manager'
+    selector = 'button'
   ) {
 
     if(!sessionStorage.getItem('TAGMANAGER_SESSION')){
-      sessionStorage.setItem('TAGMANAGER_SESSION', 'test-session-id')
+      let randomValue = Math.floor(Math.random() * (Math.pow(2, 52) - 1));
+      sessionStorage.setItem('TAGMANAGER_SESSION', randomValue)
     }
     this.sessionId = sessionStorage.getItem('TAGMANAGER_SESSION')
     this.bootstrap = bootstrap;
     this.serviceToken = serviceToken;
-    this.className = className;
+    this.selector = selector;
     this.events = events;
     this.logStash = [];
     this.location = 'none';
@@ -76,7 +77,7 @@ export default class TagManager {
   // className :
 
   attach() {
-    let elements = document.querySelectorAll('.'+this.className);
+    let elements = document.querySelectorAll(this.selector);
     elements.forEach((elem) => {
       for (let i in this.events) {
         elem.addEventListener(this.events[i], this.eventDictionary[this.events[i]])
@@ -90,7 +91,7 @@ export default class TagManager {
   }
 
   detach() {
-    let elements = document.querySelectorAll('.'+this.className);
+    let elements = document.querySelectorAll(this.selector);
     elements.forEach((elem) => {
       for (let i in this.events) {
         elem.removeEventListener(this.events[i], this.eventDictionary[this.events[i]])

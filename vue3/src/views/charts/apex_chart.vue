@@ -83,8 +83,7 @@ options_1: {
     xaxis: { categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'] },
 },
 series_1: [{ name: 'Desktops', data: [10, 41, 35, 51, 49, 62, 69, 91, 148] }],
-</pre
-                                        >
+                                </pre>
                                     </highlight>
                                 </div>
                             </div>

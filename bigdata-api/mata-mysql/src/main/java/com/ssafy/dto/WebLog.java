@@ -18,21 +18,20 @@ public class WebLog {
     private String serviceToken;
     private long clientId;
     private long serviceId;
-    private String sessionId;
-    private String event;
-    private String targetId;
+    private String sessionId = "none";
+    private String event = "none";
+    private String targetId = "none";
     private int positionX;
     private int positionY;
-    private String location;
-    private String prevLocation;
-    private String referrer;
+    private String location = "none";
+    private String prevLocation = "none";
+    private String referrer = "none";
     private long timestamp;
     private long pageDuration;
 
+
     public ProducerRecord<String, String> toProducerRecord(String topic, Integer partition) throws JsonProcessingException {
         ObjectMapper mapper = new ObjectMapper();
-        this.clientId = 1L;
-        this.serviceId = 2L;
         return new ProducerRecord<>(topic, partition, this.timestamp, this.sessionId+"-"+this.timestamp, mapper.writeValueAsString(this));
     }
 

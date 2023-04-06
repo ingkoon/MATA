@@ -55,6 +55,7 @@ public class KafkaProducerService {
         };
     }
 
+
     public Long getProjectId(String token){
         String id = redisTemplate.opsForValue().get(token);
         if(id == null){
