@@ -89,14 +89,18 @@
     const updateChart = async ()=>{
         const parseDurations = JSON.parse(store.state.durations);
         const optionDataList = parseDurations[state.selectedLocation];
+        
         let sortedOptionDataList = typeof optionDataList === "undefined" ? [] : optionDataList.sort((o1, o2) => (o1.update_timestamp - o2.update_timestamp));
+        console.log(sortedOptionDataList);
         let timestamps = sortedOptionDataList.map(dataList => new Date(dataList.update_timestamp).toISOString().split('T')[1]);
         let sessions = sortedOptionDataList.map(dataList => dataList.total_session);
+        let durations = sortedOptionDataList.map(dataList => Math.round(((dataList.total_duration / dataList.total_session))/1000 * 100 )/100);
         let maxVal = Math.max(sessions) ^ 2;
         // let maxVal = 1;
         
         state.duration_series = ref([
-            { name: '인원 수', data: sessions}
+            { name: '인원 수 (명)', data: sessions},
+            { name: '평균 체류 시간 (초)', data: durations}
         ]);
         state.duration_options = computed(() => {
             const is_dark = store.state.is_dark_mode;
@@ -112,9 +116,9 @@
                 dropShadow: { enabled: true, opacity: 0.2, blur: 10, left: -7, top: 22 },
                 colors: is_dark ? ['#2196f3', '#e7515a'] : ['#1b55e2', '#e7515a'],
                 markers: {
-                    discrete:
+                    discrete:[
                         { seriesIndex: 0, dataPointIndex: 6, fillColor: '#1b55e2', strokeColor: '#fff', size: 7 },
-                        // { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 }
+                        { seriesIndex: 1, dataPointIndex: 5, fillColor: '#e7515a', strokeColor: '#fff', size: 7 }]
                 },
                 // labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                 labels: timestamps,
@@ -137,7 +141,7 @@
                     // forceNiceScale: true,
                     labels: {
                         formatter: function(value) {
-                            return value;
+                            return Math.round(value * 10) / 10;
                         },
                         min: 0,
                         max: 10,
