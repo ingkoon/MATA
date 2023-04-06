@@ -40,45 +40,58 @@
                     </div>
                 </div>
                 <div class='col-xl-5 col-lg-6 col-md-6 col-sm-12 layout-spacing'>
+                    <div class='widget'>
                         <total_user/>
+                    </div>
                 </div>
             </div>
-        </div>
 
+            
+            <teleport to="#breadcrumb">
+                <ul class="navbar-nav flex-row">
+                    <li>
+                        <div class="page-header">
+                            <nav class="breadcrumb-one" aria-label="breadcrumb">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="javascript:;">google</a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </li>
+                </ul>
+            </teleport>
         
-
-        <teleport to="#breadcrumb">
-            <ul class="navbar-nav flex-row">
-                <li>
-                    <div class="page-header">
-                        <nav class="breadcrumb-one" aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:;">google</a></li>
-                            </ol>
-                        </nav>
+            <div class="row">
+                <div class="row col-12 layout-spacing">
+                    <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 layout-spacing">
+                        <div class='widget p-3'>
+                            <h4>고객 동선</h4>
+                            <SankeyChart/>
+                        </div>
                     </div>
-                </li>
-            </ul>
-        </teleport>
-
-        <div class="row layout-top-spacing">
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing">
-                <div class="widget widget-revenue">
-                    <div class="widget-heading">
-                        <sankeyChart/>
+                    <div class="col-xl-8 col-lg-8 col-md-12 col-sm-12 layout-spacing">
+                        <div class='widget p-3 h-auto'>
+                            <h4>히트맵</h4>
+                            <!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
+                            <HeatMap/>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12 layout-spacing" >
-                <!--             <div class="m-4 px-3 col-xl-7 col-lg-6 m-auto" > -->
-                <heatmap/>
+            
+            <div class="row">
+                <div class='col-12 layout-spacing'>
+                    <Linear_chart/>
+                </div>
             </div>
-            <div>
-                <Linear_chart/>
-            </div>
-
-            <div>
-                <linechart></linechart>
+            
+            <div class="row">
+                <div class='col-12 layout-spacing'>
+                    <div class='widget p-3'>
+                        <h4>유입 경로</h4>
+                        <linechart></linechart>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -89,8 +102,8 @@
     import { computed, ref, onMounted, onUpdated, reactive, watch, watchEffect } from 'vue';
     import { useStore } from 'vuex';
     import ApexChart from 'vue3-apexcharts';
-    import sankeyChart from './charts/sankey_chart.vue';
-    import heatmap from './charts/click_heatmap.vue';
+    import SankeyChart from './charts/sankey_chart.vue';
+    import HeatMap from './charts/click_heatmap.vue';
     import VueJwtDecode from 'vue-jwt-decode'
     import { useMeta } from '@/composables/use-meta';
     import axios from 'axios';
