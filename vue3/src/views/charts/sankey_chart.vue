@@ -69,7 +69,7 @@
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=1d&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
@@ -98,17 +98,17 @@
                 });
                 console.log(groupedData)
                 
-                let shortestKey = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+                let shortestUrl = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
                 
                 for (let key in groupedData) {
-                    if (key != "none" && key.length < shortestKey.length) {
-                        shortestKey = key;
+                    console.log(key)
+                    if (key != "none" && key.length < shortestUrl.length && !key.includes("localhost")) {
+                        shortestUrl = key;
                     }
                 }
-                console.log(shortestKey)
                 // 기본 세팅
-                store.state.journals.curNode = shortestKey;
-                localStorage.setItem('curNode', shortestKey);
+                store.state.journals.curNode = shortestUrl;
+                localStorage.setItem('curNode', shortestUrl);
                 store.state.journals.data = JSON.stringify(groupedData);
                 drawgraph()
             }
@@ -188,7 +188,7 @@
                     .append('g')
                     .attr('fill', 'none')
                     .attr('stroke-opacity', 0.2)
-                    .attr('fill', (d, i) => `rgb(${(42 + i * 426) % 256}, ${(200 + i * 731) % 256}, ${(100 + i * 197) % 256})`)
+                    .attr('fill', (d, i) => `rgb(255, 255, 255)`)
                     .selectAll('g')
                     .data(links)
                     .join('g')
