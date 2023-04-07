@@ -128,7 +128,7 @@
                 
                 const width = 1300;
                 const height = 1000;
-                const nodeWidth = 300;
+                const nodeWidth = 100;
                 const nodeHeight = 200;
                 const nodePadding = 100;
                 const ENABLE_LINKS_GRADIENTS = true;
@@ -232,7 +232,7 @@
                     .selectAll('text')
                     .data(nodes)
                     .join('text')
-                    .attr('x', (d) => d.x0 - 100)
+                    .attr('x', (d) => d.x0 - 350)
                     .attr('y', (d) => (d.y1 + d.y0) / 2)
                     .attr('dy', '0.35em')
                     .attr('text-anchor', 'start')
