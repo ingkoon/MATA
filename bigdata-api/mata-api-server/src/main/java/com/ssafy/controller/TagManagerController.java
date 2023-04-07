@@ -58,8 +58,10 @@ public class TagManagerController {
     }
 
     @GetMapping("/exampledata_webtojava")
-    public ResponseEntity<?> dummyDataSetting(@RequestParam("serviceId") Long serviceId,
-                                              @RequestParam("serviceToken") String serviceToken) {
+    public ResponseEntity<?> dummyDataSetting(@RequestParam("serviceToken") String serviceToken) {
+
+        kafkaProducerService.checkValidation(serviceToken); // 토큰 검증 로직
+        Long serviceId = kafkaProducerService.getProjectId(serviceToken);
 
         List referlist = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
