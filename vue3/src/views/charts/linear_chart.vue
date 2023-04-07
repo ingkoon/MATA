@@ -103,7 +103,7 @@
             }
         }
         
-        let timestamps = sortedOptionDataList.map(dataList => (new Date(dataList.update_timestamp)
+        let timestamps = sortedOptionDataList.map(dataList => (new Date(dataList.update_timestamp + 32400000)
             .toISOString().split('T')[1])
             .split(".")[0]
             .substring(0,5));
