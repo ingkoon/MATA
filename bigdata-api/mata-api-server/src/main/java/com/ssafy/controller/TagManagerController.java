@@ -108,11 +108,11 @@ public class TagManagerController {
                 // 외부 접속
                 if(i%5 == 0) {
                     wl.setPrevLocation("none");
-                    wl.setLocation("https://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(i%3));
+                    wl.setLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(i%3));
                 } else {
                     // 내부 이동
-                    wl.setPrevLocation("https://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(hashValue%10));
-                    wl.setLocation("https://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(((hashValue %10) + hashValue2) %10 ));
+                    wl.setPrevLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(hashValue%10));
+                    wl.setLocation("http://ec2-3-38-85-143.ap-northeast-2.compute.amazonaws.com:3000"+urlList.get(((hashValue %10) + hashValue2) %10 ));
                 }
                 long duTime = 10 + hashValue % 1000;
                 int hashValue3 = (int)(Math.random()*100000);
