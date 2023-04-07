@@ -69,7 +69,7 @@
             const getJournalsInfo = async () => {
                 let resp = await axios({
                     method:'get',
-                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=6h&serviceid=${store.state.serviceId}`,
+                    url: process.env.VUE_APP_API_HOST+`/api/v1/weblog/journals?basetime=${Date.now()}&interval=1h&serviceid=${store.state.serviceId}`,
                     headers:{
                         "Authorization": `Bearer ${state.accessToken}`,
                     },
@@ -236,7 +236,9 @@
                     .attr('y', (d) => (d.y1 + d.y0) / 2)
                     .attr('dy', '0.35em')
                     .attr('text-anchor', 'start')
-                    .text((d) => d.name);
+                    .text((d) => d.name)
+                    .style('pointer-events', 'none');;
+                
             }
             return {
                 svgRef,
