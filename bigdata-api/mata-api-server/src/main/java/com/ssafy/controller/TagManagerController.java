@@ -57,8 +57,9 @@ public class TagManagerController {
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 
-    @GetMapping("/exampledata_webtojava/{serviceId}")
-    public ResponseEntity<?> dummyDataSetting(@PathVariable("serviceId") Long serviceId) {
+    @GetMapping("/exampledata_webtojava")
+    public ResponseEntity<?> dummyDataSetting(@RequestParam("serviceId") Long serviceId,
+                                              @RequestParam("serviceToken") String serviceToken) {
 
         List referlist = new ArrayList<>();
         for (int i = 0; i < 100; i++) {
@@ -99,7 +100,7 @@ public class TagManagerController {
                 int hashValue = (int)(Math.random()*100000);
                 int hashValue2 = (int)(Math.random()*5) + 1;
 
-                wl.setServiceToken("token.........."+i);
+                wl.setServiceToken(serviceToken);
                 wl.setSessionId(String.valueOf(String.valueOf(hashValue).hashCode()));
                 wl.setPrevLocation("none");
                 long nowTime = System.currentTimeMillis();
